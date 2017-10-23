@@ -1,0 +1,134 @@
+---
+title: "Zambia CSIP IIASA workplan and deliverables "
+author: "Amanda Palazzo and Michiel van Dijk"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+#output: 
+#  word_document:
+#    reference_docx: ../Support/word_styles_01.docx
+output: pdf_document
+---
+
+
+
+
+# GLOBIOM representation of Zambia agricultural sector 
+##  	First run and development of Zambia country level/simu level model (AP)
+* See planning section
+
+### 	Identify additonal datasets needed to inform simu level model (MVD & AP)
+* land cover/crop suitability (follow up: MvD) 
+    + from IIASA-Fischer 
+    + from IAPRI/CFS
+
+* storage facilities (planned and current) (follow up: AP)
+    + from IAPRI-Kabaghe
+
+
+### 	Representation of the CSA strategies (policies and technologies) 
+
+* Technical workshop (October 2017): identified strategies
+
+* Next steps: modeling the strategies
+
+### 	Representation of the future scenarios/uncertainties (drivers and connectedness to goals) 
+
+* current drivers from stakeholders 
+    + change in temp
+    + change in rainfall
+    + diet preferences 
+    + donor funding 
+    + internal politcal stability 
+      + input costs
+    + external political stability 
+      + migragion
+      + input costs
+      + trade costs
+    
+* GLOBIOM representation of the drivers from stakeholders 
+    + change in temp
+    + change in rainfall
+        + 5 GCMs (yield, input shocks) [already have] 
+    + diet preferences 
+        + SSPs (SSPs 1, 2, 3) [confirm with Hugo]
+    + donor funding 
+        + SSPs (connected to the GDP growth and SSP narratives)
+    + internal politcal stability 
+      + input costs (SSPs) [have already, update with literature]
+      + trade costs (SSPs) [check with Aline, literature]
+    + external political stability 
+      + input costs (SSPs) [have already, update with literature]
+      + trade costs (SSPs) [check with Aline, literature]
+
+* how do we include carbon prices?       
+      
+
+# Identify indicators to report
+
+### Production
+* National level 
+    + Crops
+    + Livestock products 
+
+### Land use 
+* simu level 
+    + cropland expansion locations, deforestation, grassland) [check with Petr]
+* National level 
+    + cropland expansion, deforestation, grassland 
+    
+### Transitions between crop and livestock production systems 
+
+### Adoption of the mitigation technologies [this needs attention, maybe take as an exo assumption]
+* National and subnational (map)
+* yield improvements
+* carbon price
+* exogenous assumption (such as CA adoption, plans bio-digesters)  
+
+### Prices 
+* National Level 
+    + average of crop and livestock prices 
+
+### Trade
+*National Level 
+    + major imports and exports 
+    + major trading partners (?)
+
+
+### Emissions
+* National Level and production system 
+    + crop production 
+    + livestock production
+    + deforestation 
+
+### Calorie availability/food security
+* National level 
+    + kcals/per capita/day
+    + share at risk of hunger (equity assumptions from SSPs) 
+
+
+# Approach how to deal with multiple dimensions
+
+Potentially the scenario analysis includes 5 (climate change) * 3 (SSP1, 2, 3) and 3 (low, medium, high mitigation policy scenarios, meaning testing policies and/or technologies). Assuming policy makers are foremost interested in assesing the impact of the mitigation policies, we propose to focus on one BAU scenario (SSP2) and test the impact of climate change mitigation strategies. Secondly, we can add a section where we do sensitivity analysis using variations in socio-economic futures (i.e. major drivers including GDP, population, diets, land use restrictions as represented by SSP1 and SSP3)
+
+
+# Planning
+
+## Phase 1: SSP scenario preparation 23-10 till 7-11
+* Extract Zambia from ISWEL model (AP): 30-10
+* Prepare SSP1, SS2 and SSP3 (AP): 30-10
+* Run model at simu level (AP): 30-10
+* Create first test output for indicators (AP): 30-10
+* Create land use maps for Zambia (MvD): 7-11
+* Start working on CC and SSP scenario description (MvD): 30-10
+* Start working on coding of results figures and maps (MvD): 4-11
+* Overall discussion of preliminary results (SF, AP, MvD, PH) 7-11   
+    
+## Phase 2: Mitigation scenarios 1-11 till 14-11
+* Implementation of mitigation technologies (SF & AP):  7-11
+* Description of mitigation scenarios (SF, AP & MvD): 14-11
+* Coding of results figures and maps  (MvD): 14-11
+* Overall discussion of preliminary results (SF, AP, MvD, PH): 7-11
+
+## Phase 3: Presentation of preliminary results (December 11-15)
+* Gui (MvD): 7-11
+* Powerpoint (AP & MvD): 1-12
+* Draft report (AP, MvD & PH):1-12
