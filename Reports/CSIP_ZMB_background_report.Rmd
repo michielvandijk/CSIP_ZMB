@@ -33,7 +33,7 @@ panderOptions('table.split.table', Inf)
 panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
 
-#source(file.path(tempPath, "Scripts/Fig.R"))
+source(file.path(root, "Scripts/key_maps.R"))
 #source(file.path(root, "Scripts/Tab.R"))
 #source(file.path(root, "Scripts/Maps.R"))
 #source(file.path(root, "Scripts/Maps_GLOBIOM.R"))
@@ -86,7 +86,13 @@ Figure 1: Overview of GLOBIOM
 # Methodology
 ## The GLOBIOM model
 
+
 ## Zambia modelling
+
+```{r}
+fig_simu
+```
+
 
 ### Land use in base year: key crops
 
