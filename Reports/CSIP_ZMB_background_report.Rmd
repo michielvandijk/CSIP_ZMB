@@ -80,7 +80,9 @@ Figure 1: Overview of GLOBIOM
  
 
 
-
+# TO DO
+- add AEZ map and combine with simu => read from GLOBIOM data
+- add rivers and lakes to maps
 
 
 # Methodology
