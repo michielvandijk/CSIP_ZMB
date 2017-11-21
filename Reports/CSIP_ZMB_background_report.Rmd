@@ -41,55 +41,47 @@ source(file.path(root, "Scripts/key_maps.R"))
 ```
 
 # Executive summary/Abstract
-
-# Introduction
-Objectives
-
-The government of Zambia has highlighted the linkages and interdependencies between climate change and agricultural development in most recent development and policy plans. As the country's economy is largely dependent on the agricultural sector and the majority of people are living in rural areas, it is essential to develop an effective and coherent approach to deal with the impact of climate change on the agricultural production. 
-
-At present the agriculture sector development strategies do not provide a coherent future roadmap to deal with climate risk. With support of the World Bank, the government of Zambia will draft the first Zambia Climate Smart Investment Plan (CSIP) that will inform a structured approach. The aim of this project is to contribute to the design of the CSIP by means of quantitative scenario modelling exercise using the GLOBIOM model. GLOBIOM is a spatially-explicit partial-equilibrium agricultural model that has been designed to assess future land use change and climate change impact. For this project, the model will be modified and updated with country specific input information in order to better represent the agricultural sector in Zambia. The quantitative scenario analysis will help to identify and prioritise key policy interventions and investments to inform agricultural sector and climate change policy planning in Zambia for the the medium to long term. 
-
-Technical Approach
-
-After a desk-review to gather available information on the agricultural sector in Zambia, the inception workshop will pursue three objectives: (1) to agree on the main dimensions of the analytical framework i.e. the sub-sectors and the geographic scale according to level of importance and data availability, (2) to build client ownership and (3) to identify and collect relevant data sources to improve the model. Scenarios will be co-developed with participants in a consistent way with various development, agriculture and climate change plans for Zambia, in particular the 7th National Development Plan. 
-
-The GLOBIOM model will be modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenario results will quantify the main impacts of uncertainties (e.g. population growth, economic development, climate change and technical change) on the development of the agricultural sector and highlight potential synergies and trade-offs across different policies. Results will be presented for different scenarios including business as usual (BAU), a normative vision of the future developed by stakeholders and 2-4 additional scenarios to capture uncertainties in major drivers. The development of scenarios and associated model parameters will be discussed at the inception workshop with local experts and further refined along the development of the Zambia GLOBIOM model. Finally, the quantitative results will feed the Strategy and Policy Development Workshop, helping stakeholders to identify policy and investment priorities. 
-
-
-Methodology
-
-We will mainly support the CSIP development in Zambia by gathering relevant statistics and providing the Zambia GLOBIOM model that will be used for quantification of different scenarios. 
-
-.	Synthesis of existing literature and relevant policy documents on the agricultural sector in Zambia: analysis of the agricultural sector structure, trends and performance and identification of the main constraints to the development of the sector and the integration of Climate Smart Agriculture (CSA) in agriculture investments and policy. This will be informed among others by the Zambia CSA Country Profile. 
-
-.	Database and analysis of agricultural statistics: agricultural statistics on annual harvested/planted area by crop, livestock numbers, production, consumption, trade, prices and input use will collected for the period 2000-2015. 
-
-.	Database and analysis of potential climate change impacts: based on IIASA EPIC crop model estimates, maps of expected productivity change under different climate change scenarios will be provided for the main crops and pasture. Aggregated shifters will be computed at the relevant geographical scales. When available for Zambia, impacts of climate change on crop and pasture productivity from other models will be compared. 
-
-.	Database on population and consumption: current population structure at subnational level and between rural and urban area will be analyzed and future projections according to different assumptions will be provided using existing projections from the Shared Socio-economic Pathways (SSP) database.  
-
-.	Zambia GLOBIOM model and GUI: The Global Biosphere Management Model (GLOBIOM) is designed to analyze the competition for land between agriculture, forestry, and bioenergy, which are the main land-based production sectors. It is a spatially-explicit partial-equilibrium agricultural model, which models the (future) demand and supply of agricultural and land use sectors at crop, spatial and national level. GLOBIOM can be used for global assessments and national case studies. To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, if available, data on irrigation, costs and livestock.  The indicators which can be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
-
-
- 
-Figure 1: Overview of GLOBIOM 
-
-.	Scenarios and sensitivity analysis: the scenarios will be developed in a participatory approach during the inception workshop in a consistent way with the Zambia 7th Development Plan and other key policies and plans for Zambia. Scenarios developed at the inception workshop will be translated into quantitative targets/shifters to be implemented in GLOBIOM. The main sources of uncertainties related to the future of the agricultural sector in Zambia will be also identified during the inception workshop. Where possible, relevant model parameters will be given minimum and maximum values by local experts to reflect range of uncertainties. 
-
-.	Results comparison across scenarios and sensitivity analysis: GLOBIOM results will be compared across scenarios to show trade-offs and synergies. Additional results will be provided for parameters and assumptions that have a high level of uncertainty (e.g. crop yields under climate change) to illustrate the large range of potential outcomes.
- 
-
-
 # TO DO
 - add AEZ map and combine with simu => read from GLOBIOM data
 - add rivers and lakes to maps
 
 
+# Introduction
+
+The government of Zambia has highlighted the linkages and interdependencies between climate change and agricultural development in most recent development and policy plans. As the country's economy is largely dependent on the agricultural sector and the majority of people are living in rural areas, it is essential to develop an effective and coherent approach to deal with the impact of climate change on the agricultural production. 
+
+At present the agriculture sector development strategies do not provide a coherent future roadmap to deal with climate risk. With support of the World Bank, the government of Zambia will draft the first Zambia Climate Smart Investment Plan (CSIP) that will inform a structured approach. The aim of this study is to contribute to the design of the CSIP by means of quantitative scenario modelling exercise using the GLOBIOM model. GLOBIOM is a spatially-explicit partial-equilibrium agricultural model that has been designed to assess future land use change and climate change impact. For this study the model will be modified and updated with country specific input information in order to better represent the agricultural sector in Zambia. The quantitative scenario analysis will help to identify and prioritise key policy interventions and investments to inform agricultural sector and climate change policy planning in Zambia for the the medium to long term. 
+
+The GLOBIOM model will be modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenario results will quantify the main impacts of uncertainties (e.g. population growth, economic development, climate change and technical change) on the development of the agricultural sector and highlight potential synergies and trade-offs across different policies. Results will be presented for different scenarios including business as usual (BAU), a normative vision of the future developed by stakeholders and 2-4 additional scenarios to capture uncertainties in major drivers. The development of scenarios and associated model parameters will be discussed at the inception workshop with local experts and further refined along the development of the Zambia GLOBIOM model. Finally, the quantitative results will feed the Strategy and Policy Development Workshop, helping stakeholders to identify policy and investment priorities. 
+
+
 # Methodology
+
+Drivers of agricultural development in Zambia include both local and global factors. At the local level, national policies (e.g. agricultural support and investment plans), population growth and economic growth are key drivers, while at the global level, climate change and international trade are important factors. it is the interplay and interaction between these two sets of drivers that eventually will determine the future development trajectory of agriculture in Zambia. 
+
+In this paper we adopt a global-to-local modelling framework that is able to incorporate both the global and local drivers of national agricultural growth. To capture the high level of uncertainty related to the future development of these drivers, we apply an exploratory scenario framework [@REF] both takes into account the uncertainties associated with climate change (e.g. precipitation and temperature change that affect crop yield) and the possible trajectories of socio-economic drivers of agricultural growth (e.g. population growth, economic development and technical change). The methodology is similar to the one used in recent global impact assessments of climate change [@REF], in which a matrix approach is used that combines five possible and realistic socio-economic futures with four emissions pathways. [@DEPENDS ON WHAT WE WILL DO]
+
+The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM) model, which quantifies the impact of the global and national developments on the agricultural sector in Zambia (Figure 1). The remainder of this chapter describes GLOBIOM and the modifications we made to tailor if for the Zambia analysis. The next section presents the socio-economic and climate change scenarios that are use to calibrate the model and quantify future agricultural development pathways.
+
+__Figure X: Modelling chain__
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics(file.path(root, "/Fig_tab_map/Methodology.png"))
+```
+
+
 ## The GLOBIOM model
 
+GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It has been used extensively to analyse the medium and long run effects of climate change [@add], deforestation [@add], food security [@add] and biofuel policies [@add] at the global and regional level. The supply side of the model is based on a bottom-up approach (from land cover, land use, and management systems to production and markets). The agricultural and forest productivity is modeled at the level of grid cells of 5x5 to 30x30 arc-minutes, using biophysical models, such as EPIC [@Williams1995]. Demand is modelled at the regional level using [@add]. For this version the model is aggregated to X major regions (e.g. [@add]) and Zambia that together cover the whole world. 
 
-## Zambia modelling
+The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogenous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM use a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
+
+By including not only the bioenergy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland.
+
+__Figure 1: Overview of GLOBIOM__
+
+
+## Zambia adjustments
+ To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, if available, data on irrigation, costs and livestock.  The indicators which can be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
 
 ```{r}
 fig_simu
@@ -103,10 +95,43 @@ fig_simu
 
 
 
-
-
-
 # Scenarios
+
+##	Socio-economic scenarios
+
+For the scenarios we use the Shared Socio-economic Pathways (SSPs), which have been recently developed to assess the impact of global climate change by a large consortium of researchers [@Kriegler; @ONeill2011]. The SSPs are a set of plausible and alternative assumptions that describe potential future socioeconomic development in the absence of climate policies or climate change. They consist of two elements: a narrative storyline and a quantification of key drivers, mainly population growth and economic development. The SSPs can be combined with assumptions on climate outcomes, the so-called representative concentration pathways (RCPs),  to derive a matrix that reflects an elaborate scenario framework to assess the impact of climate change under a variety of socio-economic conditions [@VanVuuren014). 
+
+For the assessment in the paper we only use one of the five SSPs: the Middle of the Road (SSP2) scenario, which represents a business as usual future. In this scenario, trends that are typical of recent decades will continue in the future [@ONeill]. There will be some progress towards achieving development goals but development of low-income countries proceeds unevenly. Some countries, such as Zambia, are making relatively good progress while others are left behind. Most economies are politically stable with partially functioning and globally connected markets. Per-capita income levels grow at a medium pace on the global average, with slowly converging income levels between developing and industrialised countries. Intra-regional income distributions improve slightly with increasing national income, but disparities remain high in some regions. Figure 1 compares the assumptions on GDP growth and population growth for Zambia and the other major regions that we include in our model exercise. 
+
+The SSPs do not include projections for yields, which are essential to model future agricultural productivity growth. We use yield projections from [@ADD] that are estimated using the historical relationship between GDP growth and crop yield increase. We assume that these projections represent intrinsic productivity rates and reflect the increase in yield as a consequence of advances in knowledge and new technologies. They do not incorporate the yield shocks that occur as a consequence of climate change. 
+
+In contrast to crop yield, there is much less information available on the past and future trajectories of livestock feed conversion efficiencies (the amount of feed required by per livestock category such as dairy, ruminant meat, pork and poultry) and how they will be influenced by climate change [e.g. @Bouwman et al. 2005; Wirsenius, Azar, and Berndes 2010], Here, we use livestock feed conversion efficiencies from [@ADD]
+
+
+##	Climate change scenarios
+
+For the climate change scenarios, we use the outputs from five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5, GFDL-ESM2M, MIROC-ESM. All climate change scenarios use RCP 8.5, which is the most extreme emissions scenario developed for the IPCC’s Fifth Assessment Report [@Van Vuuren et al. 2011; @Riahi et al. 2011). The climate change scenarios are designed to capture the upper end of climate change impacts. The GCM results are used as input for X crop models.
+
+The crop models provide global projections for the impact of climate change on agricultural yield (in tons per hectare) for a large number of crops. Both crop models assume a constant CO2 level of 370 ppm, which is equal to that of the early 2000s. They therefore do not take into account the benefits of additional CO2 fertilisation, which is expected occur in RCP 8.5. This is especially relevant for crops such as rice, oil seeds and wheat that use the C3 photosynthetic pathway and might (partially) offset the negative effect of less precipitation and higher temperatures. From this perspective, the climate change scenarios might overstate the negative impact of climate change. On the other, hand, it has been pointed out that most climate change scenarios, including the one used in this study ignore the effect of the increase in tropospheric ozone, biotic stress and extreme weather events, which all have negative impact on crop yields. For this reason, it can be assumed that the climate change scenarios and yield shocks used here are probably not overly extreme  [@Nelson et al. 2014)]
+
+@Müller and Robertson (2014) provide for more details on these issues as well as the crop models and detailed yield projections. 
+
+Table X shows the difference in yield level for each of the X climate change scenarios in comparison with the BAU for the year 2050 for a number of important crops. The projections show that yields will be between X and X percent lower than the baseline yields which are not affected by climate change. 
+
+For cattle and other animal products, we decided to use the BAU scenario projections for all four climate change scenarios because the projections are based on biophysical ceiling values which are unlikely to change because of climate change. 
+
+
+__Table X: Yield shocks__
+```{r}
+
+```
+
+
+## Policy options/mitigations options/participatory scenarios
+The scenarios and policy options are developed using a participatory approach. Two workshops have been organised that involved stakeholders from various Ministries, NGOs, policy think tanks and international organisations.[1] During the first stakeholder workshop, the main drivers were discussed and different policy options were proposed to address climate smart agriculture in Zambia. At the second workshop, the results were validated and additional scenarios were proposed. [@ADD]
+
+[1]: Stakeholder workshops took plat at X October, 2017 and 15 December, 2017 in Lusaka, Zambia.
+
 
 ```{r Tab_scenario_overview}
 tab_1 <- read_excel(file.path(root, "Fig_tab_map/Table_X_scenario_overview.xlsx"))

@@ -15,6 +15,9 @@
 if(Sys.info()["user"] == "vandijkm") {
   dataPath <- "P:/globiom/Projects/CSIP_ZMB"}
 
+if(Sys.info()["user"] == "vandijkm") {
+  modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
+
 # Anybody else:
 if(Sys.info()["user"] == "palazzo") {
   dataPath <- "P:/globiom/Projects/CSIP_ZMB"}
