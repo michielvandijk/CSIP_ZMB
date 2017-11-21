@@ -52,6 +52,7 @@ scen_col <- c("blue", "red", "green", "yellow", "grey")
 names(scen_col) <- scen 
 
 
+
 ### LOAD RAW DATA AND MAPPINGS
 # Historical FAO data
 fao_hist_raw <- rgdx.param("P:/globiom/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx", "OUTPUT_Country", compress = T) %>%
