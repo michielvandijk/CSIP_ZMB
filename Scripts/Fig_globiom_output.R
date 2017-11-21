@@ -87,17 +87,18 @@ lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xl
 
 
 
+
 ### GHG
 ## NB ONLY FOR SSP3
 ghg_proj <- ghg_proj_raw %>%
   mutate(year = as.integer(as.character(AllScenYear))) %>%
   left_join(account_map) %>%
-  group_by(ANYREGION, AllMacroScen, ALLBioenScen, IEA_SCEN, year, ghg) %>%
+  group_by(ANYREGION, AllMacroScen, ALLBioenScen, IEA_SCEN, year, ghg_source2) %>%
   summarize(value = sum(GHG_Compare)) %>%
   filter(ANYREGION %in% iso3c_sel)
 
 fig_ghg <- ggplot() +
-  geom_line(data = ghg_proj, aes(x = year, y = value, colour = ghg)) +
+  geom_line(data = ghg_proj, aes(x = year, y = value, colour = ghg_source2)) +
   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
   #scale_colour_manual(values = scen_col, name = "SSPs") +
   theme_bw() +
