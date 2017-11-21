@@ -31,21 +31,18 @@ options(digits=4)
 
 
 ### PREPARE GAMS LINK
-GAMSPath <- "C:\\GAMS\\win64\\24.4"
 igdx(GAMSPath)
-
-dataPath2 <- "P:/globiom/Projects/ISWEL" 
-modeldataPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx/a6_SSPs_Water_EFR-8_full.gdx"
 
 
 ### SET COUNTRY
-source("Scripts/Set_country.R")
-iso3c_sel <- "ZambeziBasin"
+#source("Scripts/Set_country.R")
+iso3c_sel <- "ZambiaReg"
+country_sel <- "Zambia"
 
 
 ### SET FILE, SCENARIOS AND COLOURS
 # File
-globiom_file <- "a6_SSPs_Water_EFR-8_full"
+globiom_file <- "/GLOBIOM/results/a6_SSP2_Zambia"
 
 # Select scenarios
 scen <- c("SSP1", "SSP2", "SSP3", "SSP4", "SSP5")
@@ -57,7 +54,7 @@ names(scen_col) <- scen
 
 ### LOAD RAW DATA AND MAPPINGS
 # Historical FAO data
-fao_hist_raw <- rgdx.param(file.path(dataPath2, "Data\\FAOSTAT\\Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
+fao_hist_raw <- rgdx.param("P:/globiom/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx", "OUTPUT_Country", compress = T) %>%
   transmute(variable = factor(toupper(VAR_ID)), unit = VAR_UNIT, country = ANYREGION, crop = .i4, 
             year = as.integer(as.character(ALLYEAR)), value = OUTPUT_Country, 
             iso3c = countrycode(country, "country.name", "iso3c"))
@@ -67,21 +64,21 @@ fao_hist_raw <- rgdx.param(file.path(dataPath2, "Data\\FAOSTAT\\Almost_Final_01d
 #  droplevels()
 
 # Emissions
-ghg_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "GHG_Compare") %>%
+ghg_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "GHG_Compare") %>%
   droplevels()
 
 account_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "Account")
 
 # Calories
-calo_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "CALORIECONS2") %>%
+calo_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "CALORIECONS2") %>%
   droplevels()
 
 # Prices
-price_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "PRICE_COMPARE2") %>%
+price_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "PRICE_COMPARE2") %>%
   droplevels()
 
 # Land use
-land_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "LAND_COMPARE2") %>%
+land_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "LAND_COMPARE2") %>%
   droplevels()
 
 lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "LC_TYPE")
@@ -93,12 +90,12 @@ lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xl
 ## NB ONLY FOR SSP3
 ghg_proj <- ghg_proj_raw %>%
   mutate(year = as.integer(as.character(AllScenYear))) %>%
-  left_join(ghg_map) %>%
+  left_join(account_map) %>%
   group_by(ANYREGION, AllMacroScen, ALLBioenScen, IEA_SCEN, year, ghg) %>%
   summarize(value = sum(GHG_Compare)) %>%
   filter(ANYREGION %in% iso3c_sel)
 
-ggplot() +
+fig_ghg <- ggplot() +
   geom_line(data = ghg_proj, aes(x = year, y = value, colour = ghg)) +
   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
   #scale_colour_manual(values = scen_col, name = "SSPs") +
@@ -132,11 +129,11 @@ calo_proj <- calo_proj_raw %>%
   filter(NUTR_SOURCE == "TOT", ANYREGION == iso3c_sel)
 
 # Rebase simulations 2000 to historical data (2000=100)
-calo_proj <- calo_proj %>%
-  left_join(., calo_hist_base) %>%
-  mutate(value = base_2000*index)
+# calo_proj <- calo_proj %>%
+#   left_join(., calo_hist_base) %>%
+#   mutate(value = base_2000*index)
 
-ggplot() +
+fig_calo <- ggplot() +
   geom_line(data = calo_proj, aes(x = year, y = value)) +
   geom_line(data = calo_hist, aes(x = year, y = value), colour = "blue") +
   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
@@ -169,13 +166,13 @@ price_proj <- price_proj_raw %>%
   rename(value = Price_Compare2) %>%
   filter(ANYREGION == "ZambeziBasin", ALLPRODUCT %in% crop_sel)
 
-ggplot() +
+fig_price <- ggplot() +
   geom_line(data = price_hist, aes(x = year, y = value), colour = "blue") +
   geom_line(data = price_proj, aes(x = year, y = value, colour = ALLPRODUCT)) +
   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
   #scale_colour_manual(values = scen_col, name = "SSPs") +
   theme_bw() +
-  labs(x = "", y = "price", colour = "", linetype = "") +
+  labs(x = "", y = "USD/ton", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
   theme(legend.position = c(.15,.8)) +
   theme(legend.background = element_rect(colour = "black")) +
@@ -203,7 +200,7 @@ land_hist <- land_hist_raw %>%
   rename(value = Value, year = Year) %>%
   mutate(iso3c = countrycode(Area.Code, "fao", "iso3c")) %>%
   filter(iso3c %in% "ZMB", Element == "Area", Item.Code %in% c(6620, 6655, 6661)) %>%
-  mutate(lc_class = recode(Item.Code, `6655` = "GrsLnd", `6661` = "For", .default = NA_character_),
+  mutate(lc_class = dplyr::recode(Item.Code, `6655` = "GrsLnd", `6661` = "For", .default = NA_character_),
          AllMacroScen = "Historical") %>%
   dplyr::select(year, lc_class, value, AllMacroScen) %>%
   na.omit %>%
@@ -218,7 +215,7 @@ land_proj <- land_proj_raw %>%
   group_by(lc_class, year, AllMacroScen) %>%
   summarize(value = sum(value, na.rm = T))
 
-ggplot() +
+fig_land <- ggplot() +
   geom_line(data = land_hist, aes(x = year, y = value, colour = lc_class), linetype = "solid") +
   geom_line(data = land_proj, aes(x = year, y = value, colour = lc_class), linetype = "dashed") +
   scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +

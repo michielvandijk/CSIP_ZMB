@@ -18,8 +18,18 @@ if(Sys.info()["user"] == "vandijkm") {
 if(Sys.info()["user"] == "vandijkm") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
 
-# Anybody else:
+if(Sys.info()["user"] == "vandijkm") {
+  GAMSPath <- "C:\\GAMS\\win64\\24.4"}
+
+
+# Amanda IIASA:
 if(Sys.info()["user"] == "palazzo") {
   dataPath <- "P:/globiom/Projects/CSIP_ZMB"}
+
+if(Sys.info()["user"] == "vandijkm") {
+  modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
+
+if(Sys.info()["user"] == "vandijkm") {
+  GAMSPath <- "C:\\GAMS\\win64\\24.4"}
 
 

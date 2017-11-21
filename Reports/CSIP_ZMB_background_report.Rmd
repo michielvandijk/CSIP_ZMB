@@ -34,7 +34,7 @@ panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
 
 source(file.path(root, "Scripts/key_maps.R"))
-#source(file.path(root, "Scripts/Tab.R"))
+source(file.path(root, "Scripts/Fig_globiom_output.R"))
 #source(file.path(root, "Scripts/Maps.R"))
 #source(file.path(root, "Scripts/Maps_GLOBIOM.R"))
 #source(file.path(root, "Scripts/Figs_GLOBIOM.R"))
@@ -173,15 +173,37 @@ Source: GLOBIOM
 
 ## Production
 
-## Land use 
+## Land use
+
+```{r fig_land}
+fig_land
+```
+
 
 ## Prices
+
+
+```{r fig_price}
+fig_price
+```
+
 
 ## Trade
 
 ## Emissions
 
+```{r fig_ghg}
+fig_ghg
+```
+
+
 ## Calorie availability/food security
+
+```{r fig_calo}
+fig_calo
+```
+
+
 
 # other scenarios
 
