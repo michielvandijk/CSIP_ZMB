@@ -26,10 +26,10 @@ if(Sys.info()["user"] == "vandijkm") {
 if(Sys.info()["user"] == "palazzo") {
   dataPath <- "P:/globiom/Projects/CSIP_ZMB"}
 
-if(Sys.info()["user"] == "vandijkm") {
+if(Sys.info()["user"] == "palazzo") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
 
-if(Sys.info()["user"] == "vandijkm") {
+if(Sys.info()["user"] == "palazzo") {
   GAMSPath <- "C:\\GAMS\\win64\\24.4"}
 
 
