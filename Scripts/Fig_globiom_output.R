@@ -71,7 +71,7 @@ ghg_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "GHG_Compare") %>%
 account_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "Account")
 
 # Calories
-calo_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "CALORIECONS2") %>%
+calo_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "OUTPUT") %>%
   droplevels()
 
 # Prices
@@ -85,7 +85,11 @@ land_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "LAND_COMPARE2") 
 lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "LC_TYPE")
 
 
-
+#Production
+prod_proj_raw <- calo_proj_raw %>% 
+  mutate(year = as.integer(as.character(ALLYEAR))) %>%
+  rename(value = OUTPUT) %>%
+  filter(VAR_ID2 == "Prod", VAR_UNIT == '1000 t dm', ANYREGION == iso3c_sel )
 
 
 ### GHG
@@ -126,9 +130,9 @@ calo_hist_base <- filter(calo_hist, year == 2000) %>%
 
 # Projected data
 calo_proj <- calo_proj_raw %>% 
-  mutate(year = as.integer(as.character(ScenYear))) %>%
-  rename(value = CALORIECONS2) %>%
-  filter(NUTR_SOURCE == "TOT", ANYREGION == iso3c_sel)
+  mutate(year = as.integer(as.character(ALLYEAR))) %>%
+  rename(value = OUTPUT) %>%
+  filter(VAR_ID2 == "CALT",  .i4 == "TOT", ANYREGION == iso3c_sel )
 
 # Rebase simulations 2000 to historical data (2000=100)
 # calo_proj <- calo_proj %>%
