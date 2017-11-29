@@ -31,15 +31,13 @@ options(digits=4)
 
 
 ### PREPARE GAMS LINK
-GAMSPath <- "C:\\GAMS\\win64\\24.4"
 igdx(GAMSPath)
 
-dataPath2 <- "P:/globiom" 
 modeldataPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx/a6_SSPs_Water_EFR-8_full.gdx"
 
 
 ### SET COUNTRY
-source("Scripts/Set_country.R")
+source(file.path(root, "Scripts/Set_country.R"))
 
 
 ### SET FILE, SCENARIOS AND COLOURS
@@ -53,7 +51,7 @@ scen <- c("SSP1", "SSP2", "SSP3", "SSP4", "SSP5")
 scen_col <- c("blue", "red", "green", "yellow", "grey")
 names(scen_col) <- scen 
 
-iso3c_sel <- "ZambeziBasin"
+iso3c_sel <- "ZambeziReg"
 
 
 ### LOAD MAPPINGS
@@ -66,21 +64,30 @@ reg_ag_map <- rgdx.set(file.path(modelPath, globiom_file), "REGION_AG_MAP") %>%
   rename(region = ANYREGION, ag_region = REGION_AG)
 
 
-### LOAD DATA
+### LOAD HISTORICAL DATA
 # Historical FAO data
-fao_hist_raw <- rgdx.param(file.path(dataPath2, "Data\\FAOSTAT\\Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
+#yexo_hist <- read_csv(file.path(GLOBIOMPath, "Data/Historical/Processed/yield/yield_hist.csv"))
+
+# Historical FAO data
+fao_hist_raw <- rgdx.param(file.path(GLOBIOMPath, "/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
   transmute(variable = factor(toupper(VAR_ID)), unit = VAR_UNIT, country = ANYREGION, crop = .i4, 
             year = as.integer(as.character(ALLYEAR)), value = OUTPUT_Country, 
             iso3c = countrycode(country, "country.name", "iso3c"))
 
+# ssp pop historical
+pop_hist <- read_csv(file.path(GLOBIOMPath, "Data/Historical/Processed/SSPs/ssp_pop_hist.csv")) 
+
+# ssp gdp historical
+gdp_hist <- read_csv(file.path(GLOBIOMPath, "Data/Historical/Processed/SSPs/ssp_gdp_hist.csv")) 
+
+
+### LOAD GLOBIOM DATA
 # Macro scenario driver data
 macro_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "MACROSCEN_DATA") %>%
   setNames(c("scenario", "region", "variable", "year", "value")) %>%
   mutate(year = as.integer(as.character(year))) %>%
   dplyr::filter(variable %in% c("GDP", "POP", "GDPpCAP"),
          scenario %in% scen)
-
-
 
 # Yield projections
 yld_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "YLD_SSP_STAT") %>%
@@ -153,52 +160,62 @@ fig_pop
 ### REGION SPECIFIC GDP AND POP PLOTS
 # GDP Plot
 gdp_reg_proj <- macro_proj_raw %>%
-  filter(region %in% iso3c_sel, variable == "GDP") %>%
+  filter(region %in% country_sel, variable == "GDP") %>%
   mutate(value = value/1000)
 
-ggplot() +
-  #geom_line(data = hist, aes(x = year, y = value, colour = short_name), size = 1) +
+gdp_reg_hist <- gdp_hist %>%
+  filter(iso3c == "ZMB") %>%
+  mutate(value = value/1000)
+
+fig_reg_gdp <- ggplot() +
+  geom_line(data = gdp_reg_hist, aes(x = year, y = value), colour = "black", size = 1) +
   geom_line(data = gdp_reg_proj, aes(x = year, y = value, colour = scenario), size = 1) +
-  scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
+  scale_x_continuous(limits = c(1980, 2050), breaks = seq(1980, 2050, 10))  +
+  scale_y_continuous(limits = c(0, 250))  +
   scale_colour_manual(values = scen_col, name = "SSPs") +
   theme_bw() +
   labs(x = "", y = "billion USD", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(legend.position = c(.15,.8)) +
-  theme(legend.background = element_rect(colour = "black")) +
+  #theme(legend.background = element_rect(colour = "black")) +
   theme(panel.grid.minor = element_blank()) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
-  guides(linetype = "none")
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + 
+  guides(linetype = "none", colour = "none") +
+  theme(legend.position="bottom")
 
 
-# GDPCap Plot
-gdpcap_reg_proj <- macro_proj_raw %>%
-  filter(region %in% iso3c_sel, variable == "GDPpCAP") %>%
-  mutate(value = value/1000)
-
-ggplot() +
-  #geom_line(data = hist, aes(x = year, y = value, colour = short_name), size = 1) +
-  geom_line(data = gdpcap_reg_proj, aes(x = year, y = value, colour = scenario), size = 1) +
-  scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
-  scale_colour_manual(values = scen_col, name = "SSPs") +
-  theme_bw() +
-  labs(x = "", y = "USD per capita (CHECK)", colour = "", linetype = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(legend.position = c(.15,.8)) +
-  theme(legend.background = element_rect(colour = "black")) +
-  theme(panel.grid.minor = element_blank()) +
-  guides(linetype = "none")
+# # GDPCap Plot
+# gdpcap_reg_proj <- macro_proj_raw %>%
+#   filter(region %in% iso3c_sel, variable == "GDPpCAP") %>%
+#   mutate(value = value/1000)
+# 
+# ggplot() +
+#   #geom_line(data = hist, aes(x = year, y = value, colour = short_name), size = 1) +
+#   geom_line(data = gdpcap_reg_proj, aes(x = year, y = value, colour = scenario), size = 1) +
+#   scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
+#   scale_colour_manual(values = scen_col, name = "SSPs") +
+#   theme_bw() +
+#   labs(x = "", y = "USD per capita (CHECK)", colour = "", linetype = "") +
+#   geom_vline(xintercept = 2000, linetype = "dashed") +
+#   theme(legend.position = c(.15,.8)) +
+#   theme(legend.background = element_rect(colour = "black")) +
+#   theme(panel.grid.minor = element_blank()) +
+#   guides(linetype = "none") +
+#   theme(legend.position="bottom")
 
 
 # POP plot
+pop_reg_hist <- pop_hist %>%
+  filter(iso3c == "ZMB") 
+
 pop_reg_proj <- macro_proj_raw %>%
-  filter(region %in% iso3c_sel, variable == "POP") %>%
+  filter(region %in% "Zambia", variable == "POP") %>%
   mutate(value = value/1000)
 
-ggplot() +
-  #geom_line(data = hist, aes(x = year, y = value, colour = short_name), size = 1) +
+fig_reg_pop <- ggplot() +
+  geom_line(data = pop_reg_hist, aes(x = year, y = value), colour = "black", size = 1) +
   geom_line(data = pop_reg_proj, aes(x = year, y = value, colour = scenario), size = 1) +
-  scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
+  scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10))  +
+  scale_y_continuous(limits = c(0, 40))  +
   scale_colour_manual(values = scen_col, name = "SSPs") +
   theme_bw() +
   labs(x = "", y = "million people", colour = "", linetype = "") +
@@ -206,83 +223,59 @@ ggplot() +
   theme(legend.position = c(.15,.8)) +
   theme(legend.background = element_rect(colour = "black")) +
   theme(panel.grid.minor = element_blank()) +
-  guides(linetype = "none")
+  guides(linetype = "none", colour = "none") +
+  theme(legend.position="bottom")
 
 
 ### YIELD PLOTS
-# Filter out relevant variables (crop_code > 1000 are aggregates)
-FAO_prod <- FAO_raw %>%
-  filter(iso3c %in% iso3c_sel)
+# Selected crops
+crops_sel <- c("Corn", "Gnut", "Cott")
+crops_label <- c("Corn", "Grounnut", "Cotton")
 
-# aggregate at zam level
-prod_hist <- FAO_prod %>%
-  group_by(variable, unit, year, crop) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
-  mutate(scenario = "Historical")
+# Historical
+yld_reg_hist <- fao_hist_raw %>%
+  filter(country == "Zambia", 
+         variable == "YILD",
+         crop %in% crops_sel) %>%
+  mutate(scenario = "Historical") 
 
+# projections
+yld_reg_proj <- yld_proj_raw %>%
+  filter(region == "SouthernAf", 
+         crop %in% crops_sel) 
 
-### YIELD PROJECTIONS
-## Load data
-# Hist
-faostat_raw <- read_csv(file.path(dataPath, paste0("Data/", iso3c_sel, "/processed/Agricultural_statistics/FAOSTAT_", iso3c_sel, ".csv")))
+# base year
+yld_base_2000 <- yld_reg_hist %>%
+  filter(year == 2000) %>%
+  rename(base2000 = value) %>%
+  dplyr::select(-year, -scenario)
 
-# Projections
+# Add index = 1 for 2000
+yld_reg_proj_2000 <- expand.grid(scenario = unique(yld_reg_proj$scenario), crop = unique(yld_reg_proj$crop), year = 2000) %>%
+  mutate(growth = 1,
+         year = as.integer(as.character(year)))
 
-## Base year data
-base <- faostat_raw %>%
-  filter(short_name %in% c("maiz", "grou", "cott"),
-         variable == "yield",
-         year == 2000) %>%
-  transmute(short_name, base = value)
-
-base_2000 <- bind_rows(
-  faostat_raw %>%
-  filter(short_name %in% c("maiz", "grou", "cott"),
-         variable == "yield",
-         year == 2000) %>%
-  mutate(scenario = "SSP1"),
-  faostat_raw %>%
-    filter(short_name %in% c("maiz", "grou", "cott"),
-           variable == "yield",
-           year == 2000) %>%
-    mutate(scenario = "SSP2"),
-  faostat_raw %>%
-    filter(short_name %in% c("maiz", "grou", "cott"),
-           variable == "yield",
-           year == 2000) %>%
-  mutate(scenario = "SSP3"))
-
-hist <- faostat_raw %>%
-  filter(short_name %in% c("maiz", "grou", "cott"),
-         variable == "yield")
-
-yld_proj <- yld_proj_raw %>% 
-  filter(crop %in% c("Corn", "Gnut", "Cott")) %>%
-  mutate(short_name = dplyr::recode(crop, 
-                                    "Corn" = "maiz",
-                                    "Gnut" = "grou",
-                                    "Cott" = "cott")) %>%
-  left_join(base) %>%
-  mutate(value = base * growth) %>%
-  filter(year <= 2050) %>%
-  bind_rows(base_2000)
-
+# Create t/ha series
+yld_reg_proj <- bind_rows(yld_reg_proj_2000, yld_reg_proj) %>%
+  left_join(yld_base_2000) %>%
+  mutate(value = base2000*growth) %>%
+  dplyr::select(-base2000)
 
 # Plot
-ggplot() +
-  geom_line(data = hist, aes(x = year, y = value, colour = short_name), size = 1) +
-  geom_line(data = proj, aes(x = year, y = value, colour = short_name, linetype = scenario), size = 1) +
+fig_reg_yld <- ggplot() +
+  geom_line(data = filter(yld_reg_hist, year <= 2000), aes(x = year, y = value, colour = crop), size = 1) +
+  geom_line(data = yld_reg_proj, aes(x = year, y = value, colour = crop, linetype = scenario), size = 1) +
+  scale_y_continuous(limits = c(0, 10)) +
   scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10)) +
-  scale_colour_discrete(breaks=c("cott", "grou", "maiz"),
-                        labels=c("Cotton", "Groundnuts", "Maize")) +
-  scale_linetype_manual(values = c("dashed", "dotted", "dotdash")) + 
+  scale_colour_discrete(breaks = crops_sel,
+                        labels= crops_label) +
+  #scale_linetype_manual(values = c("dashed", "dotted", "dotdash")) + 
   theme_bw() +
   labs(x = "", y = "tons/ha", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(legend.position = c(.15,.8)) +
-  theme(legend.background = element_rect(colour = "black")) +
   theme(panel.grid.minor = element_blank()) +
-  guides(linetype = "none")
+  #guides(linetype = "none") +
+  theme(legend.position="bottom")
 
 
 

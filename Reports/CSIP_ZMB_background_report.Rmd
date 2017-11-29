@@ -34,6 +34,7 @@ panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
 
 source(file.path(root, "Scripts/key_maps.R"))
+source(file.path(root, "Scripts/Fig_globiom_input.R"))
 source(file.path(root, "Scripts/Fig_globiom_output.R"))
 #source(file.path(root, "Scripts/Maps.R"))
 #source(file.path(root, "Scripts/Maps_GLOBIOM.R"))
@@ -122,9 +123,7 @@ For cattle and other animal products, we decided to use the BAU scenario project
 
 
 __Table X: Yield shocks__
-```{r}
 
-```
 
 
 ## Policy options/mitigations options/participatory scenarios
@@ -157,6 +156,24 @@ _Figure X: Agricultural Systems in Zambia (2000)_
 ```
 Source: GLOBIOM
 
+
+# Drivers
+
+_GDP_
+```{r}
+fig_reg_gdp
+```
+
+_POP_
+```{r}
+fig_reg_pop
+```
+
+
+_Yield_
+```{r}
+fig_reg_yld
+```
 
 
 # Modelling of climate smart agricultural investment

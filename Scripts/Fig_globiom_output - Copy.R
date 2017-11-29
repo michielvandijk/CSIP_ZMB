@@ -35,9 +35,8 @@ igdx(GAMSPath)
 
 
 ### SET COUNTRY
-#source("Scripts/Set_country.R")
-iso3c_sel <- "ZambiaReg"
-country_sel <- "Zambia"
+source("Scripts/Set_country.R")
+country_sel2 <- "ZambiaReg"
 
 
 ### SET FILE, SCENARIOS AND COLOURS
@@ -65,14 +64,15 @@ fao_hist_raw <- rgdx.param("P:/globiom/Data/FAOSTAT/Almost_Final_01dec2014\\Outp
 #  droplevels()
 
 # Emissions
+ghg_hist_raw <- read.csv(file.path(dataPath, "Data/Historical/Emissions_Land_Use_Land_Use_Total_E_All_Data_(Norm).csv"))
+
 ghg_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "GHG_Compare") %>%
   droplevels()
 
 account_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "Account")
 
 # Calories
-output_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "OUTPUT") %>%
-  setNames(c("variable", "unit", "ANYREGION", "item", "scenario", "bioscen", "enscen", "year", "value")) %>%
+calo_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "CALORIECONS2") %>%
   droplevels()
 
 # Prices
@@ -86,56 +86,21 @@ land_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "LAND_COMPARE2") 
 lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "LC_TYPE")
 
 
-### Production
-crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill", "Pota", "Rape", 
-                  "Rice", "Soya", "Srgh", "SugC", "sunf", "SwPo", "Whea")
-
-# Historical
-prod_hist <- fao_hist_raw %>%
-  filter(country == "Zambia", variable == "PROD", crop %in% crop_globiom) %>%
-  group_by(year) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
-  mutate(scenario = "Historical")
-
-hist_2000 <- fao_hist_raw %>%
-  filter(country == "Zambia", variable == "PROD", year == 2000, crop %in% crop_globiom) %>%
-  rename(hist = value)
-
-prod_2000 <- output_proj_raw %>% 
-  mutate(year = as.integer(as.character(year))) %>%
-  filter(variable == "Prod", unit == '1000 t', ANYREGION == "ZambiaReg", year == 2000, item %in% crop_globiom)
-
-# Projections
-prod_proj <- output_proj_raw %>% 
-  mutate(year = as.integer(as.character(year))) %>%
-  filter(variable == "Prod", unit == '1000 t', ANYREGION == "ZambiaReg", item %in% crop_globiom) %>%
-  group_by(year, scenario) %>%
-  summarize(value = sum(value, na.rm = T)) 
-
-fig_prod <- ggplot() +
-  geom_line(data = prod_hist, aes(x = year, y = value, colour = scenario)) +
-  geom_line(data = prod_proj, aes(x = year, y = value, colour = scenario)) +
-  #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
-  #scale_colour_manual(values = scen_col, name = "SSPs") +
-  theme_bw() +
-  labs(x = "", y = "Emissions", colour = "", linetype = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(legend.position = c(.15,.8)) +
-  theme(legend.background = element_rect(colour = "black")) +
-  theme(panel.grid.minor = element_blank()) +
-  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
-  guides(linetype = "none")
 
 
 
 ### GHG
-## NB ONLY FOR SSP3
+ghg_hist <- ghg_hist_raw %>%
+  rename(value = Value, year = Year) %>%
+  mutate(iso3c = countrycode(Country.Code, "fao", "iso3c")) %>%
+  filter(iso3c %in% iso3c_sel)
+
 ghg_proj <- ghg_proj_raw %>%
   mutate(year = as.integer(as.character(AllScenYear))) %>%
   left_join(account_map) %>%
   group_by(ANYREGION, AllMacroScen, ALLBioenScen, IEA_SCEN, year, ghg_source2) %>%
   summarize(value = sum(GHG_Compare)) %>%
-  filter(ANYREGION %in% iso3c_sel)
+  filter(ANYREGION %in% country_sel2)
 
 fig_ghg <- ggplot() +
   geom_line(data = ghg_proj, aes(x = year, y = value, colour = ghg_source2)) +
@@ -166,9 +131,9 @@ calo_hist_base <- filter(calo_hist, year == 2000) %>%
 
 # Projected data
 calo_proj <- calo_proj_raw %>% 
-  mutate(year = as.integer(as.character(ALLYEAR))) %>%
-  rename(value = OUTPUT) %>%
-  filter(VAR_ID2 == "CALT",  .i4 == "TOT", ANYREGION == iso3c_sel )
+  mutate(year = as.integer(as.character(ScenYear))) %>%
+  rename(value = CALORIECONS2) %>%
+  filter(NUTR_SOURCE == "TOT", ANYREGION == iso3c_sel)
 
 # Rebase simulations 2000 to historical data (2000=100)
 # calo_proj <- calo_proj %>%

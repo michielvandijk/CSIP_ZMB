@@ -31,15 +31,13 @@ options(digits=4)
 
 
 ### PREPARE GAMS LINK
-GAMSPath <- "C:\\GAMS\\win64\\24.4"
 igdx(GAMSPath)
 
-dataPath2 <- "P:/globiom" 
 modeldataPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx/a6_SSPs_Water_EFR-8_full.gdx"
 
 
 ### SET COUNTRY
-source("Scripts/Set_country.R")
+source(file.path(root, "Scripts/Set_country.R"))
 
 
 ### SET FILE, SCENARIOS AND COLOURS
@@ -79,12 +77,6 @@ macro_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "MACROSCEN_DATA
 xtabs(~region + year, data = macro_proj_raw)
 unique(macro_proj_raw$region)
 levels(macro_proj_raw$region) == "Austral_ILRI"
-
-# Yield projections
-yld_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "YLD_SSP_STAT") %>%
-  setNames(c("scenario", "region", "crop", "year", "growth")) %>%
-  mutate(year = as.integer(as.character(year))) %>%
-  filter(region == "ZambeziBasin") 
 
 # Climate change yield shocks
 cc_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "ISIMIP_CC_IMPACT_LUId2")
