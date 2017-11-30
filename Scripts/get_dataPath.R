@@ -35,4 +35,5 @@ if(Sys.info()["user"] == "palazzo") {
 if(Sys.info()["user"] == "palazzo") {
   GAMSPath <- "C:\\GAMS\\win64\\24.4"}
 
-
+if(Sys.info()["user"] == "palazzo") {
+  GLOBIOMPath <- "P:\\GLOBIOM"}
