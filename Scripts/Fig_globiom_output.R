@@ -92,39 +92,33 @@ crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill"
 
 # Historical
 prod_hist <- fao_hist_raw %>%
-  filter(country == "Zambia", variable == "PROD", crop %in% crop_globiom) %>%
-  group_by(year) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
+  filter(country == "Zambia", variable == "PROD", crop %in% crop_globiom, year %in% c(1961, 1970, 1980, 1990)) %>%
+  #group_by(year) %>%
+  #summarize(value = sum(value, na.rm = T)) %>%
   mutate(scenario = "Historical")
-
-hist_2000 <- fao_hist_raw %>%
-  filter(country == "Zambia", variable == "PROD", year == 2000, crop %in% crop_globiom) %>%
-  rename(hist = value)
-
-prod_2000 <- output_proj_raw %>% 
-  mutate(year = as.integer(as.character(year))) %>%
-  filter(variable == "Prod", unit == '1000 t', ANYREGION == "ZambiaReg", year == 2000, item %in% crop_globiom)
 
 # Projections
 prod_proj <- output_proj_raw %>% 
   mutate(year = as.integer(as.character(year))) %>%
-  filter(variable == "Prod", unit == '1000 t', ANYREGION == "ZambiaReg", item %in% crop_globiom) %>%
-  group_by(year, scenario) %>%
-  summarize(value = sum(value, na.rm = T)) 
+  filter(variable == "Prod", unit == '1000 t', ANYREGION == "ZambiaReg", item %in% crop_globiom)
+
+#  group_by(year, scenario) %>%
+#  summarize(value = sum(value, na.rm = T)) 
 
 fig_prod <- ggplot() +
-  geom_line(data = prod_hist, aes(x = year, y = value, colour = scenario)) +
-  geom_line(data = prod_proj, aes(x = year, y = value, colour = scenario)) +
-  #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
-  #scale_colour_manual(values = scen_col, name = "SSPs") +
+  geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
+  geom_col(data = prod_proj, aes(x = year, y = value, fill = item)) +
+  scale_x_continuous(limits = c(1960, 2059), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
+  scale_y_continuous(labels = comma, expand = c(0,0))  +
   theme_bw() +
-  labs(x = "", y = "Emissions", colour = "", linetype = "") +
+  labs(x = "", y = "Production (tons)", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(legend.position = c(.15,.8)) +
-  theme(legend.background = element_rect(colour = "black")) +
+  #theme(legend.position = c(.15,.8)) +
+  #theme(legend.background = element_rect(colour = "black")) +
   theme(panel.grid.minor = element_blank()) +
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
-  guides(linetype = "none")
+  theme(legend.position = "bottom") +
+  guides(fill = guide_legend(""))
 
 
 
@@ -165,10 +159,9 @@ calo_hist_base <- filter(calo_hist, year == 2000) %>%
 
 
 # Projected data
-calo_proj <- calo_proj_raw %>% 
-  mutate(year = as.integer(as.character(ALLYEAR))) %>%
-  rename(value = OUTPUT) %>%
-  filter(VAR_ID2 == "CALT",  .i4 == "TOT", ANYREGION == iso3c_sel )
+calo_proj <- output_proj_raw %>% 
+  filter(variable == "CALO", ANYREGION == iso3c_sel, item == "TOT") %>%
+  mutate(year = as.integer(as.character(year)))
 
 # Rebase simulations 2000 to historical data (2000=100)
 # calo_proj <- calo_proj %>%
