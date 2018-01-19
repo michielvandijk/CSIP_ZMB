@@ -132,3 +132,20 @@ Potentially the scenario analysis includes 5 (climate change) * 3 (SSP1, 2, 3) a
 * Gui (MvD): 7-11
 * Powerpoint (AP & MvD): 1-12
 * Draft report (AP, MvD & PH):1-12
+
+
+
+
+# GLOBIOM output
+The scenarios as described above will be quantified with GLOBIOM to assess the change in the following variables for the period 2000-2050:
+
+- Agricultural production for main crops
+- Livestock?
+- Crop prices
+- Land use change for X categories
+- Emissions from land use change, a/deforestation and agriculture
+- Calorie availability
+
+Results will be presented in the form of tables, figures and, where possible, maps.
+
+Although GLOBIOM is designed to assess future agricultural development and land use change, it has certain limitations. It mainly focuses on a number of key crops and the livestock sector, while it does not cover perennial crops (including most fruits and vegetables) and the fishery sector. Hence, the model results will not cover these sectors.
