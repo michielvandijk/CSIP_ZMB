@@ -34,7 +34,7 @@ options(digits=4)
 igdx(GAMSPath)
 
 modeldataPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx/a6_SSPs_Water_EFR-8_full.gdx"
-
+check: model/final_data/data_crops.gdx for template.
 
 ### SET COUNTRY
 source(file.path(root, "Scripts/Set_country.R"))
@@ -274,7 +274,7 @@ fig_reg_pop <- ggplot() +
 ### YIELD PLOTS
 # Selected crops
 crops_sel <- c("Corn", "Gnut", "Cott")
-crops_label <- c("Corn", "Groundnut", "Cotton")
+crops_label <- c("Corn", "Grounnut", "Cotton")
 
 # Historical
 yld_reg_hist <- fao_hist_raw %>%

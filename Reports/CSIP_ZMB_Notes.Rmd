@@ -1,0 +1,40 @@
+---
+title: "Zambia CSIP"
+author: "ADD Authors"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  word_document:
+    reference_docx: ../Support/word_styles_01.docx
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+library(readxl)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+#tempPath <- "C:/Users/vandijkm/Github/Global-to-local-GLOBIOM/Code/ZMB"
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=12, fig.height=8,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  fig.path = file.path(root,"Fig_tab_map/out-"),
+  dev = "CairoPNG",
+  dev.args = list(CairoPNG = list(bg = "transparent"))
+  )
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+# Notes
+
+World Bank (2009) p. 17 states that upstream irrigation in the Kafue flats can pose a problem for irrigation and hydropower development downstream.
+

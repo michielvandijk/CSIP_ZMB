@@ -19,11 +19,10 @@ if(Sys.info()["user"] == "vandijkm") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
 
 if(Sys.info()["user"] == "vandijkm") {
-  GAMSPath <- "C:\\GAMS\\win64\\24.4"}
+  GAMSPath <- "C:\\GAMS\\win64\\24.9"}
 
 if(Sys.info()["user"] == "vandijkm") {
   GLOBIOMPath <- "P:\\GLOBIOM"}
-
 
 # Amanda IIASA:
 if(Sys.info()["user"] == "palazzo") {
