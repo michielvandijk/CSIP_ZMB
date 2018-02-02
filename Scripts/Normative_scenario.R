@@ -13,7 +13,7 @@ p_load("tidyverse", "readxl", "stringr", "scales", "RColorBrewer", "rprojroot")
 # Spatial packages
 p_load("rgdal", "ggmap", "raster", "rasterVis", "rgeos", "sp", "mapproj", "maptools", "proj4", "gdalUtils", "sf")
 # Additional packages
-p_load("WDI", "countrycode", "gdxrrw", "ggthemes", "viridis")
+p_load("WDI", "countrycode", "gdxrrw", "ggthemes", "viridis", "gridExtra", "imputeTS")
 
 
 ### DETERMINE ROOT PATH
@@ -75,11 +75,21 @@ fao_hist_raw <- rgdx.param(file.path(GLOBIOMPath, "/Data/FAOSTAT/Almost_Final_01
             year = as.integer(as.character(ALLYEAR)), value = OUTPUT_Country, 
             iso3c = countrycode(country, "country.name", "iso3c"))
 
-# Aquastat
+# Faostat & aquastat
 ir_crop_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/aquastat_ir_crops_ZMB.csv")) 
 ir_raw <- read_excel(file.path(dataPath, "Data/ZMB/Raw/Agricultural_statistics/Other/AQUASTAT/20171113_irrigation_ZMB.xlsx")) %>%
   rename(variable = `Variable Name`, year = Year, value = Value)
 trade_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_trade_ZMB.csv")) 
+land_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_land_ZMB.csv")) 
+
+# Emissions
+unfcc_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/unfcc_emis_ZMB.csv")) 
+ciat_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/ciat_emis_ZMB.csv")) 
+
+# National emissions
+nat_emis_hist <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/nat_emis_ZMB.xlsx"), sheet = "historical") 
+indc_raw <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/nat_emis_ZMB.xlsx"), sheet = "indc") 
+nc2_raw <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/nat_emis_ZMB.xlsx"), sheet = "nc2") 
 
 
 ### YIELD PROJECTIONS
@@ -91,7 +101,7 @@ yld_hist <- fao_hist_raw %>%
   filter(country == "Zambia", 
          variable == "YILD") %>%
   mutate(scenario = "Historical") %>%
-  filter(year >= 1990)
+  filter(year >= 2000)
 
 # Double yield in 2050
 yld_ns <- yld_hist %>%
@@ -109,13 +119,19 @@ yld_df <- bind_rows(yld_hist, yld_ns,
 
 # Plot
 fig_yld_ns <- ggplot() + 
-  geom_col(data = yld_df, aes(x = factor(year), y = value, fill = crop, alpha = scenario), colour = "black") +
+  geom_point(data = filter(yld_df, year <= 2013 | year == 2050), aes(x = factor(year), y = value, colour = crop, alpha = scenario, shape = scenario)) +
+  geom_line(data = filter(yld_df, year <= 2013), aes(x = factor(year), y = value, colour = crop, alpha = scenario, group = scenario)) +
+  #geom_col(data = yld_df, aes(x = factor(year), y = value, colour = crop, alpha = scenario, shape = scenario), colour = "black") +
   facet_wrap(~crop, scales = "free") +
-  guides(fill = "none") +
-  labs(x = "", y = "tons/ha") +
+  #geom_smooth(data = filter(yld_df, year <= 2010), aes(x = year, y = value)) +
+  labs(x = "", y = "tons/ha", shape = "", colour = "", fill = "", alpha = "") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  scale_x_discrete(breaks = c(1990:2013, 2050))  
+  scale_x_discrete(breaks = c(2000, 2010, 2050))  +
+  scale_alpha_discrete(range = c(0.5, 1)) +
+  scale_shape_manual(values = c(20,8)) +
+  guides(fill = "none", colour = "none") +
+  theme(legend.position = "bottom")
 rm(yld_df, yld_ns, yld_hist)
 
 
@@ -168,9 +184,9 @@ ir_crop_proj <- ir_crop_hist %>%
 y_ul <- 1.05*sum(ir_crop_proj$value)
 
 # Combine data and plot
-fig_ir_crop <- bind_rows(ir_crop_hist, ir_crop_proj, data.frame(year = 2010, value = 0)) %>%
+fig_ir_crop <- bind_rows(ir_crop_hist, ir_crop_proj, data.frame(year = 2010, value = 0, short_name = "bana")) %>%
   ggplot() +
-  geom_col(aes(x = factor(year), y = value, fill = short_name), colour = "black") +
+  geom_col(aes(x = factor(year), y = value, fill = short_name), colour = "black", width = 0.8) +
   theme_bw() +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul)) +
   labs(x = "", y ="Irrigated area (ha)", fill = "Crops",
@@ -181,9 +197,10 @@ fig_ir_crop <- bind_rows(ir_crop_hist, ir_crop_proj, data.frame(year = 2010, val
 
 grid.arrange(fig_ir_type, fig_ir_crop, ncol=2)
 
+
 ### EXPORT VALUE
 ## Scenario assumptions
-expo_fact = 3
+expo_fact = 2
 
 # Historical: Limited to export value of primary agriculture
 expo_hist <- trade_raw %>%
@@ -193,7 +210,7 @@ expo_hist <- trade_raw %>%
   summarize(value = sum(value, na.rm = T)) %>%
   mutate(scenario = "Historical") %>%
   filter(variable == "expo_v",
-         year > 2000) %>%
+         year >= 2000) %>%
   ungroup()
 
 # Projections
@@ -210,7 +227,7 @@ expo_proj <- bind_rows(expo_proj, data.frame(year = 2014, value = 0, scenario = 
 # Combine data and plot
 y_ul_expo <- max(expo_proj$value/1000) * 1.05
 
-fig_expo <- bind_rows(expo_hist, expo_proj) %>%
+fig_expo_ns <- bind_rows(expo_hist, expo_proj) %>%
   mutate(value = value/1000) %>%
   ggplot() +
   geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
@@ -221,9 +238,46 @@ fig_expo <- bind_rows(expo_hist, expo_proj) %>%
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +
   guides(fill = "none") +
-  scale_x_discrete(breaks = c(2001:2013, 2050))
-  
+  scale_x_discrete(breaks = c(2000:2013, 2050))
 
+
+### LAND USE
+## Scenario assumptions
+land_fact = 1
+
+# Historical: Limited to export value of primary agriculture
+land_hist <- land_raw %>%
+  na.omit %>%
+  filter(item %in% c("permanent crops", "arable land", "permanent meadows and pastures")) %>%
+  mutate(scenario = "Historical") %>%
+  filter(year >= 2000) 
+
+# Projections
+land_proj <- land_hist %>%
+  filter(year %in% c(2012, 2013, 2014)) %>%
+  group_by(unit, item) %>%
+  summarize(value = mean(value, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(scenario = "projection",
+         year = 2016,
+         value = value * land_fact)
+
+land_proj <- bind_rows(land_proj, data.frame(year = 2015, value = 0, scenario = "Historical", item = "arable land"))
+
+# Combine data and plot
+y_ul_land <- sum(land_proj$value) * 1.05
+
+fig_land_ns <- ggplot() +
+  geom_area(data = land_hist, aes(x = year, y = value, fill = item), colour = "black", position = "stack") +
+  geom_col(data = land_proj, aes(x = year, y = value, fill = item), colour = "black") +
+  theme_bw() +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_land)) +
+  labs(x = "", y ="agricultural area (1000 ha)", fill = "",
+       title = "") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position = "bottom") +
+  scale_x_continuous(breaks = c(2000, 2005, 2010, 2016), label = c(2000, 2005, 2010, 2050), expand = c(0,0))
 
 
 ### INCREASE CEREAL PRODUCTION
@@ -236,6 +290,134 @@ prod_hist <- fao_hist_raw %>%
   mutate(scenario = "Historical")
 
 
+### EMISSIONS TARGETS
+# Function to impute values
+impute_f <- function(df){
+  title = unique(paste(df$variable, df$scenario, sep = "_"))
+  print(title)
+  df <- arrange(df, year)
+  #Impute
+  #imp <- na.kalman(df$value)
+  imp <- na.interpolation(df$value) # use simple interpolation
+  plotNA.imputations(df$value, imp, main = title)
+  # Combine
+  df$value <- imp
+  return(df)
+}
+
+# Historical: we use nat_emis_proj as 1994 values have been revised
+base <- expand.grid(year = c(1994:2000), variable = c("agriculture", "LULUCF"), 
+                    scenario = "historical", unit = "MtCO2e", source = "NC2", stringsAsFactors = F)
+
+nat_emis_hist <- left_join(base, nat_emis_hist) %>%
+  group_by(variable) %>%
+  do(impute_f(.))
+rm(base)
+
+ciat <- ciat_raw %>%
+  filter(variable %in% c("agriculture (mtco2e)", "land-use change and forestry (mtco2)")) %>%
+  mutate(scenario = "historical",
+         variable = dplyr::recode(variable, "agriculture (mtco2e)" = "agriculture",
+                           "land-use change and forestry (mtco2)" = "LULUCF"))
+
+# Combine national Projections with unfcc and impute
+# base
+base <- expand.grid(year = c(2000:2030), variable = c("agriculture", "LULUCF"), scenario = c("BAU","mitigation", "substantial support"), stringsAsFactors = F)
+
+# Combine
+nat_emis_proj <- bind_rows(
+  filter(nat_emis_hist, year == 2000) %>%
+    mutate(scenario = "BAU"),
+  filter(nat_emis_hist, year == 2000) %>%
+    mutate(scenario = "mitigation"),
+  filter(nat_emis_hist, year == 2000) %>%
+    mutate(scenario = "substantial support"),
+  filter(indc_raw, scenario == "substantial support"),
+  nc2_raw) %>%
+  dplyr::select(year, variable, scenario, value) %>%
+  left_join(base,.)
+
+# Impute NA values
+nat_emis_proj <- nat_emis_proj %>%
+  group_by(variable, scenario) %>%
+  do(impute_f(.))
+
+# Combine data and plot
+nat_emis <- bind_rows(nat_emis_hist,
+                      filter(nat_emis_proj))
+
+fig_nat_emis_ns <- ggplot() +
+  geom_line(data = nat_emis, aes(x = year, y = value, colour = scenario)) +
+  theme_bw() +
+  scale_y_continuous(labels = comma, expand = c(0,0)) +
+  labs(x = "", y ="GHG emissions (MtCO2e)",
+       title = "") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position = "bottom") +
+  facet_wrap(~variable)
+
+
+# Chain link CIAT/FAOSTAT series
+nat_emis_proj_index <- nat_emis_proj %>%
+  group_by(scenario, variable) %>%
+  mutate(index = value/value[year == 2014]) %>%
+  dplyr::select(-value) %>%
+  filter(year >= 2014)
+
+# ciat_2010
+ciat_2010 <- filter(ciat, year == 2014) %>%
+  dplyr::select(value, variable)
+
+# Splice
+nat_emis_proj_ciat <- left_join(nat_emis_proj_index, ciat_2010) %>%
+  mutate(value = value * index) %>%
+  dplyr::select(-index)
+
+# Combine
+nat_emis_ciat <- bind_rows(ciat, nat_emis_proj_ciat) %>%
+  mutate(class = "reports")
+
+# 2030 Values
+nat_emis_ciat_2030 <- filter(nat_emis_ciat, year == 2030) %>%
+  dplyr::select(value, variable, scenario)
+
+# Project 2050 values: Assume same increase as between 2014 and 2030
+nat_emis_ciat_2050 <- bind_rows(
+  nat_emis_proj_ciat %>%
+  group_by(scenario, variable) %>%
+  mutate(index = value/value[year == 2014]) %>%
+  dplyr::select(-value) %>%
+  filter(year == 2030) %>%
+  left_join(nat_emis_ciat_2030) %>%
+  mutate(value = value * index, 
+         year = 2050,
+         class = "extrapolation") %>%
+  dplyr::select(-index),
+  nat_emis_proj_ciat %>%
+    filter(year == 2030) %>%
+    mutate(class = "extrapolation"))
+  
+# Combine 
+nat_emis_ciat <- bind_rows(nat_emis_ciat, nat_emis_ciat_2050)
+
+
+
+fig_nat_emis_ciat_ns <- 
+  ggplot() +
+  geom_line(data = nat_emis_ciat, aes(x = year, y = value, colour = scenario, linetype = class), size = 2) +
+  theme_bw() +
+  #scale_y_continuous(labels = comma, expand = c(0,0)) +
+  labs(x = "", y ="GHG emissions (MtCO2e)",
+       title = "") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position = "bottom") +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  scale_colour_manual(values = c("red", "black", "blue", "green")) +
+  facet_wrap(~variable, scales = "free") +
+  guides(linetype = "none") +
+  scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
 
 
