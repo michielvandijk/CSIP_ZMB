@@ -81,6 +81,7 @@ ir_raw <- read_excel(file.path(dataPath, "Data/ZMB/Raw/Agricultural_statistics/O
   rename(variable = `Variable Name`, year = Year, value = Value)
 trade_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_trade_ZMB.csv")) 
 land_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_land_ZMB.csv")) 
+lvst_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_lvst_ZMB.csv")) 
 
 # Emissions
 unfcc_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statistics/unfcc_emis_ZMB.csv")) 
@@ -145,7 +146,7 @@ ir_type_hist <- ir_raw %>%
   filter(variable %in% c("Area equipped for full control irrigation: total",
            "Area equipped for irrigation: equipped lowland areas")) %>%
   mutate(value = value * 1000,
-         variable = recode(variable, 
+         variable = dplyr::recode(variable, 
                            "Area equipped for full control irrigation: total"= "Full control",
                            "Area equipped for irrigation: equipped lowland areas" = "Lowland"),
          variable = factor(variable, levels = c("Lowland", "Full control")))
@@ -280,6 +281,40 @@ fig_land_ns <- ggplot() +
   scale_x_continuous(breaks = c(2000, 2005, 2010, 2016), label = c(2000, 2005, 2010, 2050), expand = c(0,0))
 
 
+### LIVESTOCK TARGETS
+## Scenario assumptions
+lvst_fact = 1
+
+# Historical
+lvst_hist <- lvst_raw %>%
+  na.omit %>%
+  filter(short_name %in% c("catt")) %>%
+  mutate(scenario = "Historical") %>%
+  filter(year >= 2000) 
+
+# Projections
+lvst_proj <- data.frame(value = 6000000 * lvst_fact, short_name = "catt", year = 2050, scenario = "projections")
+
+lvst_proj <- bind_rows(lvst_proj, data.frame(year = 2015, value = 0, scenario = "Historical"))
+
+# Combine data and plot
+y_ul_lvst <- max(lvst_proj$value/1000) * 1.05
+
+fig_lvst_ns <- bind_rows(lvst_hist, lvst_proj) %>%
+  mutate(value = value/1000) %>%
+  ggplot() +
+  geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
+  theme_bw() +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_lvst)) +
+  labs(x = "", y ="Cattle (1000 heads)", fill = "Scenario",
+       title = "") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  guides(fill = "none") +
+  scale_x_discrete(breaks = c(2000:2014, 2050))
+
+
+
 ### INCREASE CEREAL PRODUCTION
 # Somewhat redundant as doubling exogenous yield is likely to result in higher production
 prod_hist <- fao_hist_raw %>%
@@ -376,7 +411,7 @@ nat_emis_proj_ciat <- left_join(nat_emis_proj_index, ciat_2010) %>%
 
 # Combine
 nat_emis_ciat <- bind_rows(ciat, nat_emis_proj_ciat) %>%
-  mutate(class = "reports")
+  mutate(class = "Official reports")
 
 # 2030 Values
 nat_emis_ciat_2030 <- filter(nat_emis_ciat, year == 2030) %>%
@@ -392,31 +427,34 @@ nat_emis_ciat_2050 <- bind_rows(
   left_join(nat_emis_ciat_2030) %>%
   mutate(value = value * index, 
          year = 2050,
-         class = "extrapolation") %>%
+         class = "Extrapolation") %>%
   dplyr::select(-index),
   nat_emis_proj_ciat %>%
     filter(year == 2030) %>%
-    mutate(class = "extrapolation"))
+    mutate(class = "Extrapolation"))
   
 # Combine 
-nat_emis_ciat <- bind_rows(nat_emis_ciat, nat_emis_ciat_2050)
+nat_emis_ciat_df <- bind_rows(nat_emis_ciat, nat_emis_ciat_2050) %>%
+  mutate(scenario = factor(scenario, levels = c("historical", "mitigation", "substantial support", "BAU")))
+  
 
+lt_emis <- c("dotted", "solid")
+names(lt_emis) <- c("Extrapolation", "Official reports")
+col_emis <- c("red", "black", "blue", "green")
+names(col_emis) <- c("BAU", "historical", "mitigation", "substantial support")
 
-
-fig_nat_emis_ciat_ns <- 
-  ggplot() +
-  geom_line(data = nat_emis_ciat, aes(x = year, y = value, colour = scenario, linetype = class), size = 2) +
+fig_nat_emis_ciat_ns <- ggplot() +
+  geom_line(data = nat_emis_ciat_df, aes(x = year, y = value, colour = scenario, linetype = class), size = 1.5) +
   theme_bw() +
   #scale_y_continuous(labels = comma, expand = c(0,0)) +
   labs(x = "", y ="GHG emissions (MtCO2e)",
-       title = "") +
+       title = "", linetype ="", colour = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position = "bottom") +
-  scale_linetype_manual(values = c("dashed", "solid")) +
-  scale_colour_manual(values = c("red", "black", "blue", "green")) +
+  theme(legend.position = "bottom", legend.direction = "horizontal", legend.box = "vertical") +
+  scale_linetype_manual(values = lt_emis) +
+  scale_colour_manual(values = col_emis) +
   facet_wrap(~variable, scales = "free") +
-  guides(linetype = "none") +
   scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
 

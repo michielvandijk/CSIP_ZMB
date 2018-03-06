@@ -49,7 +49,9 @@ The government of Zambia has highlighted the linkages and interdependencies betw
 
 At present the agriculture sector development strategies do not provide a coherent future roadmap to deal with climate risk. With support of the World Bank, the government of Zambia will draft the first Zambia Climate Smart Investment Plan (CSIP) that will inform a structured approach. The aim of this study is to contribute to the design of the CSIP by means of quantitative scenario modelling exercise using the GLOBIOM model developed by the International Institute for Applied Systems Analysis (IIASA). GLOBIOM is a spatially-explicit partial-equilibrium agricultural sector model that can assess future agricultural and land use change under climate change impacts. For this study the model will be modified and updated with country specific input information in order to better represent the agricultural sector in Zambia. The quantitative scenario analysis will help to identify and prioritise key policy interventions and investments to inform agricultural sector and climate change policy planning in Zambia for the the medium to long term. 
 
-The GLOBIOM model will be modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenarios  are designed to capture both uncertainties in the drivers of future agricultural development pathways (e.g. population growth, economic development, technical change and climate change) as well as a number of policy options (e.g. adoption of climate smart technologies and practices). Scenarios that will be modelled include a business as usual (BAU) scenario and 2-4 additional policy scenarios. In addition, we will construct normative scenario that describes a desired agricultural pathway. The normative scenario is based on the ideas of stakeholders as well as relevant national development plans. Finally, to address the substantial uncertainties related to climate change impact and socio-economic drivers, a sensitivity analysis will be conducted in which yield, GDP and population projections are set to plausible upper and lower boundaries. This document describes these scenarios and presents potential future trends of key drivers and a selected number of policy options.
+The GLOBIOM model will be modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenarios  are designed to capture both uncertainties in the drivers of future agricultural development pathways (e.g. population growth, economic development, technical change and climate change) as well as a number of policy options (e.g. adoption of climate smart technologies and practices). Scenarios that will be modelled include a business as usual (BAU) scenario and 2-4 additional policy scenarios. In addition, we will construct normative scenario that describes a desired agricultural pathway. To address the substantial uncertainties related to climate change impact and socio-economic drivers, a sensitivity analysis will be conducted in which yield, GDP and population projections are set to plausible upper and lower boundaries. 
+
+The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organisations that was held in Lusaka on October 16th and 17th, 2017. At the workshop, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050.The ouput of the stakeholder workshop as well as a selection of recent policy sector and planning documents are used to design the scenarios for the modelling, which are described below.
 
 #	Business As Usual scenario
 The Business As Usual (BAU) scenario assumes that trends that are typical of recent decades will continue in the future. As such it presents the baseline to which other scenarios can be compared, for example to assess the impact of certain policies on agricultural growth. The BAU scenario describes the key drivers that shape future agricultural development. To model a business as usual (BAU) scenario for Zambia, we use the Shared Socio-economic Pathways (SSPs), which were developed as a backbone for climate change related assessments by a large consortium of researchers [@Kriegler2012; @VanVuuren2017a; @ONeill2017]. The SSPs are a set of plausible and alternative assumptions that describe potential future socio-economic development in the absence of climate policies or climate change. They consist of two elements: a narrative storyline and a quantification of key drivers, mainly population growth and economic development. Projections have global coverage and are provided at country level, including Zambia. The SSPs can be combined with assumptions on climate outcomes, the so-called representative concentration pathways (RCPs), to derive a matrix that reflects an elaborate scenario framework to assess the impact of climate change and its mitigation under a variety of socio-economic conditions [@VanVuuren2014]. 
@@ -78,7 +80,7 @@ Finally, to model the BAU scenario, we also make assumptions on area of protecte
 
 
 # Normative scenario
-The normative scenario represents desirable future agricultural sector. The scenario is based on the input that was provided at a stakeholder workshop as well as several national and agricultural planning reports that have been published over the last decade by the Zambian government.[^2] The scenario will be used as a benchmark to assess to extent to which the implementation of various policy options, will bring the agricultural sector closer to the desired state. Table 1 presents key indicators for the normative scenario as well as the source of information. planning documents only provide normative target values for the short or medium term period (e.g. coming 5 years). For the analysis these values need to be projected forward to the year 2050. Due to the qualitative nature of certain statements (e.g. "diversified agricultural economic sector") as well as the limitations of GLOBIOM, it has not been possible to quantify all variables. It is expected that with input from stakeholders we can add more indicators to the scenario. Similarly, in most cases, the approach to project the historical trend forward is based on a simple multiplication factor that extrapolates the short to medium term projections for which we have information. The underlying assumptions should be validated, and where possible, updated in collaboration with stakeholders. Figure 3-5 present the historical trend and normative target values for selected indicators.   
+The normative scenario represents desirable future agricultural sector. The scenario is based on the input that was provided at a stakeholder workshop as well as several national and agricultural planning reports that have been published over the last decade by the Zambian government. The scenario will be used as a benchmark to assess to extent to which the implementation of various policy options, will bring the agricultural sector closer to the desired state. Table 1 presents key indicators for the normative scenario as well as the source of information. planning documents only provide normative target values for the short or medium term period (e.g. coming 5 years). For the analysis these values need to be projected forward to the year 2050. Due to the qualitative nature of certain statements (e.g. "diversified agricultural economic sector") as well as the limitations of GLOBIOM, it has not been possible to quantify all variables. It is expected that with input from stakeholders we can add more indicators to the scenario. Similarly, in most cases, the approach to project the historical trend forward is based on a simple multiplication factor that extrapolates the short to medium term projections for which we have information. The underlying assumptions should be validated, and where possible, updated in collaboration with stakeholders. Figure 3-5 present the historical trend and normative target values for selected indicators.   
 
 __Table 1: Normative scenario variables__
 ```{r Tab_norm_scen}
@@ -105,6 +107,7 @@ grid.arrange(fig_ir_type, fig_ir_crop, ncol=2)
 ```
 
 Source: AQUASTAT and table 2.
+Note: Full control irrigation is the sum of (i) surface irrigation, (ii) sprinkler irrigation and (iii) localized irrigation. Lowland irrigation includes (i) cultivated wetland and inland valley bottoms that have been equipped with water control structures for irrigation and drainage; (ii) areas along rivers where cultivation occurs making use of structures built to retain receding flood water; (iii) developed mangroves and equipped delta areas; (iv)	Spate irrigation, an irrigation practice that uses the floodwaters of ephemeral streams (wadi) and channels it through short steep canals to bunded basins where cropping takes place. 
 
 _Figure 5: Normative scenario crops export projections_
 
@@ -121,8 +124,29 @@ _Figure 6: Normative scenario Agricultural area projections_
 fig_land_ns
 ```
 
+Source: FAOSTAT
+
+
+_Figure 7: Normative scenario GHG emissions projections_
+
+```{r fig_emis_ns}
+fig_nat_emis_ciat_ns
+```
+Source: Zambia INDC, Zambia National Communication 2.
+Note: Reported values scaled to FAOSTAT historical emissions and projected to 2050.
+
+_Figure 8: Normative scenario livestock projections_
+
+```{r fig_lvst_ns}
+fig_lvst_ns
+```
+
+Source: FAOSTAT.
+Note: Livestock includes head of cattle only.
+
+
 # Policy scenarios
-At the stakeholder workshop, several climate smart agricultural strategies were discussed and ranked by the participants. The strategies covered a large number of areas. The highest ranked was "crop & livestock varieties". Table 2 presents a selection of the strategies and policy options that will be included in the scenario analysis. It also presents information on how we aim to model the policies in GLOBIOM. Some proposed policy options cannot be included in the analysis because they refer to markets are elements of the agricultural sector that are not modelled by GLOBIOM, e.g. "At least 60% of men, women and youth involved in agriculture belong to functioning savings groups".
+At the stakeholder workshop, several climate smart agricultural strategies were discussed and ranked by the participants. The strategies covered a large number of areas. The highest ranked was "crop & livestock varieties". Table 2 presents a selection of the strategies and policy options that will be included in the scenario analysis and the goal as specified by the stakeholders. It also presents information on how we aim to model the policies in GLOBIOM. Some proposed policy options cannot be included in the analysis because they refer to markets are elements of the agricultural sector that are not modelled by GLOBIOM, e.g. "At least 60% of men, women and youth involved in agriculture belong to functioning savings groups".
 
 In the next step, the policy scenarios will be made specific and further developed. Literature research will be undertaken to model the changes in inputs (e.g. water and nutrient demand) as well as the expected yield increase that potentially can be realized when farmers adopt climate smart agricultural practices. Also additional information will be collected on farmers' input costs in Zambia to improve the policy modelling.
 
@@ -136,11 +160,18 @@ Source: GLOBIOM team.
 
 
 #	Sensitivity analysis
+At the stakeholder workshop three clusteres of drivers of uncertainty were identified:
+
+- Climate change (e.g. rainfall, temperature and, pests and diseases)
+- Regional and international markets (e.g. global markets, external political stability and availability of external funds)
+- Domestic development (e.g. internal political stability and changing dietary patterns)
+
+This section presents the sensitivity analysis that is proposed to take into account these uncertainties on the projections.
 
 ## Climate change uncertainty
-We will conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change on crop yields. We combine the outputs from five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5, GFDL-ESM2M, MIROC-ESM with the EPIC crop model to obtain a bandwidth for changes in yield as a consequence of climate change. All GCMs assume RCP8.5, which is the most extreme emissions scenario developed for the IPCC’s Fifth Assessment Report [@Riahi2011]. The crop models provide global projections for the impact of climate change on agricultural yield (in tons per hectare) for a large number of crops.  
+We will conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change (including rainfall and temperature change but excluding pests and diseases) on crop yields. We combine the outputs from five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5, GFDL-ESM2M, MIROC-ESM with the EPIC crop model to obtain a bandwidth for changes in yield as a consequence of climate change. All GCMs assume RCP8.5, which is the most extreme emissions scenario developed for the IPCC’s Fifth Assessment Report [@Riahi2011]. The crop models provide global projections for the impact of climate change on crop yield both with and without the CO2 fertilization effect.
 
-Figure 3 shows crop yield change by 2050 for a number of selected crops. For cattle and other animal products, we decided to use the BAU scenario projections for all four climate change scenarios because the projections are based on biophysical ceiling values which are unlikely to change because of climate change. 
+Figure 3 shows the range of crop yield change by 2050 in Zambia for a number of selected crops as a consequence of climate change. For cattle and other animal products, we decided to use the BAU scenario projections for all four climate change scenarios because the livestock yield is unlikely to be affected much by climate change. 
 
 _Figure 6: Crop yield change due to climate change by 2050 (%): Selected crops_
 
@@ -149,16 +180,17 @@ fig_cc_shock
 ```
 
 
+
 ## Socio-economic uncertainty
 To investigate the uncertainties in the socio-economic projections, we will model and compare the results of two additional but SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios. _"SSP1 with its central features of commitment to achieving development goals, increasing environmental awareness in societies around the world, and a gradual move toward less resource-intensive lifestyles, constitutes a break with recent history in which emerging economies have followed the resource-intensive development model of industrialized countries. To some extent, elements of this scenario can already be found in the proliferation of “green growth” and “green economy” strategies in industrialized and developing countries"_ [@ONeill2017]. 
 
 In contrast with SSP1, SSP3 describes a world that is characterized by fragmentation and sustainability is of no interest. SSP3 _"with its theme of international fragmentation and a world characterized by regional rivalry can already be seen in some of the current regional rivalries and conflicts, but contrasts with globalization trends in other areas. It is based on the assumption that these globalization trends can be reversed by a number of events_"[@ONeill2017].  
 
-SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socio-economic spectrum. This is illustrated by Figure 1 and 3, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario.
+SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socio-economic spectrum, including uncertainties related to both external (global markets and the political situation) and internal conditions. This is illustrated by Figure 1 and 3, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario. Projections for the rest of the world are provided in the Annex.
 
 
 [^1]: The SSP scenarios include projections up to 2100.
-[^2]: An inception and scenario workshop was organised that involved stakeholders from various Ministries, NGOs, policy think tanks and international organisations. During the workshop, the main drivers of agricultural development and land use change were discussed and different policy options were proposed to address climate smart agriculture in Zambia. The workshop took place on 16-17 October, 2017 in Lusaka, Zambia.
+
 
 # Annex
 

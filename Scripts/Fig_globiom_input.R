@@ -92,12 +92,12 @@ cc_proj_raw <- readRDS(file.path(root, "cache/cc_proj_ZMB_raw"))
 # Filter out relevant variables
 cc_proj <- cc_proj_raw %>%
   filter(ANYCLIMATEMODEL %in% c("GCM1", "GCM2", "GCM3", "GCM4", "GCM5"),
-         ANYRCP == "rcp8p5", EPICOUTPUT == "YLDG") %>%
+         ANYRCP %in% c("rcp8p5", "noC8p5"), EPICOUTPUT == "YLDG") %>%
   dplyr::rename(value = ISIMIP_CC_Impact_LUId2)
 
 # Compute cumulative yield shock for 2000-2050
 cc_proj_shock <- cc_proj %>%
-  group_by(ANYCLIMATEMODEL, AllColRow, CROP, InputSys) %>%
+  group_by(ANYCLIMATEMODEL, AllColRow, CROP, InputSys, ANYRCP) %>%
   summarize(value = prod(value)) %>%
   #ungroup() %>%
   #group_by(ANYCLIMATEMODEL, CROP, InputSys) %>%
@@ -115,8 +115,8 @@ fig_cc_shock <- ggplot(data = cc_proj_shock, aes(x = CROP, y = index, fill = CRO
   theme_bw() +
   labs(x = "", y = "% change (2000-2050)") +
   guides(fill = F) +
-  theme(plot.title = element_text(hjust = 0.5))
-#facet_wrap(~ANYCLIMATEMODEL)
+  theme(plot.title = element_text(hjust = 0.5)) +
+  facet_wrap(~ANYRCP)
 
 
 ### LOAD GLOBIOM DATA

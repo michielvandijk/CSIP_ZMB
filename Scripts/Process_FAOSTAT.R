@@ -48,13 +48,13 @@ crop_lvst2FCL <- read_excel("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Dat
 trade_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT/", faostat_version, "/Trade_Crops_Livestock_E_All_Data_(Norm).csv"))
 
 # Crop production
-prod_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT", faostat_version, "/Production_Crops_E_All_Data_(Normalized).csv"))
+prod_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT/", faostat_version, "/Production_Crops_E_All_Data_(Normalized).csv"))
 
 # Livestock production
-lvst_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT", faostat_version, "/Production_Livestock_E_All_Data_(Normalized).csv"))
+lvst_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT/", faostat_version, "/Production_Livestock_E_All_Data_(Normalized).csv"))
 
 # Land use
-land_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT", faostat_version, "/Inputs_Land_E_All_Data_(Normalized).csv"))
+land_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT/", faostat_version, "/Inputs_Land_E_All_Data_(Normalized).csv"))
 
 # Emissions
 #emis_ag_raw <- read_csv(paste0("H:/MyDocuments/Projects/Global-to-local-GLOBIOM/Data/global/FAOSTAT", faostat_version, "/Emissions_Agriculture_Agriculture_total_E_All_Data_(Norm).csv"))
@@ -114,17 +114,24 @@ str(crops)
 write_csv(crops, file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Agricultural_statistics/faostat_crops_", iso3c_sel, ".csv")))
 
 
-### LIVESTOCK
-# faostat_lvst <- faostat_lvst_raw %>%
-#   mutate(variable = dplyr::recode(Element, "Area harvested" = "area", "Yield" = "yield", "Production" = "production"),
-#          iso3c = countrycode(`Area Code`, "fao", "iso3c")) %>%
-#   dplyr::select(iso3c, FCL_item_code = `Item Code`, variable, year = Year, unit = Unit, value = Value) %>%
-#   filter(iso3c == "ZMB") %>%
-#   left_join(., FCL) %>%
-#   mutate(value = ifelse(FCL_title %in% c("Poultry Birds", "Chickens"), value*1000, value),
-#          unit = "Head") %>%
-#   filter(!is.na(value), !(class == "total")) %>%
-#   dplyr::select(-class)
+## LIVESTOCK
+lvst <- lvst_raw %>%
+  filter(`Area Code` == fao_sel) %>%
+  dplyr::select(FCL_item_code = `Item Code`, Item, variable = Element, year = Year, unit = Unit, value = Value) %>%
+  mutate(iso3c = iso3c_sel) %>%
+  left_join(., crop_lvst2FCL) %>%
+  mutate(value = ifelse(FCL_item_code %in% c(1057, 2029, 1068, 1072, 1079, 1140, 1150, 1083), value*1000, value),
+         unit = "Head") %>%
+  na.omit() %>%# remove rows with na values for value
+  group_by(short_name, unit, year, variable) %>%
+  summarize(value = sum(value, na.rm = T))
+
+summary(lvst)
+str(lvst)
+
+# save files
+write_csv(lvst, file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Agricultural_statistics/faostat_lvst_", iso3c_sel, ".csv")))
+
 
 
 ### TRADE

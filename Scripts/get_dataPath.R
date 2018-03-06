@@ -13,7 +13,7 @@
 
 # Michiel IIASA
 if(Sys.info()["user"] == "vandijkm") {
-  dataPath <- "P:/globiom/Projects/CSIP_ZMB"}
+  dataPath <- "H:/MyDocuments/Projects/Global-to-local-GLOBIOM"}
 
 if(Sys.info()["user"] == "vandijkm") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
@@ -26,7 +26,7 @@ if(Sys.info()["user"] == "vandijkm") {
 
 # Amanda IIASA:
 if(Sys.info()["user"] == "palazzo") {
-  dataPath <- "P:/globiom/Projects/CSIP_ZMB"}
+  dataPath <- "P:/globiom/Projects/Global-to-local-GLOBIOM"}
 
 if(Sys.info()["user"] == "palazzo") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
