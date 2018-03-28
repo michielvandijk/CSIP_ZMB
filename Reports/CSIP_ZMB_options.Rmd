@@ -1,0 +1,222 @@
+---
+title: "Zambia CSIP"
+author: "ADD Authors"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  word_document:
+    reference_docx: ../Support/word_styles_01.docx
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+library(readxl)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+#tempPath <- "C:/Users/vandijkm/Github/Global-to-local-GLOBIOM/Code/ZMB"
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=12, fig.height=8,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  fig.path = file.path(root,"Fig_tab_map/out-"),
+  dev = "CairoPNG",
+  dev.args = list(CairoPNG = list(bg = "transparent"))
+  )
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+# Introduction
+
+This document provides background information on the seven CSA options that were selected by the GLOBIOM, World Bank and CSA teams to quantify with the GLOBIOM model. These include:
+
+- Conservation agriculture
+- Agro-forestry
+- Improved post-harvest loss management
+- Adoption of drought resistant varieties
+- Increase in irrigated area
+- Diversification of crops and livestock base
+- Investment in infrastructure
+
+The sections below provides background information as well as model parameters related projections for each of these options. A number of sources are used to prepare the document, including FAO statistics, Zambia specific reports and scientific journal articles. The information will be used as an input into GLOBIOM to simulate the impact of adopting these options on agricultural futures in Zambia. It is expected that the data will be updated after discussons with stakeholders and new information provided by the FAO team, who will conduct and in-depth cost-benefit analysis of some of these options.
+
+
+# Conservation agriculture
+
+## Background
+
+Conservation agriculture (CA) is build on three principles of agricultural management: (1) minimum mechanical soil disturbance, (2) crop rotation and (3) permanent organic soil cover [@Haggblade2003]. Since 1985, CA has been promoted in Zambia as a solution to low agricultural productivity caused by intensive tillage, lack of soil cover and burning of crop residue [@Baudron]. CA in Zambia (often referred to as conservation farming) has a specific interpretation and consists of a package that involves five practices [@Haggblade2003; @Aslihan2013]: (1) reduced tillage on no more than 15% of the field area without soil inversion, (2) precise digging of permanent planting basins or ripping of soil with a Magoye ripper (the latter where draft animals are available), (3) retention of crop residues from the prior harvest rather than burning it on the field, (4) rotation of cereals with legumes and (5) dry season land preparation. 
+
+CA has mainly been promoted in the arid and moderate rainfall regions in the agro-ecological zones I, IIa and IIb. There are no clear guidelines for the high-rainfall zone III, for which CA seems less suitable [@Baudron]. Despite the long history of CA in Zambia and active promotion, national adoption rates have been low. Using a nationally representative household survey @ZuluMbata2016 estimated that only 3.7% of farmers fully adopted CA practices, while 1.1% partially adopted CA (i.e. minimum tillage and crop rotation or crop residue retention). The data shows that crop rotation and crop residue retention are practiced widely in Zambia, while mimum tillage is much less practicised, hence, is the main constraint to the use of CA. The data also show that CA adoption rates have more than doubled between 2012 adn 2015 but it is unclear what are the causes of this.
+
+_Figure 1: Agro-ecological zones in Zambia_
+
+```{r fig_aez}
+fig_aez
+```
+
+
+_Table 1: Percent of households using CA practices in Zambia_
+
+```{r tab_ca_adoption}
+pander(tab_ca_adop)
+```
+
+Source: @ZuluMbata2016
+
+A large number of studies have investigated the low adoption rate of CA in Zambia. General factors, which have found to constrain the use of CA in other countries and Zambia include [@Giller2009; @Asilhan2014]: (1) Credit constraints: Initial investment costs are high and benefits are usually realized after around four years; (2) Labour: CA demands additional labor inout for land preparation and weeding (although labour is saved for tillage activties) when it is implemented without pesticides (the common approach). This is regarded as the main barrier to adoption in Zambia and (3) Competition for crop residues. Maintaining permanent soil cover can be costly as it demands access to seeds and residues cannot be used for other purposes such as livestock feed and fuel. 
+
+
+## CSA benefits and costs
+
+Conservation agriculture can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption [@CRG brochure].
+
+@Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to conventionally tiled control plots after six cropping seasons. Carbon increases of on average 12%, in comparison to a decrease of 15% for conventional control, where only found at the on-station long-term trial.
+
+
+## Scenarios
+
+```{r fig_ca_proj}
+fig_ca_proj
+```
+
+
+## Questions
+
+- What are realistic projections of CA adoption in the future?
+- Is CA only or mainly practiced for cotton and maize systems or also other crops? If so which?
+
+
+
+# Agro-forestry
+
+## Background
+
+The term agro-forestry is used for a variety of agro-forestry systems (e.g. trees monocropped on arable or complext agro-forest systems). Here we use the term to refer to the integration of trees into annual food crop systems. More specifically, it involves crop ration or intercropping with fast-growing nitrogen fixing trees or woody shrub species. Agro-foresty is also sometimes referred to as 'evergreen agriculture', which is defined as "the direct and intimate intercropping of trees within annual crop fields" [@Garrity2010]. 
+
+Most common agroforestry models in Zambia are: Gliricidia-maize intercropping (Gliricidia), rotation of maize with Sesbania sesban (Sesbania), rotation of maize with Tephrosia vogelii (Tephrosia) fallows and Faidherbia albida Intercropping (Faidherbia) [@Ojayi; @Garrity2010; @Shitumbanuma2012]. In the first three variations, the trees are grown on fallow land for 2-3 years, followed by 1-2 years of cropping after which a new cycle starts. Gliricidia is leguminous woody species that is able to re-sprout when cut back in contrast to the other two tree types. Agro-forestry involving this tree is therefore referred to as intercropping instead of crop rotation although the fallow-crop cycle is very similar between the two groups of tree species. The Faidherbia agro-forestry system is slightly different as there is no fallow-crop cycle and trees are grown alongside crops (i.e. continous intercropping). Initial growth of Faidherbia is slow, which means that farmers only start to benefit after 1-6 years. 
+
+
+## CSA benefits and costs
+
+Agro-forestry has the potential to: "maintain vegetative soil cover, bolster nutrient supply through nitrogen fixation and nutrient cycling, generate greater quantities of organic matter in soil surface residues, improve soil structure and water infiltration, increase greater direct production of food, fodder, fuel, fiber and income from products produced by the intercropped trees, enhance carbon storage both above-ground and belowground, and induce more effective conservation of above and below-ground biodiversity" [@Garrity2010, p 197].
+
+A number of studies have investigated investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia in combination with five different crops in Eastern Zambia (Figure X).  @Sileshi conduct a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents simular improvements in production. 
+
+
+```{r fig_af_yld}
+fig_af_yld
+```
+
+
+@Garrity cites a study that reports that improved fallows with Sesbania produces between 15 and 21 t/ha of fuel wood, that were harvested after 2-3 fallow.
+
+@Ojayi estimate labour inputs and financial profitability of agro-forestry based management practices in comparison to convential farming approaches in Eastern Zambia. The find that aggregated over a five-year cylce, labour inputs for agroforestry were lower than fertilized maize fields but higher than non-fertilised maize. The main reason for this is that labour inputs in agroforestry are concentrated in the first year during the establishment of fallows and in the third year when the fallow is cut down and the field sown with maize. For continous maize cropping labour demands are relatively high in each year, in particular for fertilized plots where production is higher.
+
+```{r fig_af_lab}
+fig_af_lab
+```
+
+It is estimated that currently about 500,000 Malawian farmers have Faidherbia trees on their farms [@WRI]
+The Zambian CFU estimates that the tree is now cultivated in conservation farming systems over an area of 300,000 [@Garrity2010]
+
+FAO CSA strategy
+- p40 cost data
+- p40 analysis of GHG emissions reduction => HOW DONE?
+
+
+FAO CSA strategy p40: "The estimation of mitigation from agroforestry systems has considerably lower levels of uncertainty, and higher levels of per hectare potential. While different agroforestry systems were identified in their differential results, all systems have strongly positive mitigation impacts that mostly range between the annual sequestration of 5 to 15 t CO2 per hectare." Agro-forestry only reaches potential after 20 years!
+
+p. 44: "some forms of minimum soil disturbance and agroforestry, require significantly higher amounts of labour inputs and this constitutes a barrier."
+
+## Scenarios
+
+```{r fig_af_proj}
+fig_af_proj
+```
+
+
+
+# Adoption of drought-tolerant maize varieties
+
+## Background
+
+In view of a changing climate, drought tolerant maize (DTM) varieties are being developed that are able to deal with periods of drought and, in many cases, have other desirable characteristics, such as resistance to major diseases and high protien content. A major initiative is the CIMMYT Drought Tolerant Maize for Africa (DTMA) project, which released 160 DTM varieties in 13 African countries (including Zambia) between 2007 and 2013 [@Fisher2015]. All DTM varieties were bred using conventional methods and did not involve genetic modification. 
+
+With 89%, the use of improved varieties of maize is high in Zambia in comparison to other countries. Following the inception of the DTMA projec and the promotion of drought-tolerant varieties, the share of DTM has grown considerably from only 1% in 2006 to 23% in 2013 (Figure x). 
+
+
+_Figure x: Adoption rates of improved and DTM in Zambia_
+
+```{r fig_dtm_proj}
+fig_dtm_adop
+```
+
+Source: @Rovere2014a
+Note: Adoption of improved varieties is the sum of the adoption rate of open-pollinated
+varieties (OPVs) and hybrids.
+
+
+## CSA benefits and costs
+
+The adoption of drought-tolerant maize (DTMs) varieties by farmers is expected to have two positive effects. First, DTMs are hybrid seeds that are exected to result in higher yields in comparison to traditional varieties. Second, DTMs are more resistant to fluctuations in precipiation, with the effect that the variance in yield is reduced over time. This is confired by @Wossen2017, who measure the impacts of DTM varieties (DTMVs) on productivity, welfare, and risk exposure using household and plot-level data from rural Nigeria. Their results show that adoption of DTMVs increased maize yields by 13% and reduced the level of variance by 53%. @Rovere2014a present an ex ante assesment of DTM adoption in 13 Sub-Saharan Africa countries (including Zambia), evaluating the benefits of an average yield increase as well as gains in yield stability. They find aggregate benefits in the range of USD 907-USD 1,535 million, under the assumption that DTM is adopted widely by farmers and depending whether conservative or optimistic yield improvements are used as the reference point. 
+
+Similar to other hybrid seeds, DTMs require more fertilizer in comparison to traditional varieties to realize higher yields. Labor requirements and seed costs are also comparable to non-DT commercial varieties [@Fischer2015].
+
+Table X shows the expected average yield gains of DTM varieties in comparison to that of other improved varieties. The results are based on field trials, including 273 trials in eastern and southern Africa over three years [@Banziger2006]. DTM yield is expected to be around 3%-13% higher under conservative assumptions and around 10-20% under positive assumptions (i.e. the highest yielding DTM varieties). According to expert opinion, DTM yield will result in around 50% higher yield (net of fertilizer use) in comparison to traditional varieties [@Rovere2014a]. Similar figures are presented in @Setimela2017, who compare new drought tolerant maize hybrids and open pollinated varieties against the best commercial varieties in East and Southern Africa under farmer management and on-station conditions.
+
+_Figure x: Expected average yield gains of DTM over other improved varieties_
+
+```{r fig_dtm_yld}
+fig_dtm_yld
+```
+
+Source: @Banziger2006 
+
+## Scenarios
+
+
+
+```{r fig_dtm_yld}
+fig_dtm_proj
+```
+
+
+# Reducing post-harvest losses
+
+## Background
+
+Followng the food price crisis in 2007/2008, there is a renewed interest in reducing post-harvest losses (PHL). The World Bank [@WorldBank2011], estimated that around USD 4 billion annually can be saved in Sub-Saharan Afria by reducing the PHL in grains (mainly cereals and legumes) alone. This value is more than the value of total food aid received in the region over the last decade. There are four major reasons to address PHLs [@Sheahan2017]: (1) improve food security; (2) improve food safety; (3) reduce unnessary input use and (4) increase profits for food value actors. 
+
+PHL can take place at all stages of the value chain between the farmers field and the consumers' fork, which can be divided into five stages [@FAO2011]: (1) harvesting such as from mechanical damage and/or spillage, (2) postharvest handling, such as drying, winnowing, and storage (insect pests, rodents, rotting), (3) processing, (4) distribution and marketing, and (5) consumption. 
+
+
+## CSA benefits and costs
+
+Most data on PHL are spotty and often of poor quality. None of the available sources provide data for Zambia specifically. @FAO2011 estimated that total PHL in Sub-Saharan Africa amount to one third of total food produced (in volume). A more comprehensive analysis is presented by @Affognon2015, who conducted a literature survey of PHL in six African countries (but not including Zambia) and seven commodity categories. Figure X presents PHL estimates per crop over the total value chain. They also performed a statistical meta-analysis to provide more accurate figures. These are however only available for four crops due to lack of data. @Kaminski2014 use nationally representative household surveys for Uganda, Tanzania and Malawi. They only include on-farm PHL for maize and find values in the range of 1.4%-5.9%.
+
+There is a consensus across sources that most grains and cereals are lost during post-harvest handling and storage on-farm, while loss of fresh produce, meat, and seafood is concentrated in processing, packaging, and distribution @Sheahan2017. In Sub-Saharan Africa, most PHL happens at the farm level [@FAO2011; @Affognin2015].
+
+
+## Scenarios
+
+
+
+
+
+
+
+
+
+
+
+
+
