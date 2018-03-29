@@ -65,17 +65,19 @@ tab_ca_adop <- read_excel(file.path(root, "fig_tab_map/external/technology_optio
 # fitmodel2 <- nls(y ~ SSlogis(x, Asym, xmid, scal), df)
 # params2 <- coef(fitmodel2)
 
-sigmoid = function(g, xmid, x) {
-  1 / (1 + exp(-g * (x - xmid)))
+# Sigmoid function
+sigmoid = function(g, a, xmid, x) {
+  a + ((1-a) / (1 + exp(-g * (x - xmid))))
 }
+
 
 ca_adop <- filter(tab_ca_adop, Indicator == "Full CA adopters (%)") %>%
   gather(year, value, -Indicator) %>%
   mutate(year = as.numeric(year))
 
-ca_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .2, xmid = 2030, x = 2010:2050))
+ca_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .2, a = 0, xmid = 2030, x = 2010:2050))
 
-fig_ca_proj <- ggplot(data = diff, aes(x = year, y = value*100)) +
+fig_ca_proj <- ggplot(data = ca_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
   labs( x = "", y = "maize area/maize farmers (%)") +
   geom_point(data = ca_adop, aes(x = year, y = value), col = "red", size = 4) +
@@ -112,19 +114,15 @@ fig_af_lab <- ggplot(data = af_lab, aes(x = reorder(Management, -labour), y = la
 # af projection
 af_adop <- read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "af_adop")
 
-sigmoid = function(g, a, xmid, x) {
-  a + ((1-a) / (1 + exp(-g * (x - xmid))))
-}
-af_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .2, 0.2, xmid = 2030, x = 2010:2050))
+af_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .35, 0.2, xmid = 2020, x = 2010:2050))
 
-fig_af_adop <-  ggplot(data = af_proj, aes(x = year, y = value*100)) +
+fig_af_proj <-  ggplot(data = af_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
   labs( x = "", y = "maize area/maize farmers (%)") +
   scale_y_continuous(limits = c(0, 100)) +
   geom_point(data = af_adop, aes(x = year, y = farmers_sh), col = "red", size = 4) +
   theme_bw() +
   geom_text(data = af_adop, aes(x = year, y = farmers_sh, label = farmers_sh), vjust = 0, nudge_y = 5)
-
 
 # dtm yield
 dtm_yld <-  read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "dtm_yld") %>%
@@ -148,16 +146,12 @@ dtm_adop <- read_excel(file.path(root, "fig_tab_map/external/technology_options.
   gather(type, value, -year, -source) %>%
   filter(type != "non-dtm")
 
-sigmoid = function(g, a, xmid, x) {
-  a + ((1-a) / (1 + exp(-g * (x - xmid))))
-}
-
 dtm_proj <- bind_rows(
   data.frame(year = c(1997:2050), type = "total improved", value = sigmoid(g = 0.3, 0.23, xmid = 2005, x = 1997:2050)),
   data.frame(year = c(1997:2050), type = "dtm", value = sigmoid(g = 0.2, 0, xmid = 2020, x = 1997:2050))
 )
 
-fig_dtm_adop <- ggplot() +
+fig_dtm_proj <- ggplot() +
   geom_line(data = dtm_proj, aes(x = year, y = value*100, linetype = type, colour = type), size = 2) +
   scale_y_continuous(limits = c(0, 100)) +
   geom_point(data = dtm_adop, aes(x = year, y = value, shape = type, colour = type), size = 4) +
