@@ -74,9 +74,9 @@ A large number of studies have investigated the low adoption rate of CA in Zambi
 
 ## CSA benefits and costs
 
-Conservation agriculture can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption.
+CA can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption.
 
-@Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to plots on which conventional tilled is applied but only  after six cropping seasons. They also find an average carbon increase of 12% at the on-station plots, in comparison to a decrease of 15% for conventional control. This effect was not measured on the farm plots. @Erenstein2012 discuss on-farm trails in Zimbabwe and report a yield increase of 14%-81 of ca in comparison to conventional maize cropping.
+@Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to plots on which conventional tilled is applied but only  after six cropping seasons. They also find an average carbon increase of 12% at the on-station plots, in comparison to a decrease of 15% for conventional control. This effect was not measured on the farm plots. @Erenstein2012 discuss on-farm trails in Zimbabwe and report a yield increase of 14%-81 of CA in comparison to conventional maize cropping.
 
 
 ## Scenarios
@@ -113,7 +113,7 @@ Most common agroforestry models in Zambia are: Gliricidia-maize intercropping (G
 
 Agro-forestry has the potential to: "maintain vegetative soil cover, bolster nutrient supply through nitrogen fixation and nutrient cycling, generate greater quantities of organic matter in soil surface residues, improve soil structure and water infiltration, increase greater direct production of food, fodder, fuel, fibre and income from products produced by the intercropped trees, enhance carbon storage both above-ground and below ground, and induce more effective conservation of above and below-ground biodiversity" [@Garrity2010, p 197].
 
-A number of studies investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia (under) in combination with four different crops in Eastern Zambia and compares the yield with conventional cropping systems (outside) (Figure 3).  @Sileshi2008 conducted a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents similar improvements in production. @FAO reports that mitigation impacts rangebetween the annual sequestration of 5 to 15 t CO2 per hectare but only reaches potential after 20 years.
+A number of studies investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia (under) in combination with four different crops in Eastern Zambia and compares the yield with conventional cropping systems (outside) (Figure 3).  The impact is particularly large for maize, where yield doubles. @Sileshi2008 conducted a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents similar improvements in production. @FAO2017 reports that mitigation impacts rangebetween the annual sequestration of 5 to 15 t CO2 per hectare but only reaches potential after 20 years.
 
 _Figure 3: Comparison of crop yield with and with agro-forestry practices_
 
@@ -135,17 +135,6 @@ fig_af_lab
 ```
 
 ##### Source: @Ajayi2009
-
-
-FAO CSA strategy
-- p40 cost data
-- p40 analysis of GHG emissions reduction => HOW DONE?
-
-
-FAO CSA strategy p40: "The estimation of mitigation from agroforestry systems has considerably lower levels of uncertainty, and higher levels of per hectare potential. While different agroforestry systems were identified in their differential results, all systems have strongly positive mitigation impacts that mostly range between the annual sequestration of 5 to 15 t CO2 per hectare." Agro-forestry only reaches potential after 20 years!
-
-p. 44: "some forms of minimum soil disturbance and agroforestry, require significantly higher amounts of labour inputs and this constitutes a barrier."
-
 
 ## Scenarios
 
@@ -254,10 +243,7 @@ We propose the following s-shaped diffusion pattern for PHL between 2010 and 205
 [Still have to decide? Gradual improvement or immediate?]
 
 
-
-
-
-
+# References
 
 
 

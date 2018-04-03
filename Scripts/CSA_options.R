@@ -13,7 +13,7 @@ p_load("tidyverse", "readxl", "stringr", "scales", "RColorBrewer", "rprojroot")
 # Spatial packages
 p_load("rgdal", "ggmap", "raster", "rasterVis", "rgeos", "sp", "mapproj", "maptools", "proj4", "gdalUtils", "sf")
 # Additional packages
-p_load("WDI", "countrycode", "gdxrrw", "ggthemes", "viridis", "gridExtra", "ggalt")
+p_load("WDI", "countrycode", "gdxrrw", "ggthemes", "viridis", "gridExtra", "ggalt", "openxlsx")
 
 
 ### DETERMINE ROOT PATH
@@ -34,7 +34,7 @@ options(digits=4)
 source(file.path(root, "Scripts/Set_country.R"))
 
 
-### PLOTS FOR BACKGROUND DATA
+### AEZ
 # fig_aez
 aez <- readOGR(file.path(dataPath, "/Data/ZMB/Raw/Spatial_data/aez/aez.shp"))
 
@@ -48,15 +48,14 @@ fig_aez <- ggplot() +
   geom_polygon(data = aez_for, aes(x = long, y = lat, group = group, fill = ZONES)) +
   scale_fill_manual(values = terrain.colors(5)) +
   coord_quickmap() +
-  theme_classic() +
-  labs(x = "", y = "", fill = "") +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        legend.position = "bottom",
-        line = element_blank(),
-        axis.text = element_blank())
+  theme_void() +
+  labs(x = "", y = "", fill = "")  +
+  theme(legend.position = "bottom")
 
+
+### CONSERVATION AGRICULTURE
 # ca adoption
-tab_ca_adop <- read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "ca_adop")
+tab_ca_adop <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "ca_adop")
 
 # ca projection
 # https://stats.stackexchange.com/questions/30255/fitting-logistic-to-small-number-of-points-in-r
@@ -72,10 +71,10 @@ sigmoid = function(g, a, xmid, x) {
 
 
 ca_adop <- filter(tab_ca_adop, Indicator == "Full CA adopters (%)") %>%
-  gather(year, value, -Indicator) %>%
+  gather(year, value, -Indicator, -source) %>%
   mutate(year = as.numeric(year))
 
-ca_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .2, a = 0, xmid = 2030, x = 2010:2050))
+ca_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .2, a = 0, xmid = 2030, x = 2010:2050), option = "ca")
 
 fig_ca_proj <- ggplot(data = ca_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
@@ -85,9 +84,11 @@ fig_ca_proj <- ggplot(data = ca_proj, aes(x = year, y = value*100)) +
   geom_text(data = ca_adop, aes(x = year, y = value, label = value), vjust = 0, nudge_y = 5)
 
 
+
+### AGRO-FORESTRY
 # af yield
-af_yld <-  read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "af_yld") %>%
-  gather(treatment, value, -crop, -year) %>%
+af_yld <-  read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "af_yld") %>%
+  gather(treatment, value, -crop, -year, - source) %>%
   group_by(crop, treatment) %>%
   summarize(max = max(value),
             min = min(value),
@@ -101,9 +102,13 @@ fig_af_yld <- ggplot(data = af_yld, aes(x = treatment, y = value, fill = treatme
   geom_errorbar(aes(ymax = max, ymin = min), width = 0.2) +
   theme_bw()
 
+af_yld_shock <- af_yld %>%
+  dplyr::select(-max, -min) %>%
+  spread(treatment, value) %>%
+  mutate(shock = 1 + (under-outside)/outside)
 
 # af labour
-af_lab <- read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "af_lab")
+af_lab <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "af_lab")
 
 fig_af_lab <- ggplot(data = af_lab, aes(x = reorder(Management, -labour), y = labour, fill = Management)) +
   labs( x = "", y = "Labour (persons") +
@@ -112,9 +117,9 @@ fig_af_lab <- ggplot(data = af_lab, aes(x = reorder(Management, -labour), y = la
   theme_bw()
 
 # af projection
-af_adop <- read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "af_adop")
+af_adop <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "af_adop")
 
-af_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .35, 0.2, xmid = 2020, x = 2010:2050))
+af_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .35, 0.2, xmid = 2020, x = 2010:2050), option = "af")
 
 fig_af_proj <-  ggplot(data = af_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
@@ -124,9 +129,11 @@ fig_af_proj <-  ggplot(data = af_proj, aes(x = year, y = value*100)) +
   theme_bw() +
   geom_text(data = af_adop, aes(x = year, y = farmers_sh, label = farmers_sh), vjust = 0, nudge_y = 5)
 
+
+### DROUGHT-TOLERANT VARIETIES
 # dtm yield
-dtm_yld <-  read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "dtm_yld") %>%
-  gather(reference, value, -yld_level) %>%
+dtm_yld <-  read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "dtm_yld") %>%
+  gather(reference, value, -yld_level, -source) %>%
   group_by(reference) %>%
   summarize(max = max(value),
             min = min(value),
@@ -139,29 +146,30 @@ fig_dtm_yld <- ggplot(data = dtm_yld, aes(x = reference, y = value, fill = refer
   geom_errorbar(aes(ymax = max, ymin = min), width = 0.2) +
   theme_bw()
 
-
 # dtm projection
-dtm_adop <- read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "dtm_adop") %>%
-  mutate(`total improved` = `non-dtm` + dtm) %>%
-  gather(type, value, -year, -source) %>%
-  filter(type != "non-dtm")
+dtm_adop <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "dtm_adop") %>%
+  mutate(impr = `non-dtm` + dtm) %>%
+  gather(option, value, -year, -source) %>%
+  filter(option != "non-dtm")
 
 dtm_proj <- bind_rows(
-  data.frame(year = c(1997:2050), type = "total improved", value = sigmoid(g = 0.3, 0.23, xmid = 2005, x = 1997:2050)),
-  data.frame(year = c(1997:2050), type = "dtm", value = sigmoid(g = 0.2, 0, xmid = 2020, x = 1997:2050))
+  data.frame(year = c(1997:2050), value = sigmoid(g = 0.3, 0.23, xmid = 2005, x = 1997:2050), option = "impr"),
+  data.frame(year = c(1997:2050), value = sigmoid(g = 0.2, 0, xmid = 2020, x = 1997:2050), option = "dtm")
 )
 
 fig_dtm_proj <- ggplot() +
-  geom_line(data = dtm_proj, aes(x = year, y = value*100, linetype = type, colour = type), size = 2) +
+  geom_line(data = dtm_proj, aes(x = year, y = value*100, linetype = option, colour = option), size = 2) +
   scale_y_continuous(limits = c(0, 100)) +
-  geom_point(data = dtm_adop, aes(x = year, y = value, shape = type, colour = type), size = 4) +
+  geom_point(data = dtm_adop, aes(x = year, y = value, shape = option, colour = option), size = 4) +
   theme_bw() +
   labs( x = "", y = "maize area/maize farmers (%)", 
           shape = "Type of seeds", linetype = "Type of seeds", colour = "Type of seeds") +
   geom_text(data = dtm_adop, aes(x = year, y = value, label = value), vjust = 0, nudge_y = 5)
 
+
+### POST-HARVEST LOSSES
 # phl estimations
-phl <- read_excel(file.path(root, "fig_tab_map/external/technology_options.xlsx"), sheet = "phl_data") %>%
+phl <- read_excel(file.path(dataPath, "Data/ZMB/Processed/Options/options_background.xlsx"), sheet = "phl_data") %>%
   mutate(crop = factor(crop, levels = as.character(crop)))
 
 fig_phl <- ggplot(data = phl, aes(x = min, xend = max, y= crop, group=crop)) + 
@@ -174,3 +182,26 @@ fig_phl <- ggplot(data = phl, aes(x = min, xend = max, y= crop, group=crop)) +
   geom_point(data = filter(phl, is.na(min)), aes(x = max, y = crop), size = 4, col = "blue") +
   theme_bw()
   
+# dtm parameters
+# We assumem based on literature:
+dtm_param <- phl %>%
+  mutate(min = ifelse(is.na(min), 0, min),
+         value = (max-min)/100,
+         unit = "potential decrease in phl (%)",
+         option = "dtm",
+         source = "Affognon et al. (2015)",
+         note = "difference between maximum and minimum of phl") %>%
+  dplyr::select(-crop, -min, -max) %>%
+  na.omit()
+
+write_csv(dtm_param, file.path(dataPath, "Data/ZMB/Processed/Options/dtm_param.csv"))
+
+
+### DATABASE WITH PROJECTIONS
+# Combine projections
+proj <- bind_rows(ca_proj, af_proj, dtm_proj)
+
+# Save
+write_csv(proj, file.path(dataPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
+
+
