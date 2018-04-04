@@ -16,6 +16,9 @@ if(Sys.info()["user"] == "vandijkm") {
   dataPath <- "P:/Globiom/Projects/CSIP_ZMB"}
 
 if(Sys.info()["user"] == "vandijkm") {
+  countryPath <- "P:/Globiom/crop_map/data/ZMB/processed/2010"}
+
+if(Sys.info()["user"] == "vandijkm") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
 
 if(Sys.info()["user"] == "vandijkm") {
@@ -27,6 +30,9 @@ if(Sys.info()["user"] == "vandijkm") {
 # Amanda IIASA:
 if(Sys.info()["user"] == "palazzo") {
   dataPath <- "P:/Globiom/Projects/CSIP_ZMB"}
+
+if(Sys.info()["user"] == "vandijkm") {
+  countryPath <- "P:/Globiom/crop_map/data/ZMB/processed/2010"}
 
 if(Sys.info()["user"] == "palazzo") {
   modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}

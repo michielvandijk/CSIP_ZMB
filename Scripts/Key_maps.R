@@ -31,7 +31,7 @@ source(file.path(root, "Scripts/Set_country.R"))
 
 ### LOAD DATA
 # Simu
-simu <- readRDS(file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Maps/simu/simu_", iso3c_sel, ".rds")))
+simu <- readRDS(file.path(dataPath2, paste0("Data/", iso3c_sel, "/Processed/Maps/simu/simu_", iso3c_sel, ".rds")))
 
 # GAUL
 adm <- readRDS(file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Maps/gaul/adm_2000_", iso3c_sel, ".rds")))

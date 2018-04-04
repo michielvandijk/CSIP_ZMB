@@ -112,7 +112,8 @@ yld_ns <- yld_hist %>%
   ungroup() %>%
   mutate(value = yld_fact * value,
           scenario = "Normative scenario",
-         year = 2050)
+         year = 2050,
+         variable = "YILD")
 
 yld_df <- bind_rows(yld_hist, yld_ns, 
                     expand.grid(year = 2040, scenario = "Historical", value = 0, crop = unique(yld_hist$crop), stringsAsFactors = F)) %>%
@@ -133,35 +134,36 @@ fig_yld_ns <- ggplot() +
   scale_shape_manual(values = c(20,8)) +
   guides(fill = "none", colour = "none") +
   theme(legend.position = "bottom")
-rm(yld_df, yld_ns, yld_hist)
+rm(yld_df)
 
 
 ### INCREASE LAND UNDER IRRIGATION 
-## Scenario assumptions
-ir_fact = 3
-
 ## Total irrigation by type
 # Historical
 ir_type_hist <- ir_raw %>%
   filter(variable %in% c("Area equipped for full control irrigation: total",
            "Area equipped for irrigation: equipped lowland areas")) %>%
   mutate(value = value * 1000,
-         variable = dplyr::recode(variable, 
+         type = dplyr::recode(variable, 
                            "Area equipped for full control irrigation: total"= "Full control",
                            "Area equipped for irrigation: equipped lowland areas" = "Lowland"),
          variable = factor(variable, levels = c("Lowland", "Full control")))
+
+## Scenario assumptions for 2050
+ir_fact = 3
 
 # Projections
 ir_type_proj <- ir_type_hist %>%
   filter(year == 2002) %>%
   mutate(year = 2050,
-         value = value * ir_fact)
+         value = value * ir_fact,
+         variable = "IR_all")
 y_ul2 <- 1.05*sum(ir_type_proj$value)
 
 # Combine data and plot
-fig_ir_type <- bind_rows(ir_type_hist, ir_type_proj, data.frame(year = 2010, value = 0, variable = "Lowland")) %>%
+fig_ir_type <- bind_rows(ir_type_hist, ir_type_proj, data.frame(year = 2010, value = 0, type = "Lowland")) %>%
   ggplot() +
-  geom_col(aes(x = factor(year), y = value, fill = variable), colour = "black") +
+  geom_col(aes(x = factor(year), y = value, fill = type), colour = "black") +
   theme_bw() +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul2)) +
   #scale_fill_manual(labels = c("Full control", "Lowland")) +
@@ -181,7 +183,8 @@ ir_crop_hist <- ir_crop_raw %>%
 ir_crop_proj <- ir_crop_hist %>%
   filter(year == 2002) %>%
   mutate(year = 2050,
-         value = value * ir_fact)
+         value = value * ir_fact,
+         variable = "IR_con")
 y_ul <- 1.05*sum(ir_crop_proj$value)
 
 # Combine data and plot
@@ -197,6 +200,9 @@ fig_ir_crop <- bind_rows(ir_crop_hist, ir_crop_proj, data.frame(year = 2010, val
   scale_x_discrete(breaks = c(1991, 2002, 2050))
 
 grid.arrange(fig_ir_type, fig_ir_crop, ncol=2)
+
+# Clean up
+rm(ir_crop_raw, ir_raw)
 
 
 ### EXPORT VALUE
@@ -221,14 +227,15 @@ expo_proj <- expo_hist %>%
   ungroup() %>%
   mutate(scenario = "projection",
          year = 2050,
-         value = value * expo_fact)
+         value = value * expo_fact,
+         variable = "EXPO")
 
-expo_proj <- bind_rows(expo_proj, data.frame(year = 2014, value = 0, scenario = "Historical"))
+expo_df <- bind_rows(expo_proj, data.frame(year = 2014, value = 0, scenario = "Historical"))
 
 # Combine data and plot
 y_ul_expo <- max(expo_proj$value/1000) * 1.05
 
-fig_expo_ns <- bind_rows(expo_hist, expo_proj) %>%
+fig_expo_ns <- bind_rows(expo_hist, expo_df) %>%
   mutate(value = value/1000) %>%
   ggplot() +
   geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
@@ -241,12 +248,15 @@ fig_expo_ns <- bind_rows(expo_hist, expo_proj) %>%
   guides(fill = "none") +
   scale_x_discrete(breaks = c(2000:2013, 2050))
 
+# Clean up
+rm(expo_df, trade_raw)
+
 
 ### LAND USE
 ## Scenario assumptions
 land_fact = 1
 
-# Historical: Limited to export value of primary agriculture
+# Historical
 land_hist <- land_raw %>%
   na.omit %>%
   filter(item %in% c("permanent crops", "arable land", "permanent meadows and pastures")) %>%
@@ -260,17 +270,19 @@ land_proj <- land_hist %>%
   summarize(value = mean(value, na.rm = T)) %>%
   ungroup() %>%
   mutate(scenario = "projection",
-         year = 2016,
-         value = value * land_fact)
+         year = 2050,
+         value = value * land_fact,
+         variable = "AREA")
 
-land_proj <- bind_rows(land_proj, data.frame(year = 2015, value = 0, scenario = "Historical", item = "arable land"))
+land_df <- bind_rows(land_proj, data.frame(year = 2015, value = 0, scenario = "Historical", item = "arable land")) %>%
+  mutate(year = ifelse(year == 2050, 2016, year)) # Fix using 2050 creates a large gap between hist and proj series
 
 # Combine data and plot
 y_ul_land <- sum(land_proj$value) * 1.05
 
 fig_land_ns <- ggplot() +
   geom_area(data = land_hist, aes(x = year, y = value, fill = item), colour = "black", position = "stack") +
-  geom_col(data = land_proj, aes(x = year, y = value, fill = item), colour = "black") +
+  geom_col(data = land_df, aes(x = year, y = value, fill = item), colour = "black") +
   theme_bw() +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_land)) +
   labs(x = "", y ="agricultural area (1000 ha)", fill = "",
@@ -280,49 +292,96 @@ fig_land_ns <- ggplot() +
   theme(legend.position = "bottom") +
   scale_x_continuous(breaks = c(2000, 2005, 2010, 2016), label = c(2000, 2005, 2010, 2050), expand = c(0,0))
 
+# Clean up
+rm(land_df, land_raw)
+
 
 ### LIVESTOCK TARGETS
-## Scenario assumptions
-lvst_fact = 1
-
 # Historical
 lvst_hist <- lvst_raw %>%
   na.omit %>%
-  filter(short_name %in% c("catt")) %>%
+  filter(short_name %in% c("catt", "smru")) %>%
   mutate(scenario = "Historical") %>%
   filter(year >= 2000) 
 
-# Projections
-lvst_proj <- data.frame(value = 6000000 * lvst_fact, short_name = "catt", year = 2050, scenario = "projections")
+## Scenario assumptions
+catt_fact = 1
+smru_fact = lvst_hist$value[lvst_hist$short_name == "smru" & lvst_hist$year == 2014] * 2
 
-lvst_proj <- bind_rows(lvst_proj, data.frame(year = 2015, value = 0, scenario = "Historical"))
+# Projections
+lvst_proj <- data.frame(value = c(6000000 * catt_fact, smru_fact), short_name = c("catt", "smru"), year = 2050, scenario = "projections", variable = "LVST")
+
+lvst_df <- bind_rows(lvst_proj, data.frame(year = c(2015,2015), value = c(0,0), scenario = c("Historical", "Historical"), short_name = c("catt", "smru")))
 
 # Combine data and plot
 y_ul_lvst <- max(lvst_proj$value/1000) * 1.05
 
-fig_lvst_ns <- bind_rows(lvst_hist, lvst_proj) %>%
+fig_lvst_ns <- bind_rows(lvst_hist, lvst_df) %>%
   mutate(value = value/1000) %>%
   ggplot() +
   geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
   theme_bw() +
+  facet_wrap(~ short_name) +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_lvst)) +
-  labs(x = "", y ="Cattle (1000 heads)", fill = "Scenario",
+  labs(x = "", y ="1000 heads", fill = "Scenario",
        title = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +
   guides(fill = "none") +
   scale_x_discrete(breaks = c(2000:2014, 2050))
 
+# Clean up
+rm(lvst_df, lvst_raw)
 
 
-### INCREASE CEREAL PRODUCTION
-# Somewhat redundant as doubling exogenous yield is likely to result in higher production
-prod_hist <- fao_hist_raw %>%
-  filter(country == "Zambia", 
-         variable == "PROD", 
-         crop == "Cereals_Crops",
-         year %in% c(2010)) %>%
-  mutate(scenario = "Historical")
+### INCREASE CROP DIVERSITY
+# Area share per crop over last three years
+
+# Historical
+div_hist <- fao_hist_raw %>%
+  na.omit %>%
+  filter(variable == "AREA", iso3c == "ZMB",
+         year >= 2000,
+         !crop %in% c("Cereals_Crops", "Roots_Crops", "Pulses_Crops", "Oil_Crops", "ALL", "FRS","LVS", "CRP")) %>% 
+           mutate(scenario = "Historical",
+                  variable = "AREA_SH") %>%
+  group_by(year) %>%
+  mutate(share = 100 * value/sum(value, na.rm = T)) %>%
+  ungroup()
+
+## Scenario assumptions
+# Corn area constant, rest doubles
+# Projections  
+div_proj <- div_hist %>%
+  filter(year %in% c(2011, 2012, 2013)) %>%
+  group_by(crop) %>%
+  summarize(value = mean(value, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(area_target = ifelse(crop == "Corn", value, value * 2),
+         share = 100*area_target/sum(area_target, na.rm = T), 
+         scenario = "Normative scenario",
+         year = 2050,
+         variable = "AREA_SH")
+
+div_df <- bind_rows(div_hist, div_proj, 
+                    expand.grid(year = 2040, scenario = "Historical", value = 0, crop = unique(div_hist$crop), stringsAsFactors = F)) 
+
+# Plot
+fig_div_ns <- ggplot() + 
+  geom_point(data = filter(div_df, year <= 2013 | year == 2050), aes(x = factor(year), y = share, colour = crop, alpha = scenario, shape = scenario)) +
+  geom_line(data = filter(div_df, year <= 2013), aes(x = factor(year), y = share, colour = crop, alpha = scenario, group = scenario)) +
+  #geom_col(data = yld_df, aes(x = factor(year), y = value, colour = crop, alpha = scenario, shape = scenario), colour = "black") +
+  facet_wrap(~crop, scales = "free") +
+  #geom_smooth(data = filter(yld_df, year <= 2010), aes(x = year, y = value)) +
+  labs(x = "", y = "area share (%)", shape = "", colour = "", fill = "", alpha = "") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_x_discrete(breaks = c(2000, 2010, 2050))  +
+  scale_alpha_discrete(range = c(0.5, 1)) +
+  scale_shape_manual(values = c(20,8)) +
+  guides(fill = "none", colour = "none") +
+  theme(legend.position = "bottom")
+
 
 
 ### EMISSIONS TARGETS
@@ -415,26 +474,25 @@ nat_emis_ciat <- bind_rows(ciat, nat_emis_proj_ciat) %>%
 
 # 2030 Values
 nat_emis_ciat_2030 <- filter(nat_emis_ciat, year == 2030) %>%
-  dplyr::select(value, variable, scenario)
+  dplyr::select(value, variable, scenario, year) %>%
+  mutate(class = "Extrapolation")
 
 # Project 2050 values: Assume same increase as between 2014 and 2030
-nat_emis_ciat_2050 <- bind_rows(
-  nat_emis_proj_ciat %>%
+nat_emis_ciat_2050 <- nat_emis_proj_ciat %>%
   group_by(scenario, variable) %>%
   mutate(index = value/value[year == 2014]) %>%
   dplyr::select(-value) %>%
   filter(year == 2030) %>%
-  left_join(nat_emis_ciat_2030) %>%
+  left_join(
+    nat_emis_ciat_2030 %>%
+      dplyr::select(-year, -class)) %>%
   mutate(value = value * index, 
          year = 2050,
          class = "Extrapolation") %>%
-  dplyr::select(-index),
-  nat_emis_proj_ciat %>%
-    filter(year == 2030) %>%
-    mutate(class = "Extrapolation"))
-  
+  dplyr::select(-index)
+
 # Combine 
-nat_emis_ciat_df <- bind_rows(nat_emis_ciat, nat_emis_ciat_2050) %>%
+nat_emis_ciat_df <- bind_rows(nat_emis_ciat, nat_emis_ciat_2030, nat_emis_ciat_2050) %>%
   mutate(scenario = factor(scenario, levels = c("historical", "mitigation", "substantial support", "BAU")))
   
 
@@ -457,8 +515,12 @@ fig_nat_emis_ciat_ns <- ggplot() +
   facet_wrap(~variable, scales = "free") +
   scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
+# clean up
+rm(base, ciat, ciat_2010, ciat_raw, indc_raw, nc2_raw, unfcc_raw, nat_emis_proj_index, nat_emis_ciat)
 
 
+### CLEAN UP
+rm(fao_hist_raw)
 
 
 
