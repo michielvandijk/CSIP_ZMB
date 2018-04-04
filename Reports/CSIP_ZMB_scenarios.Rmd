@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
   fig.width=8, fig.height=4,
   dpi = 300,
   echo=FALSE, warning=FALSE, message=FALSE,
-  fig.path = file.path(root,"Fig_tab_map/out-"))
+  fig.path = file.path(root,"Fig_tab_map/generated/out-"))
   #dev = "CairoPNG",
   #dev.args = list(CairoPNG = list(bg = "transparent"))
   
@@ -54,11 +54,11 @@ The GLOBIOM model will be modified and updated to simulate a selective number of
 The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organisations that was held in Lusaka on October 16th and 17th, 2017. At the workshop, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050.The ouput of the stakeholder workshop as well as a selection of recent policy sector and planning documents are used to design the scenarios for the modelling, which are described below.
 
 #	Business As Usual scenario
-The Business As Usual (BAU) scenario assumes that trends that are typical of recent decades will continue in the future. As such it presents the baseline to which other scenarios can be compared, for example to assess the impact of certain policies on agricultural growth. The BAU scenario describes the key drivers that shape future agricultural development. To model a business as usual (BAU) scenario for Zambia, we use the Shared Socio-economic Pathways (SSPs), which were developed as a backbone for climate change related assessments by a large consortium of researchers [@Kriegler2012; @VanVuuren2017a; @ONeill2017]. The SSPs are a set of plausible and alternative assumptions that describe potential future socio-economic development in the absence of climate policies or climate change. They consist of two elements: a narrative storyline and a quantification of key drivers, mainly population growth and economic development. Projections have global coverage and are provided at country level, including Zambia. The SSPs can be combined with assumptions on climate outcomes, the so-called representative concentration pathways (RCPs), to derive a matrix that reflects an elaborate scenario framework to assess the impact of climate change and its mitigation under a variety of socio-economic conditions [@VanVuuren2014]. 
+The Business As Usual (BAU) scenario assumes that trends that are typical of recent decades will continue in the future. As such it presents the baseline to which other scenarios can be compared, for example to assess the impact of certain policies on agricultural growth. The BAU scenario describes the key drivers that shape future agricultural development. To model a business as usual (BAU) scenario for Zambia, we use the Shared Socio-economic Pathways (SSPs), which were developed as a backbone for climate change related assessments by a large consortium of researchers [@Kriegler2012; @VanVuuren2017a; @ONeill2017a]. The SSPs are a set of plausible and alternative assumptions that describe potential future socio-economic development in the absence of climate policies or climate change. They consist of two elements: a narrative storyline and a quantification of key drivers, mainly population growth and economic development. Projections have global coverage and are provided at country level, including Zambia. The SSPs can be combined with assumptions on climate outcomes, the so-called representative concentration pathways (RCPs), to derive a matrix that reflects an elaborate scenario framework to assess the impact of climate change and its mitigation under a variety of socio-economic conditions [@VanVuuren2014]. 
 
 For the Business as Usual scenario we adopt the projections for SSP2: Middle of the Road [@Fricko2017]. The narrative of SSP2 can be summarized as follows:
 
-_"The world follows a path in which social, economic, and technological trends do not shift markedly from historical patterns. Development and income growth proceeds unevenly, with some countries making relatively good progress while others fall short of expectations. Most economies are politically stable. Globally connected markets function imperfectly. Global and national institutions work toward but make slow progress in achieving sustainable development goals, including improved living conditions and access to education, safe water, and health care. Technological development proceeds apace, but without fundamental breakthroughs. Environmental systems experience degradation, although there are some improvements and overall the intensity of resource and energy use declines. Even though fossil fuel dependency decreases slowly, there is no reluctance to use unconventional fossil resources. Global population growth is moderate and levels off in the second half of the century as a consequence of completion of the demographic transition. However, education investments are not high enough to accelerate the transition to low fertility rates in low-income countries and to rapidly slow population growth. This growth, along with income inequality that persists or improves only slowly, continuing societal stratification, and limited social cohesion, maintain challenges to reducing vulnerability to societal and environmental changes and constrain significant advances in sustainable development. These moderate development trends leave the world, on average, facing moderate challenges to mitigation and adaptation, but with significant heterogeneities across and within countries."_ [@ONeill2017].
+_"The world follows a path in which social, economic, and technological trends do not shift markedly from historical patterns. Development and income growth proceeds unevenly, with some countries making relatively good progress while others fall short of expectations. Most economies are politically stable. Globally connected markets function imperfectly. Global and national institutions work toward but make slow progress in achieving sustainable development goals, including improved living conditions and access to education, safe water, and health care. Technological development proceeds apace, but without fundamental breakthroughs. Environmental systems experience degradation, although there are some improvements and overall the intensity of resource and energy use declines. Even though fossil fuel dependency decreases slowly, there is no reluctance to use unconventional fossil resources. Global population growth is moderate and levels off in the second half of the century as a consequence of completion of the demographic transition. However, education investments are not high enough to accelerate the transition to low fertility rates in low-income countries and to rapidly slow population growth. This growth, along with income inequality that persists or improves only slowly, continuing societal stratification, and limited social cohesion, maintain challenges to reducing vulnerability to societal and environmental changes and constrain significant advances in sustainable development. These moderate development trends leave the world, on average, facing moderate challenges to mitigation and adaptation, but with significant heterogeneities across and within countries."_ [@ONeill2017a].
 
 Figure 1 depicts  historical trends and projections for GDP and population in the BAU scenario as well as two alternative SSP scenarios to assess uncertainties in future trends (see below). The scenarios describe the period from present to 2050, which is the time horizon agreed upon with the stakeholders at the inception workshop. [^1]. Assumptions on GDP growth and population growth for the rest of the world are presented in Figure A1 in the Annex. 
 
@@ -72,7 +72,7 @@ The SSPs do not include projections for crop yields and livestock feed convergen
 
 _Figure 2: Yield projections_
 
-```{r}
+```{r fig_reg_yld}
 fig_reg_yld
 ```
 
@@ -84,7 +84,7 @@ The normative scenario represents desirable future agricultural sector. The scen
 
 __Table 1: Normative scenario variables__
 ```{r Tab_norm_scen}
-tab_2 <- read_excel(file.path(root, "Fig_tab_map/tables.xlsx"), sheet = "table_2")
+tab_2 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_2")
 pander(tab_2, missing = "")
 ```
 Source: See table.
@@ -144,6 +144,14 @@ fig_lvst_ns
 Source: FAOSTAT.
 Note: Livestock includes head of cattle only.
 
+_Figure 9: Normative scenario crop diversity_
+
+```{r fig_div_ns, fig.width=8, fig.height=6}
+fig_div_ns
+```
+
+Source: FAOSTAT.
+
 
 # Policy scenarios
 At the stakeholder workshop, several climate smart agricultural strategies were discussed and ranked by the participants. The strategies covered a large number of areas. The highest ranked was "crop & livestock varieties". Table 2 presents a selection of the strategies and policy options that will be included in the scenario analysis and the goal as specified by the stakeholders. It also presents information on how we aim to model the policies in GLOBIOM. Some proposed policy options cannot be included in the analysis because they refer to markets are elements of the agricultural sector that are not modelled by GLOBIOM, e.g. "At least 60% of men, women and youth involved in agriculture belong to functioning savings groups".
@@ -153,7 +161,7 @@ In the next step, the policy scenarios will be made specific and further develop
 __Table 2: Modelling of policy scenarios with GLOBIOM__
 
 ```{r tab_pol_scen}
-tab_3 <- read_excel(file.path(root, "Fig_tab_map/tables.xlsx"), sheet = "table_3")
+tab_3 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_3")
 pander(tab_3, missing = '')
 ```
 Source: GLOBIOM team.
@@ -182,9 +190,9 @@ fig_cc_shock
 
 
 ## Socio-economic uncertainty
-To investigate the uncertainties in the socio-economic projections, we will model and compare the results of two additional but SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios. _"SSP1 with its central features of commitment to achieving development goals, increasing environmental awareness in societies around the world, and a gradual move toward less resource-intensive lifestyles, constitutes a break with recent history in which emerging economies have followed the resource-intensive development model of industrialized countries. To some extent, elements of this scenario can already be found in the proliferation of “green growth” and “green economy” strategies in industrialized and developing countries"_ [@ONeill2017]. 
+To investigate the uncertainties in the socio-economic projections, we will model and compare the results of two additional but SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios. _"SSP1 with its central features of commitment to achieving development goals, increasing environmental awareness in societies around the world, and a gradual move toward less resource-intensive lifestyles, constitutes a break with recent history in which emerging economies have followed the resource-intensive development model of industrialized countries. To some extent, elements of this scenario can already be found in the proliferation of “green growth” and “green economy” strategies in industrialized and developing countries"_ [@ONeill2017a]. 
 
-In contrast with SSP1, SSP3 describes a world that is characterized by fragmentation and sustainability is of no interest. SSP3 _"with its theme of international fragmentation and a world characterized by regional rivalry can already be seen in some of the current regional rivalries and conflicts, but contrasts with globalization trends in other areas. It is based on the assumption that these globalization trends can be reversed by a number of events_"[@ONeill2017].  
+In contrast with SSP1, SSP3 describes a world that is characterized by fragmentation and sustainability is of no interest. SSP3 _"with its theme of international fragmentation and a world characterized by regional rivalry can already be seen in some of the current regional rivalries and conflicts, but contrasts with globalization trends in other areas. It is based on the assumption that these globalization trends can be reversed by a number of events_"[@ONeill2017a].  
 
 SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socio-economic spectrum, including uncertainties related to both external (global markets and the political situation) and internal conditions. This is illustrated by Figure 1 and 3, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario. Projections for the rest of the world are provided in the Annex.
 
@@ -203,7 +211,7 @@ grid.arrange(fig_gdp, fig_pop, ncol=2)
 
 _Figure A2: Additional SSP assumptions_
 
-![](C:\Users\vandijkm\Github\CSIP_ZMB\Fig_tab_map\GLOBIOM_ssp_implentation.png)
+![](C:\Users\vandijkm\Github\CSIP_ZMB\Fig_tab_map\external\GLOBIOM_ssp_implentation.png)
 
 Source: Adapted and complemented from @Popp2017. 
 

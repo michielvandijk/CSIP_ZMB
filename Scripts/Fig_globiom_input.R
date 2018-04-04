@@ -200,19 +200,25 @@ fig_pop
 
 ### REGION SPECIFIC GDP AND POP PLOTS
 # GDP Plot
-gdp_reg_proj <- macro_proj_raw %>%
-  filter(region %in% country_sel, variable == "GDP", scenario %in% c("SSP1", "SSP2", "SSP3")) %>%
-  mutate(value = value/1000)
-
 gdp_reg_hist <- gdp_hist %>%
   filter(iso3c == "ZMB") %>%
   mutate(value = value/1000)
+
+gdp2000 <- gdp_reg_hist %>%
+  filter(year == 2000) %>%
+  dplyr::select(base2000 = value)
+
+gdp_reg_proj <- macro_proj_raw %>%
+  filter(region %in% country_sel, variable == "GDP", scenario %in% c("SSP1", "SSP2", "SSP3")) %>%
+  group_by(scenario) %>%
+  mutate(index = value/value[year == 2000],
+         value = gdp2000$base2000*index)
 
 fig_reg_gdp <- ggplot() +
   geom_line(data = gdp_reg_hist, aes(x = year, y = value), colour = "black", size = 1) +
   geom_line(data = gdp_reg_proj, aes(x = year, y = value, colour = scenario), size = 1) +
   scale_x_continuous(limits = c(1980, 2050), breaks = seq(1980, 2050, 10))  +
-  scale_y_continuous(limits = c(0, 200))  +
+  scale_y_continuous(limits = c(0, 350))  +
   scale_colour_manual(values = scen_col, name = "") +
   theme_bw() +
   labs(title = "GDP projections: 2000-2050",x = "", y = "billion USD", colour = "", linetype = "") +
