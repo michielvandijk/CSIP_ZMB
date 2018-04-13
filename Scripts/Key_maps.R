@@ -8,7 +8,7 @@
 ### PACKAGES
 if(!require(pacman)) install.packages("pacman")
 # Key packages
-p_load("tidyverse", "readxl", "stringr", "car", "scales", "RColorBrewer", "rprojroot", "ggthemes")
+p_load("tidyverse", "readxl", "stringr", "car", "scales", "RColorBrewer", "rprojroot", "ggthemes", "haven")
 # Spatial packages
 p_load("rgdal", "ggmap", "raster", "rasterVis", "rgeos", "sp", "mapproj", "maptools", "proj4", "gdalUtils", "maps")
 # Additional packages
@@ -34,7 +34,7 @@ source(file.path(root, "Scripts/Set_country.R"))
 simu <- readRDS(file.path(dataPath2, paste0("Data/", iso3c_sel, "/Processed/Maps/simu/simu_", iso3c_sel, ".rds")))
 
 # GAUL
-adm <- readRDS(file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Maps/gaul/adm_2000_", iso3c_sel, ".rds")))
+adm <- readRDS(file.path(dataPath, paste0("Data/Maps/gaul/adm1_2010_", iso3c_sel, ".rds")))
 adm_df <- adm@data %>%
   mutate(id = row.names(.))
 
@@ -217,62 +217,26 @@ ggplot() +
         axis.text = element_blank())
 
 
+### HH SURVEY MAP
+# Read data
+loc_zmb <- read_dta(file.path("P:/globiom/crop_map/data/ZMB/raw/household_surveys/2012/RALS2012/hh_part1.dta")) %>%
+  transmute(ea_id = as.character(cluster), x = E_DD, y = -S_DD) %>%
+  mutate(iso3c = "ZMB") %>%
+  unique()
 
-### LSMS MAP
-# Get location data
-# source(file.path(root, "Code/ZMB/Household_surveys/location_ZMB_2010.r"))
-# location <- location %>%
-#   group_by(lat, lon) %>%
-#   summarize(n = n()) %>%
-#   mutate(size = 1)
-# 
-# fig_LSMS <- ggplot()+
-#   #geom_raster(data = ZMB_GAEZ, aes(x = x, y = y, fill = layer)) +
-#   geom_polygon(data = adm2_for, aes(x = long, y = lat, group = group), fill = "grey", colour = "black") +
-#   geom_polygon(data =filter(adm2_for, id == 662), aes(x = long, y = lat), colour = "black", fill = "white") +
-#   geom_point(data = location, aes(x = lon, y = lat, size = size), colour = "red") +
-#   scale_size_continuous(name = "", range = c(1, 1), labels = "Enumeration areas") +
-#   #scale_fill_gradientn(colours = terrain.colors(10)) +
-#   #scale_fill_gradient(low = "light green", high = "dark green") +
-#   #scale_fill_distiller(palette = "Spectral", name = "Potential\nyield (tons/ha)") +
-#   coord_equal() +
-#   labs(x="", y="") +
-#   theme_classic() +
-#   theme(legend.position="none",
-#         line = element_blank(),
-#         axis.text = element_blank())
-# 
-# 
-# #ggsave("FigTabMap/fig_LSMS.png")
+# Remove loc outside zmb
+coordinates(loc_zmb) <- ~x + y
+crs(loc_zmb) <- crs(adm)
+loc_zmb <- crop(loc_zmb, adm) %>%
+ as.data.frame(.)
 
-# Create random enumeration areas
-ZMB_ext <- extent(adm)
-x_range <- seq(ZMB_ext@xmin, ZMB_ext@xmax, 0.1)
-y_range <- seq(ZMB_ext@ymin, ZMB_ext@ymax, 0.1)
-
-x_sample <- sample(x_range, 250, replace = T)
-y_sample <- sample(y_range, 250, replace = T)
-
-lsms_sample <- data.frame(x = x_sample, y = y_sample)
-coordinates(lsms_sample) <- ~x+y
-crs(lsms_sample) <- crs(adm)
-lsms_sample <- gIntersection(lsms_sample, adm, byid=TRUE)
-lsms_sample <- data.frame(lsms_sample)
-
-fig_lsms <- ggplot() +
-  #geom_polygon(data = wld, aes(x=long, y=lat, group=group), colour = "black", fill = "grey", alpha = 0.5) +
-  #theme(panel.border = element_rect(colour = "black", fill=NA, size=2)) +
+ggplot() +
   geom_polygon(data = adm, aes(x = long, y = lat, fill = id, group = group), colour = "black") +
-  #geom_text(data = districts, aes(x = long, y = lat, label = name), size = 2) +
-  geom_point(data = lsms_sample, aes(x = x, y = y), colour = "red") +
   scale_fill_manual(values = cols(length(adm_df$ADM1_NAME))) +
+  geom_point(data = loc_zmb, aes(x = x, y = y), colour = "black") +
   coord_equal() +
   labs(x="", y="") +
-  theme_classic() +
+  theme_void() +
   theme(legend.position="none",
         line = element_blank(),
-        axis.text = element_blank()) +
-  coord_map(xlim = c(21, 34), ylim = c(-18.5, -7.5)) 
- #+  theme(panel.border = element_rect(colour = "black", fill=NA, size=2))
-
-fig_lsms
+        axis.text = element_blank())
