@@ -516,11 +516,10 @@ fig_nat_emis_ciat_ns <- ggplot() +
   scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
 # clean up
-rm(base, ciat, ciat_2010, ciat_raw, indc_raw, nc2_raw, unfcc_raw, nat_emis_proj_index, nat_emis_ciat)
+#rm(base, ciat, ciat_2010, ciat_raw, indc_raw, nc2_raw, unfcc_raw, nat_emis_proj_index, nat_emis_ciat)
 
 
-### CLEAN UP
-rm(fao_hist_raw)
+
 
 
 
