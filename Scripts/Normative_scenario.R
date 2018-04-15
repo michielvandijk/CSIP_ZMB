@@ -41,9 +41,6 @@ source(file.path(root, "Scripts/Set_country.R"))
 
 
 ### SET FILE, SCENARIOS AND COLOURS
-# File
-globiom_file <- "a6_SSPs_Water_EFR-8_full"
-
 # Select scenarios
 scen <- c("SSP1", "SSP2", "SSP3", "SSP4", "SSP5")
 
@@ -52,25 +49,17 @@ scen <- c("SSP1", "SSP2", "SSP3", "SSP4", "SSP5")
 scen_col <- c("green" ,"blue", "red", "yellow", "brown")
 names(scen_col) <- scen 
 
-iso3c_sel <- "ZambeziReg"
+iso3c_sel <- "ZambiaReg"
 
 
 ### LOAD MAPPINGS
-# Regional mapping
-reg_map <- rgdx.set(file.path(modelPath, globiom_file), "REGION_MAP") %>%
-  rename(region = ANYREGION, country = ALLCOUNTRY)
-
-# Aggregate regional mapping
-reg_ag_map <- rgdx.set(file.path(modelPath, globiom_file), "REGION_AG_MAP") %>%
-  rename(region = ANYREGION, ag_region = REGION_AG)
-
 # short_name to GLOBIOM crops
 crop_lvst2ALLPRODUCT <- read_excel(file.path(dataPath, "Data/mappings/GLOBIOM_mappings.xlsx"), sheet = "crop_lvst2globiom")
 
 
 ### LOAD DATA
 # Historical FAO data
-fao_hist_raw <- rgdx.param(file.path(GLOBIOMPath, "/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
+fao_hist_raw <- rgdx.param(file.path(dataPath, "Data/Historical/OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
   transmute(variable = factor(toupper(VAR_ID)), unit = VAR_UNIT, country = ANYREGION, crop = .i4, 
             year = as.integer(as.character(ALLYEAR)), value = OUTPUT_Country, 
             iso3c = countrycode(country, "country.name", "iso3c"))

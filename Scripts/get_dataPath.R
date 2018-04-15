@@ -27,6 +27,24 @@ if(Sys.info()["user"] == "vandijkm") {
 if(Sys.info()["user"] == "vandijkm") {
   GLOBIOMPath <- "P:\\GLOBIOM"}
 
+
+# Michiel WECR
+if(Sys.info()["user"] == "dijk158") {
+  dataPath <- "D:/OneDrive - IIASA/Projects/CSIP_ZMB"}
+
+if(Sys.info()["user"] == "dijk158") {
+  countryPath <- "P:/Globiom/crop_map/data/ZMB/processed/2010"}
+
+if(Sys.info()["user"] == "dijk158") {
+  modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
+
+if(Sys.info()["user"] == "dijk158") {
+  GAMSPath <- "C:/Program Files/GAMS/win64/24.6"}
+
+if(Sys.info()["user"] == "vandijkm") {
+  GLOBIOMPath <- "P:\\GLOBIOM"}
+
+
 # Amanda IIASA:
 if(Sys.info()["user"] == "palazzo") {
   dataPath <- "P:/Globiom/Projects/CSIP_ZMB"}

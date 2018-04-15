@@ -41,12 +41,10 @@ country_sel <- "Zambia"
 
 
 ### SOURCE NORMATIVE SCENARIOS
-source(file.path(root, "Scripts/normative_scenario.r"))
+#source(file.path(root, "Scripts/normative_scenario.r"))
 
 
 ### SET FILE, SCENARIOS AND COLOURS
-# File
-globiom_file <- "/GLOBIOM/results/20180417 2nd workshop/output_CSIP_ZMB_all"
 
 # Select scenarios
 scen <- c("SSP1", "SSP2", "SSP3", "SSP4", "SSP5")
@@ -58,23 +56,164 @@ names(scen_col) <- scen
 
 ### LOAD RAW DATA AND MAPPINGS
 # Historical FAO data
-fao_hist_raw <- rgdx.param("P:/globiom/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx", "OUTPUT_Country", compress = T) %>%
+fao_hist_raw <- rgdx.param(file.path(dataPath, "Data/Historical/OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
   transmute(variable = factor(toupper(VAR_ID)), unit = VAR_UNIT, country = ANYREGION, crop = .i4, 
             year = as.integer(as.character(ALLYEAR)), value = OUTPUT_Country, 
             iso3c = countrycode(country, "country.name", "iso3c"))
 
 account_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "Account")
 
-# Calories
-output_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "OUTPUT") %>%
-  setNames(c("option", "variable", "unit", "ANYREGION", "item", "scenario", "bioscen", "enscen", "year", "value")) %>%
-  droplevels()
+# GLOBIOM
+# Scenario definitions
+scen_def <- read_excel(file.path(dataPath, "/GLOBIOM/results/20180417 2nd workshop/scenario_def.xlsx"))
 
-# Prices
-price_proj_raw <- rgdx.param(file.path(dataPath, globiom_file), "PRICE_COMPARE2") %>%
-  droplevels()
+# File
+globiom_file <- "/GLOBIOM/results/20180417 2nd workshop/output_CSIP_ZMB_all_14apr18"
 
+#globiom_raw <- rgdx.param(file.path(dataPath, globiom_file), "OUTPUT") %>%
+  setNames(c("scenario", "variable", "unit", "ANYREGION", "item", "ssp", "bioscen", "enscen", "year", "value")) %>%
+  filter(ANYREGION == "ZambiaReg") %>%
+  droplevels()
+  
+#saveRDS(globiom_raw, file.path(root, paste0("Cache/globiom_raw_", Sys.Date(), ".rds")))
+globiom_raw <- readRDS(file.path(root, paste0("Cache/globiom_raw_2018-04-14.rds"))) 
+
+# LC Map
 lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "LC_TYPE")
+
+
+### PROCESS RAW DATA
+# Add scenario definitions
+globiom <- globiom_raw %>%
+  mutate(scenario = gsub("-", "_", scenario),
+         year = as.integer(as.character(year))) 
+
+# Check for missing 2010 values
+check2010 <- globiom %>%
+  arrange(variable, scenario, item, unit, ssp, bioscen, year) %>%
+  group_by(variable, scenario, item, unit, ssp, bioscen) %>%
+  filter(!any(year==2010))
+
+# # Remove series with missing values in 2010
+globiom <- globiom %>%
+  arrange(variable, scenario, item, unit, ssp, bioscen, year) %>%
+  group_by(variable, scenario, item, unit, ssp, bioscen) %>%
+  filter(any(year==2010))
+xtabs(~item + variable, data = globiom)
+
+# Add growth
+globiom <- globiom %>%
+  group_by(variable, scenario, item, unit, ssp, bioscen) %>%
+  mutate(
+    index = value/value[year == 2010],
+    growth = (index-1)*100)
+
+# Add scenario definition
+globiom <- globiom %>% 
+  left_join(., scen_def)
+
+### YIELD
+# Selected crops
+crops_sel <- c("Corn")
+
+# # Historical
+# yld_hist <- fao_hist_raw %>%
+#   filter(country == "Zambia", 
+#          variable == "YILD",
+#          crop %in% crops_sel) %>%
+#   mutate(scenario = "Historical") 
+
+# projections
+yld_proj <- globiom %>%
+  filter(item %in% crops_sel, variable == "YIRF", unit == "fm t/ha") %>%
+  filter(year %in% c(2010, 2050)) 
+
+yld_proj_df <- bind_rows(
+  filter(yld_proj, scen_def == "Baseline", year == 2010) %>% 
+    mutate(option = "2010"), 
+  filter(yld_proj, option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50"), 
+         ssp == "SSP2", trade == "none", rcp != "2p6", year == 2050)) %>%
+  group_by(option) %>%
+  mutate(min_val = min(value),
+         max_val = max(value)) %>%
+  filter(gcm == "nocc") %>%
+  ungroup()
+
+ggplot(data = yld_projX) +
+  geom_col(aes(x = option, y = value, fill = scenario, colour = scenario)) +
+  geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+  guides(fill=F, colour = F) +
+  labs(x = "")
+
+
+### EMISSIONS
+emis_proj <- globiom %>%
+  filter(variable == "EMIS") %>%
+  filter(year %in% c(2010, 2050)) 
+
+emis_proj_df <- bind_rows(
+  filter(emis_proj, scen_def == "Baseline", year == 2010) %>% 
+    mutate(option = "2010"), 
+  filter(emis_proj, option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50"), 
+         ssp == "SSP2", trade == "none", rcp != "2p6", year == 2050)) %>%
+  group_by(option, item) %>%
+  mutate(min_val = min(value),
+         max_val = max(value)) %>%
+  filter(gcm == "nocc") %>%
+  ungroup()
+
+ggplot(data = emis_proj_df) +
+  geom_col(aes(x = option, y = value, fill = scenario, colour = scenario)) +
+  geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+  guides(fill=F, colour = F) +
+  labs(x = "") +
+  facet_wrap(~item, scales = "free")
+
+ggplot(data = emis_proj_df) +
+  geom_col(aes(x = option, y = value, fill = scenario, colour = scenario)) +
+  geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+  guides(fill=F, colour = F) +
+  labs(x = "") +
+  facet_wrap(~item, scales = "free")
+
+
+
+# # base year
+# yld_base_2000 <- yld_reg_hist %>%
+#   filter(year == 2000) %>%
+#   rename(base2000 = value) %>%
+#   dplyr::select(-year, -scenario)
+# 
+# # Add index = 1 for 2000
+# yld_reg_proj_2000 <- expand.grid(scenario = unique(yld_reg_proj$scenario), crop = unique(yld_reg_proj$crop), year = 2000) %>%
+#   mutate(growth = 1,
+#          year = as.integer(as.character(year)))
+# 
+# # Create t/ha series
+# yld_reg_proj <- bind_rows(yld_reg_proj_2000, yld_reg_proj) %>%
+#   left_join(yld_base_2000) %>%
+#   mutate(value = base2000*growth) %>%
+#   dplyr::select(-base2000) %>%
+#   filter(scenario %in% c("SSP1", "SSP2", "SSP3"))
+
+# Plot
+ggplot() +
+  #geom_line(data = filter(yld_reg_hist, year <= 2000), aes(x = year, y = value, colour = crop), size = 1) +
+  geom_line(data = yld_proj, aes(x = year, y = value, colour = item, linetype = scenario), size = 1) +
+  scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10))
+  scale_y_continuous(limits = c(0, 7.5))  +
+  scale_colour_discrete(breaks = crops_sel,
+                        labels= crops_label) +
+  scale_linetype_manual(values = c("dashed", "solid", "dotdash")) + 
+  theme_bw() +
+  labs(x = "", y = "tons/ha", colour = "", linetype = "") +
+  geom_vline(xintercept = 2000, linetype = "dashed") +
+  theme(panel.grid.minor = element_blank()) +
+  #guides(linetype = "none") +
+  theme(legend.position="bottom") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  
+
 
 
 
@@ -90,17 +229,12 @@ prod_hist <- fao_hist_raw %>%
   mutate(scenario = "Historical")
 
 # Projections
-prod_proj <- output_proj_raw %>% 
-  mutate(year = as.integer(as.character(year)),
-         value = value) %>%
-  filter(variable == "Prod", unit == '1000 t', ANYREGION == "ZambiaReg", item %in% crop_globiom,  
-  option == "output_CSIP_ZMB-1")
+prod_proj <- globiom %>% 
+  filter(variable == "Prod", unit == '1000 t', item %in% crop_globiom,  
+  scenario == "output_CSIP_ZMB_1")
 
-#  group_by(year, scenario) %>%
-#  summarize(value = sum(value, na.rm = T)) 
-
-fig_prod <- ggplot() +
-  geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
+ggplot() +
+  #geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
   geom_col(data = prod_proj, aes(x = year, y = value, fill = item)) +
   scale_x_continuous(limits = c(1960, 2059), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 20000))  +
@@ -123,23 +257,21 @@ lvst_raw <- read_csv(file.path(dataPath, "Data/ZMB/Processed/Agricultural_statis
 
 lvst_hist_2 <- lvst_raw %>%
   mutate(scenario = "Historical",
-         value = value/1000) %>%
+         value = value/1000*0.5) %>%
   rename(item = short_name) %>%
   filter(item == "catt",
          year %in% c(1960, 1970, 1980, 1990, 2000, 2010))
 
 # Projections
-lvst_proj <- output_proj_raw %>% 
-  mutate(year = as.integer(as.character(year)),
-         value = value) %>%
-  filter(ANYREGION == "ZambiaReg", item %in% lvst_globiom,  
-         option == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
-  group_by(option, scenario, year) %>%
+lvst_proj <- globiom %>% 
+  filter(item %in% lvst_globiom,  
+         scenario == "output_CSIP_ZMB_1", year %in% c(2000:2050)) %>%
+  group_by(scenario, scenario, year) %>%
   summarize(value = sum(value)) %>%
   mutate(item = "catt")
 
 
-fig_lvst <- ggplot() +
+ggplot() +
   geom_col(data = lvst_hist_2, aes(x = year, y = value, fill = scenario)) +
   geom_col(data = lvst_proj, aes(x = year, y = value, fill = scenario)) +
   scale_x_continuous(limits = c(1960, 2059), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
