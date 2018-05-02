@@ -11,51 +11,32 @@
 # statement. Then add your dataPath within 
 # the {} brackets
 
+# GLOBIOM File
+globiom_file <- "output_CSIP_ZMB_all_15apr18"
+
 # Michiel IIASA
 if(Sys.info()["user"] == "vandijkm") {
-  dataPath <- "P:/Globiom/Projects/CSIP_ZMB"}
+  projectPath <- "P:/Globiom/Projects/CSIP_ZMB"}
 
 if(Sys.info()["user"] == "vandijkm") {
-  countryPath <- "P:/Globiom/crop_map/data/ZMB/processed/2010"}
+  dataPath <- "P:/Globiom/crop_map"}
 
 if(Sys.info()["user"] == "vandijkm") {
-  modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
+  GLOBIOMPath <- "P:/Globiom"}
 
 if(Sys.info()["user"] == "vandijkm") {
   GAMSPath <- "C:\\GAMS\\win64\\24.9"}
 
-if(Sys.info()["user"] == "vandijkm") {
-  GLOBIOMPath <- "P:\\GLOBIOM"}
-
-
-# Michiel WECR
-if(Sys.info()["user"] == "dijk158") {
-  dataPath <- "D:/OneDrive - IIASA/Projects/CSIP_ZMB"}
-
-if(Sys.info()["user"] == "dijk158") {
-  countryPath <- "P:/Globiom/crop_map/data/ZMB/processed/2010"}
-
-if(Sys.info()["user"] == "dijk158") {
-  modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
-
-if(Sys.info()["user"] == "dijk158") {
-  GAMSPath <- "C:/Program Files/GAMS/win64/24.6"}
-
-if(Sys.info()["user"] == "vandijkm") {
-  GLOBIOMPath <- "P:\\GLOBIOM"}
-
 
 # Amanda IIASA:
 if(Sys.info()["user"] == "palazzo") {
-  dataPath <- "P:/Globiom/Projects/CSIP_ZMB"}
+  projectPath <- "P:/Globiom/Projects/CSIP_ZMB"}
 
 if(Sys.info()["user"] == "vandijkm") {
-  countryPath <- "P:/Globiom/crop_map/data/ZMB/processed/2010"}
-
-if(Sys.info()["user"] == "palazzo") {
-  modelPath <- "P:/globiom/Projects/ISWEL/Zambezi/gdx"}
+  dataPath <- "P:/Globiom/crop_map"}
 
 if(Sys.info()["user"] == "palazzo") {
   GAMSPath <- "C:\\GAMS\\win64\\24.4"}
 
-
+if(Sys.info()["user"] == "palazzo") {
+  GLOBIOMPath <- "P:/Globiom"}

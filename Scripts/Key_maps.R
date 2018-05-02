@@ -18,28 +18,28 @@ p_load("quickPlot", "classInt", "countrycode", "viridis")
 ### DETERMINE ROOT PATH
 root <- find_root(is_rstudio_project)
 
+
 ### SET DATAPATH
-source(file.path(root, "Scripts/get_dataPath.r"))
+source(file.path(root, "Scripts/support/get_dataPath.r"))
+
 
 ### R SETTINGS
 options(scipen=999) # surpress scientific notation
 options("stringsAsFactors"=FALSE) # ensures that characterdata that is loaded (e.g. csv) is not turned into factors
 options(digits=4)
 
+
 ### SET COUNTRY
 source(file.path(root, "Scripts/Set_country.R"))
 
 ### LOAD DATA
-# Simu
-simu <- readRDS(file.path(dataPath2, paste0("Data/", iso3c_sel, "/Processed/Maps/simu/simu_", iso3c_sel, ".rds")))
-
 # GAUL
-adm <- readRDS(file.path(dataPath, paste0("Data/Maps/gaul/adm1_2010_", iso3c_sel, ".rds")))
+adm <- readRDS(file.path(dataPath, "Data/ZMB/Processed/2010/Maps/gaul/adm_2010_ZMB.rds"))
 adm_df <- adm@data %>%
   mutate(id = row.names(.))
 
 # land cover
-esa <- readRDS(file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Maps/ESA_", iso3c_sel, "_2000.rds")))
+esa <- readRDS(file.path(dataPath, "Data/ZMB/Processed/2010/Maps/ESA_2010_MWI.rds"))
 
 # Irrigation
 gmia <- raster(file.path(dataPath, paste0("Data/", iso3c_sel, "/Processed/Maps/gmia/gmia_30sec_", iso3c_sel, ".tif")))
