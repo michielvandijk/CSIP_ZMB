@@ -1,0 +1,115 @@
+---
+title: "Zambia CSIP"
+author: "Michiel van Dijk & Amanda Palazzo"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  word_document:
+    reference_docx: ../Support/word_styles_01.docx
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+library(readxl)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=12, fig.height=8,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  fig.path = file.path(root,"Fig_tab_map/out-"),
+  dev = "CairoPNG",
+  dev.args = list(CairoPNG = list(bg = "transparent"))
+  )
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+```
+
+# Notes
+
+World Bank (2009) p. 17 states that upstream irrigation in the Kafue flats can pose a problem for irrigation and hydropower development downstream.
+
+
+# @Arslan2013 note 13 argues that in the Northern region a form of shifting cultivation is used (Chitemene). This migh explain part of the reason why we find a relative very large crop cover area in comparison to harvested area (https://en.wikipedia.org/wiki/Chitemene)
+(https://thezambian.com/2005/02/26/chitemene-fundikila-and-hybrid-farming/)
+
+
+# Overview of CSA modelling
+ - IMPACT: see CSA profile
+ - Thurlow
+ -?
+ 
+ 
+
+# Climate Smart Agriculture strategies
+
+## Conservation agriculture
+Conservation agriculture (CA) is build on three principles of agricultural management: (1) minimum mechanical soil disturbance, (2) crop rotation and (3) permanent organic soil cover [see @Arslan2013 for more info and references]. 
+
+Conservation agriculture as practiced in Zambia has a specific interpretation involving five principal practices [@Haggblade2003, @Arslan2013]
+
+(1) reduced tillage on no more than 15% of the field area without soil inversion, (2) precise digging of permanent planting basins or ripping of soil with a Magoye ripper (the latter where draft animals are available), (3) leaving of crop residues on the field (no burning), (4) rotation of cereals with legumes and (5) dry season land preparation (CFU 2007).
+
+CA has a long tradition in Zambia. Since 1985, CA has been promoted in Zambia as a solution to low agricultural productivity caused by intensive tillage, lack of soil cover and burning of crop residue [Ref @Baudron]. 
+
+Adoption of CA in Zambia is constraint by a number of factors [@Arslan2013]:
+Credit constraints as initial investment costs are high and benefits are usually realized after around four years. CA also demand additional labor inout for land preparation and weeding (although labour is saved for tillage activties) when it is implemented without pesticides (the common approach). This is regarded as the main barrier to adoption in Zambia. Maintaining permanent soil cover can also be costly as it demands access to seeds and cannot be used for other purposes such as livestock feed and fuel. 
+
+@Giller2009 provides and in-depth discussion on CA and argues that adoption and benefits are very site-specific and their are limited short-run gains. This probably explains the limited adoption of CA in Sub-Saharan Africa.
+
+@Arslan2013 cite a figure of 170.000 farmers who adopted CA in Zambia in the year 2011. @Ngoma2014 has trend of CA users based on CSO while @Zulu-Mbata2016 has figures based on 2012 and 2015 RALs. These numbers are much lower.
+
+
+
+
+
+
+FAO CSA strategy
+- p40 cost data
+- p40 analysis of GHG emissions reduction => HOW DONE?
+
+
+## Agro-forestry
+FAO CSA strategy p40: "The estimation of mitigation from agroforestry systems has considerably lower levels of uncertainty, and higher levels of per hectare potential. While different agroforestry systems were identified in their differential results, all systems have strongly positive mitigation impacts that mostly range between the annual sequestration of 5 to 15 t CO2 per hectare." Agro-forestry only reaches potential after 20 years!
+
+
+p. 44: "some forms of minimum soil disturbance and agroforestry, require significantly higher amounts of labour inputs and this constitutes a barrier."
+
+
+## Adoption of drought resistant varieties
+
+
+## Increase in irrigated area
+
+
+## Deforestation
+FAO CSA: p. 48 CGE analysis results to avoid deforestation. Key driver is charcoal production
+
+## Diversify crops to include oil seeds
+
+## Diversification of the livestock base
+
+
+## Investment in rural public infrastructure /roads to facilitate small-holder farmers access to markets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
