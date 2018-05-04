@@ -79,6 +79,7 @@ _Figure X: Yield_
 
 ```{r fig_opt_yld}
 fig_opt_yld
+fig_opt_yld_dif
 ```
 
 
@@ -86,6 +87,7 @@ _Figure X: Emissions_
 
 ```{r fig_opt_emis}
 fig_opt_emis
+fig_opt_emis_dif
 ```
 
 
@@ -93,6 +95,7 @@ _Figure X: Land_
 
 ```{r fig_opt_land}
 fig_opt_land
+fig_opt_land_dif
 ```
 
 
@@ -100,6 +103,7 @@ _Figure X: Price_
 
 ```{r fig_opt_price}
 fig_opt_price
+fig_opt_price_dif
 ```
 
 
@@ -107,12 +111,16 @@ _Figure X: Trade_
 
 ```{r fig_opt_trade}
 fig_opt_trade
+fig_opt_trade_dif
 ```
 
 _Figure X: Livestock_
 
 ```{r fig_opt_lvst}
-fig_opt_lvst
+fig_opt_lvst1
+fig_opt_lvst_dif1
+fig_opt_lvst2
+fig_opt_lvst_dif2
 ```
 
 
@@ -120,4 +128,14 @@ _Figure X: Consumption_
 
 ```{r fig_opt_cons}
 fig_opt_cons
+fig_opt_cons_dif
+```
+
+
+
+_Figure X: Production_
+
+```{r fig_opt_prod}
+fig_opt_prod
+fig_opt_prod_dif
 ```
