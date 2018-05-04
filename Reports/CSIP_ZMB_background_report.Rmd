@@ -141,17 +141,17 @@ The normative scenario represents desirable future agricultural sector. The scen
 
 _Figure 3: Normative scenario yield projections_
 
-```{r fig_yld_ns, fig.width=8, fig.height=6}
-fig_yld_ns
+```{r fig_yld_vis, fig.width=8, fig.height=6}
+fig_yld_vis
 ```
 
 Source: FAOSTAT and table 2.
 
 _Figure 4: Normative scenario irrigation projections_
 
-```{r fig_ir_ns}
+```{r fig_ir_vis}
 library(gridExtra)
-grid.arrange(fig_ir_type, fig_ir_crop, ncol=2)
+grid.arrange(fig_ir_type_vis, fig_ir_crop_vis, ncol=2)
 ```
 
 Source: AQUASTAT and table 2.
@@ -159,8 +159,8 @@ Note: Full control irrigation is the sum of (i) surface irrigation, (ii) sprinkl
 
 _Figure 5: Normative scenario crops export projections_
 
-```{r fig_expo_ns}
-fig_expo_ns
+```{r fig_expo_vis}
+fig_expo_vis
 ```
 
 Source: FAOSTAT and table 2.
@@ -168,8 +168,8 @@ Source: FAOSTAT and table 2.
 
 _Figure 6: Normative scenario Agricultural area projections_
 
-```{r fig_land_ns}
-fig_land_ns
+```{r fig_land_vis}
+fig_land_vis
 ```
 
 Source: FAOSTAT
@@ -177,16 +177,16 @@ Source: FAOSTAT
 
 _Figure 7: Normative scenario GHG emissions projections_
 
-```{r fig_emis_ns}
-fig_nat_emis_ciat_ns
+```{r fig_emis_vis}
+fig_nat_emis_ciat_vis
 ```
 Source: Zambia INDC, Zambia National Communication 2.
 Note: Reported values scaled to FAOSTAT historical emissions and projected to 2050.
 
 _Figure 8: Normative scenario livestock projections_
 
-```{r fig_lvst_ns}
-fig_lvst_ns
+```{r fig_lvst_vis}
+fig_lvst_vis
 ```
 
 Source: FAOSTAT.
@@ -194,8 +194,8 @@ Note: Livestock includes head of cattle only.
 
 _Figure 9: Normative scenario crop diversity_
 
-```{r fig_div_ns, fig.width=8, fig.height=6}
-fig_div_ns
+```{r fig_div_vis, fig.width=8, fig.height=6}
+fig_div_vis
 ```
 
 Source: FAOSTAT.

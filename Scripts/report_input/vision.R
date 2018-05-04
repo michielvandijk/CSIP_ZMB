@@ -290,7 +290,6 @@ lvst_hist <- lvst_raw %>%
 # vision
 catt_fact <- vision$number[vision$variable == "catt"]
 smru_fact <- vision$parameter[vision$variable == "smru"]
-smru_factx = lvst_hist$value[lvst_hist$short_name == "smru" & lvst_hist$year == 2014] * smru_fact
 
 lvst_proj <- bind_rows(
   lvst_hist %>%
