@@ -48,3 +48,45 @@ fig_adm1
 ```
 
 
+# Normative scenario
+
+
+__Table 1: Normative scenario variables__
+```{r Tab_norm_scen}
+tab_2 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_2")
+pander(tab_2, missing = "")
+```
+Source: See table.
+
+
+# Global drivers
+
+_Figure A1: Global GDP and Population projections_
+
+```{r fig_pop_gdp_glob}
+library(gridExtra)
+grid.arrange(fig_gdp, fig_pop, ncol=2)
+```
+
+_Figure A2: Additional SSP assumptions_
+
+![](C:\Users\vandijkm\Github\CSIP_ZMB\Fig_tab_map\external\GLOBIOM_ssp_implentation.png)
+
+Source: Adapted and complemented from @Popp2017. 
+
+
+
+
+## Policy options/mitigations options/participatory scenarios
+The scenarios and policy options are developed using a participatory approach. Two workshops have been organised that involved stakeholders from various Ministries, NGOs, policy think tanks and international organisations.[1] During the first stakeholder workshop, the main drivers were discussed and different policy options were proposed to address climate smart agriculture in Zambia. At the second workshop, the results were validated and additional scenarios were proposed. [@ADD]
+
+[1]: Stakeholder workshops took plat at X October, 2017 and 15 December, 2017 in Lusaka, Zambia.
+
+
+```{r Tab_scenario_overview}
+tab_1 <- read_excel(file.path(root, "Fig_tab_map/Table_X_scenario_overview.xlsx"))
+pander(tab_1)
+```
+Source: based on @ONeill2017.
+
+

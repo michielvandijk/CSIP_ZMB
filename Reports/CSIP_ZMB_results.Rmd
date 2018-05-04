@@ -1,0 +1,43 @@
+---
+title: "Zambia CSIP results"
+author: "Michiel van Dijk, Amanda Palazzo and Petr Havlik"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  word_document:
+    reference_docx: ../Support/word_styles_01.docx
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+library(readxl)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+source(file.path(root, "Scripts/support/get_dataPath.r"))
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=12, fig.height=8,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  #fig.path = file.path(root,"Fig_tab_map/out-"),
+  fig.path = file.path(projectPath, paste0("GLOBIOM/Results/", globiom_file, "/out-")))
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+source(file.path(root, "Scripts/report_input/vision.R"))
+#source(file.path(root, "Scripts/report_input/results.R"))
+```
+
+
+_Figure 4: Normative scenario irrigation projections_
+
+```{r fig_ir_ns}
+library(gridExtra)
+grid.arrange(fig_ir_type, fig_ir_crop, ncol=2)
+```
