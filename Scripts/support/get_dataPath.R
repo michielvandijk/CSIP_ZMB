@@ -39,8 +39,4 @@ if(Sys.info()["user"] == "palazzo") {
   GAMSPath <- "C:\\GAMS\\win64\\24.4"}
 
 if(Sys.info()["user"] == "palazzo") {
-<<<<<<< HEAD:Scripts/get_dataPath.R
-  GLOBIOMPath <- "P:\\GLOBIOM"}
-=======
   GLOBIOMPath <- "P:/Globiom"}
->>>>>>> eefb7e27d95dccfbdc6a88552b09ea277a0e4502:Scripts/support/get_dataPath.R
