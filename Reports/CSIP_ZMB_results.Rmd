@@ -32,9 +32,10 @@ panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
 
 source(file.path(root, "Scripts/report_input/results_bau.R"))
-#source(file.path(root, "Scripts/report_input/results_options.R"))
+source(file.path(root, "Scripts/report_input/results_options.R"))
 ```
 
+# Baseline scenario
 
 _Figure X: BAU crop production_
 
@@ -71,3 +72,52 @@ _Figure X: BAU Calorie availability_
 fig_bau_cal
 ```
 
+
+# Comparison of technology options
+
+_Figure X: Yield_
+
+```{r fig_opt_yld}
+fig_opt_yld
+```
+
+
+_Figure X: Emissions_
+
+```{r fig_opt_emis}
+fig_opt_emis
+```
+
+
+_Figure X: Land_
+
+```{r fig_opt_land}
+fig_opt_land
+```
+
+
+_Figure X: Price_
+
+```{r fig_opt_price}
+fig_opt_price
+```
+
+
+_Figure X: Trade_
+
+```{r fig_opt_trade}
+fig_opt_trade
+```
+
+_Figure X: Livestock_
+
+```{r fig_opt_lvst}
+fig_opt_lvst
+```
+
+
+_Figure X: Consumption_
+
+```{r fig_opt_cons}
+fig_opt_cons
+```
