@@ -30,14 +30,44 @@ panderOptions('table.alignment.default', function(df)
 panderOptions('table.split.table', Inf)
 panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
-source(file.path(root, "Scripts/report_input/vision.R"))
-#source(file.path(root, "Scripts/report_input/results.R"))
+
+source(file.path(root, "Scripts/report_input/results_bau.R"))
+#source(file.path(root, "Scripts/report_input/results_options.R"))
 ```
 
 
-_Figure 4: Normative scenario irrigation projections_
+_Figure X: BAU crop production_
 
-```{r fig_ir_ns}
-library(gridExtra)
-grid.arrange(fig_ir_type, fig_ir_crop, ncol=2)
+```{r fig_bau_crop_prod}
+fig_bau_crop_prod
 ```
+
+
+_Figure X: BAU yield_
+
+```{r fig_bau_yld}
+fig_bau_yld
+```
+
+
+
+_Figure X: BAU lvst_
+
+```{r fig_bau_lvst}
+fig_bau_lvst
+```
+
+
+_Figure X: BAU Emissions_
+
+```{r fig_bau_emis}
+#fig_bau_emis
+```
+
+
+_Figure X: BAU Calorie availability_
+
+```{r fig_bau_cal}
+fig_bau_cal
+```
+
