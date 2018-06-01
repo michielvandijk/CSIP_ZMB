@@ -1,0 +1,78 @@
+---
+title: "Zambia CSIP"
+author: "Michiel van Dijk"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=8, fig.height=6,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  fig.path = file.path(root,"Fig_tab_map/generated/out-"))
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+source(file.path(root, "Scripts/report_input/csa_options.R"))
+```
+
+
+# Note
+
+CSA adoption scenarios for the period 2015-2050. 2015 values are based on RALS and supplied by Nick Sitko. 2050 values are based on outcomes of the CSIP 2nd scenario workshop. Diffusion curves are non-parametrically constructed using start and end year values combined with the general functional form of a generalised logistic function with a mid point of 2035 and a growth rate of between 0.3 and 0.4.
+
+An annex is attached which includes the depicted values for each CSA practice for further use.
+
+\newpage
+_Conservation agriculture_
+
+```{r}
+fig_ca_proj
+```
+
+\newpage
+_Minimum soil disturbance_
+
+```{r}
+fig_msd_proj
+```
+
+\newpage
+_Crop rotation_
+
+```{r}
+fig_cr_proj
+```
+
+\newpage
+_Residue retention_
+
+```{r}
+fig_rr_proj
+```
+
+\newpage
+_Agro-forestry_
+
+```{r}
+fig_af_proj
+```
+
+
+\newpage
+_Drought tolerant maize_
+
+```{r}
+fig_dtm_proj
+```
