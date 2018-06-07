@@ -240,21 +240,24 @@ rm(expo_df, trade_raw, expo_fact, expo_hist, expo_proj)
 # Historical
 land_hist <- land_raw %>%
   na.omit %>%
-  filter(item %in% c("permanent crops", "arable land", "permanent meadows and pastures")) %>%
+  # filter(item %in% c("permanent crops", "arable land", "permanent meadows and pastures")) %>%
+  filter(item %in% c("arable land")) %>%
   mutate(scenario = "Historical") %>%
   filter(year >= 2000) 
 
 # Vision
-land_fact <- vision$parameter[vision$variable == "land"]
+land_fact <- vision$number[vision$variable == "land"]/1000
+land_2050 <- land_hist$value[land_hist$year == 2014] + land_fact
 
 land_proj <- land_hist %>%
   filter(year %in% c(2012, 2013, 2014)) %>%
+  filter(item == "arable land") %>%
   group_by(unit, item) %>%
   summarize(value = mean(value, na.rm = T)) %>%
   ungroup() %>%
   mutate(scenario = "projection",
          year = 2050,
-         value = value * land_fact,
+         value = ifelse(item == "arable land" & year == 2050, land_2050, value),
          variable = "AREA")
 
 land_df <- bind_rows(land_proj, data.frame(year = 2015, value = 0, scenario = "Historical", item = "arable land")) %>%
@@ -264,11 +267,11 @@ land_df <- bind_rows(land_proj, data.frame(year = 2015, value = 0, scenario = "H
 y_ul_land <- sum(land_proj$value) * 1.05
 
 fig_land_vis <- ggplot() +
-  geom_area(data = land_hist, aes(x = year, y = value, fill = item), colour = "black", position = "stack") +
-  geom_col(data = land_df, aes(x = year, y = value, fill = item), colour = "black") +
+  geom_area(data = land_hist, aes(x = year, y = value), fill = "dark green", colour = "black", position = "stack") +
+  geom_col(data = land_df, aes(x = year, y = value), fill = "dark green", colour = "black") +
   theme_bw() +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_land)) +
-  labs(x = "", y ="agricultural area (1000 ha)", fill = "",
+  labs(x = "", y ="area (1000 ha)", fill = "",
        title = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +

@@ -1,0 +1,49 @@
+---
+title: "Impact of climate change on yield in Zambia"
+author: "Michiel van Dijk (IIASA)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: pdf_document
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=10, fig.height=4,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  fig.path = file.path(root,"Fig_tab_map/generated/out-"))
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+source(file.path(root, "Scripts/report_input/yecc.R"))
+```
+
+
+# Note
+
+To analyse the impact of climate change We will conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change (including rainfall and temperature change but excluding pests and diseases) on crop yields. We combine the outputs of five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5A-LR, GFDL-ESM2M, MIROC-ESM_CHEM and NorESM1-M with two crop models: EPIC and LPJmL to obtain a bandwidth for changes in yield as a consequence of uncertainty related to climate change and differences in crop models. Simulations are conducted at a 200x200 grid for 15 crops and four RCPs: rcp2p6, rcp4p5, rcp6p0 and rcp8p5, developed for the IPCC’s Fifth Assessment Report. The rcp8p5 is the most extreme climate scenario [@Riahi2011].
+
+_Comparison of climate change yield impact across crops and crop models in Zambia_
+
+```{r}
+fig_yecc
+```
+
+Note: RCP8.5 climate scenario without CO2 fertilization. Subsistence farming only. Weighted average over 200x200 grid using 2000 crop area from SPAM.
+
+The figure shows the average crop yield change between 2010 and 2050 for Zambia as a consequence of climate change for a range of crops that are grown by subsistence farmers. Similar information is available for three other systems: irrigation, high input and low input (not depicted). The figure illustrates large differences between GCMs and crop models. In particularly striking is the near zero impact of climate change on corn yield presented by the EPIC model, which is in contrast to other studies that find a negative impact of around 10%-20% for corn [@Jones2003a; @Schlenker2010; @Knox2012b]. The LPJmL models seems to provide yield shocks that are in line with the literature. Also for beans (BeaD) and cassava (Cass) differences between the models are large.
+
+An annex is attached which includes the average national climate change yield shocks (yecc) by crop, farming system, RCP, GCM, crop model and period for further use.
+
+# References
+
