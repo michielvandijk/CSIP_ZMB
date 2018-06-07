@@ -16,7 +16,7 @@ root <- find_root(is_rstudio_project)
 
 p_load(knitr)
 knitr::opts_chunk$set(
-  fig.width=12, fig.height=8,
+  fig.width=8, fig.height=6,
   dpi = 300,
   echo=FALSE, warning=FALSE, message=FALSE,
   fig.path = file.path(root,"Fig_tab_map/generated/out-"))
@@ -39,9 +39,6 @@ source(file.path(root, "Scripts/report_input/csa_options.R"))
 ```
 
 # Executive summary/Abstract
-# TO DO
-- add AEZ map and combine with simu => read from GLOBIOM data
-- add rivers and lakes to maps
 
 
 # Introduction
@@ -52,16 +49,16 @@ At present the agriculture sector development strategies do not provide a cohere
 
 The GLOBIOM model will be modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenarios  are designed to capture both uncertainties in the drivers of future agricultural development pathways (e.g. population growth, economic development, technical change and climate change) as well as a number of policy options (e.g. adoption of climate smart technologies and practices). Scenarios that will be modelled include a business as usual (BAU) scenario and 2-4 additional policy scenarios. In addition, we will construct normative scenario that describes a desired agricultural pathway. To address the substantial uncertainties related to climate change impact and socio-economic drivers, a sensitivity analysis will be conducted in which yield, GDP and population projections are set to plausible upper and lower boundaries. 
 
-The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organisations that was held in Lusaka on October 16th and 17th, 2017. At the workshop, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050.The ouput of the stakeholder workshop as well as a selection of recent policy sector and planning documents are used to design the scenarios for the modelling, which are described below.
+The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organisations that was held in Lusaka on October 16th and 17th, 2017. At the workshop, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050.The output of the stakeholder workshop as well as a selection of recent policy sector and planning documents are used to design the scenarios for the modelling, which are described below.
 
 
 # Literature review
 
-A few papers assess the impact of climate change on agriculture in Zambia. @Jain2007 focuses on the economic impact of climate change using the Ricardian method. In this method, a regression model is estimated with net farm revenue as independent variables and a set of climate, hydrological, soil and socio-economic variables as explanatory variables. The analysis is conducted on a sample of 1015 households, including small-, medium- and large-scale households from 30 out of the 72 districts. The results point out that farm revenue is negatively affected by an increase in the November-December mean temperature and a decrease in the January-February mean rainfall, while a positive effect is found for an increase in the January-February mean temperature. This sugggests that agriculture in Zambia will be affected by expected future change in rainfall and temperature induced by climate change. A major drawback of the Ricardian approach is that is fully relies on historical cross-section data and therefore is not able to assess the impact of future changes in the agricultural development related to economic growth and technical change.
+A few papers assess the impact of climate change on agriculture in Zambia. @Jain2007 focuses on the economic impact of climate change using the Ricardian method. In this method, a regression model is estimated with net farm revenue as independent variables and a set of climate, hydrological, soil and socio-economic variables as explanatory variables. The analysis is conducted on a sample of 1015 households, including small-, medium- and large-scale households from 30 out of the 72 districts. The results point out that farm revenue is negatively affected by an increase in the November-December mean temperature and a decrease in the January-February mean rainfall, while a positive effect is found for an increase in the January-February mean temperature. This suggests that agriculture in Zambia will be affected by expected future change in rainfall and temperature induced by climate change. A major drawback of the Ricardian approach is that is fully relies on historical cross-section data and therefore is not able to assess the impact of future changes in the agricultural development related to economic growth and technical change.
 
-@Thurlow2012 use a combination of a hydro-crop (HC) model and dynamic computable equilibrium (CGE) model to assess the impacts of future climate change on economic growth and household poverty in Zambia. The HC model is applied to simulate the impact of climate change on crop yield, whose results are fed into the CGE model to capture the economic effects. The HadCM3-B1a scenario, which represents a future climate where rainfall declines and temperatures rise, and two more extreme scenarios (2% increase in temperature combined with 15% rainfall above and below the historical trend) are used to model climate change up to 2025. The HC model indicates that in the HadCM3-B1a scenario  average maize yields will be reduced by around 1% in four out of the five agro-climatic zones in comparison to the historical trend. The exception is the Western part of Zambia, where maize yields are expected to increase slightly. Yield change is larger (in the range of -6% to +4%) in the more extreme climate scenarios. Incorporating the effects of climate change in the CGE model and assuming the continuation of historical climate variablility, GDP is projected to decrease between -0.29%-point and -1.31$-point per year, while the povery rate is expected to increase between 1.69%-point and 7.23%-point, all in comparison to a normal rainfall scenario. The simulation assumes that GDP growth will not increase between the baseline and 2025. The results are therefore net GDP growth as a consequence of structural change in the economy over time.
+@Thurlow2012 use a combination of a hydro-crop (HC) model and dynamic computable equilibrium (CGE) model to assess the impacts of future climate change on economic growth and household poverty in Zambia. The HC model is applied to simulate the impact of climate change on crop yield, whose results are fed into the CGE model to capture the economic effects. The HadCM3-B1a scenario, which represents a future climate where rainfall declines and temperatures rise, and two more extreme scenarios (2% increase in temperature combined with 15% rainfall above and below the historical trend) are used to model climate change up to 2025. The HC model indicates that in the HadCM3-B1a scenario  average maize yields will be reduced by around 1% in four out of the five agro-climatic zones in comparison to the historical trend. The exception is the Western part of Zambia, where maize yields are expected to increase slightly. Yield change is larger (in the range of -6% to +4%) in the more extreme climate scenarios. Incorporating the effects of climate change in the CGE model and assuming the continuation of historical climate variability, GDP is projected to decrease between -0.29%-point and -1.31$-point per year, while the poverty rate is expected to increase between 1.69%-point and 7.23%-point, all in comparison to a normal rainfall scenario. The simulation assumes that GDP growth will not increase between the baseline and 2025. The results are therefore net GDP growth as a consequence of structural change in the economy over time.
 
-@Kanyanga2013 combine a crop model (DDSAT) and global economic model (IMPACT) to investigate the impact of climate change on future food security in Zambia. IMPACT is a partial equilibrium model that is used to simulate agricultural development at the global level (but including national representation) under a range of future scenarios. For this study, three socio-economic (pessimistic, baseline and optimistic) and four climate change scenarios (CNRM-CM3, CSIRO- mark3, ECHAM5 and MIROC3.2) were combined to account for the large uncertainty in both types of drivers. All three socio-economics scenarios show an increase in population and GDP in 2050 in comparison to the base year. The crop growth simulations broadly indicate that maize yield is expected to increase with sometimes around 5% in the Northern zone and decrease at sometimes more than 25% in the rest of the country. The results from IMPACT show that in all scenarios malnutrition among children under five years of age is decreasing and the availability of kilocalories per capita is decreasing between 2010 and 2050 although change is less positive in the pessimistic socio-economic scenario. The model also shows that production and yield of maize is increasing and  net exports of nearly all modeled crops are declining. All results vary to some extent, depending on the climate scenario.
+@Kanyanga2013 combine a crop model (DDSAT) and global economic model (IMPACT) to investigate the impact of climate change on future food security in Zambia. IMPACT is a partial equilibrium model that is used to simulate agricultural development at the global level (but including national representation) under a range of future scenarios. For this study, three socio-economic (pessimistic, baseline and optimistic) and four climate change scenarios (CNRM-CM3, CSIRO- mark3, ECHAM5 and MIROC3.2) were combined to account for the large uncertainty in both types of drivers. All three socio-economics scenarios show an increase in population and GDP in 2050 in comparison to the base year. The crop growth simulations broadly indicate that maize yield is expected to increase with sometimes around 5% in the Northern zone and decrease at sometimes more than 25% in the rest of the country. The results from IMPACT show that in all scenarios malnutrition among children under five years of age is decreasing and the availability of kilo-calories per capita is decreasing between 2010 and 2050 although change is less positive in the pessimistic socio-economic scenario. The model also shows that production and yield of maize is increasing and  net exports of nearly all modelled crops are declining. All results vary to some extent, depending on the climate scenario.
 
 
 # Global-to-local modelling approach
@@ -72,46 +69,41 @@ In this paper we adopt a global-to-local modelling framework that is able to inc
 
 The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM) model, which quantifies the impact of the global and national developments on the agricultural sector in Zambia (Figure 1). The remainder of this chapter describes GLOBIOM and the modifications we made to tailor if for the Zambia analysis. The next section presents the socio-economic and climate change scenarios that are use to calibrate the model and quantify future agricultural development pathways.
 
-__Figure X: Modelling chain__
-```{r echo=FALSE, out.width='100%'}
-knitr::include_graphics(file.path(root, "/Fig_tab_map/Methodology.png"))
-```
-
 
 ## The GLOBIOM model
 
-GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It has been used extensively to analyse the medium and long run effects of climate change [@add], deforestation [@add], food security [@add] and biofuel policies [@add] at the global and regional level. The supply side of the model is based on a bottom-up approach (from land cover, land use, and management systems to production and markets). The agricultural and forest productivity is modeled at the level of grid cells of 5x5 to 30x30 arc-minutes, using biophysical models, such as EPIC [@Williams1995]. Demand is modelled at the regional level using [@add]. For this version the model is aggregated to X major regions (e.g. [@add]) and Zambia that together cover the whole world. 
+GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It has been used extensively to analyse the medium and long run effects of climate change [@add], deforestation [@add], food security [@add] and bio-fuel policies [@add] at the global and regional level. The supply side of the model is based on a bottom-up approach (from land cover, land use, and management systems to production and markets). The agricultural and forest productivity is modelled at the level of grid cells of 5x5 to 30x30 arc-minutes, input from crop and forest models. Demand is modelled at the regional level using [@add]. For this version the model is aggregated to X major regions (e.g. [@add]) and Zambia that together cover the whole world. 
 
-The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogenous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM use a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
+The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM use a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
 
-By including not only the bioenergy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland.
+By including not only the bio-energy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland.
 
 __Figure 1: Overview of GLOBIOM__
 
-```{r}
+```{r, fig_globiom}
 include_graphics(file.path(root, "Fig_tab_map/external/globiom_framework.png"))
 ```
 
 
 ## Zambia adjustments
+
  To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, if available, data on irrigation, costs and livestock.  The indicators which can be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
 
 ```{r}
 #fig_simu
 ```
 
-
-### Land use in base year: key crops
-
-### Agricultural systems in base year
-
+## Modelling of adoption of agricultural practices
 
 
 
 # Scenario design
 
-__Figure X: Scenario design__
-```{r}
+[ADD]
+
+_Figure X: Scenario design_
+
+```{r, fig_framework}
 include_graphics(file.path(root, "Fig_tab_map/external/scenario_framework.png"))
 ```
 
@@ -145,9 +137,19 @@ fig_reg_yld
 Finally, to model the BAU scenario, we also make assumptions on area of protected land, change in diets, food loss and waste, and trade at the global level. Table A2 in the Annex, presents details on these global scenario assumptions and how they are modelled in GLOBIOM. 
 
 
-## Vision for Zambian agriculture
+## Vision for Zambian agriculture in the year 2050
 
-The normative scenario represents desirable future agricultural sector. The scenario is based on the input that was provided at a stakeholder workshop as well as several national and agricultural planning reports that have been published over the last decade by the Zambian government. The scenario will be used as a benchmark to assess to extent to which the implementation of various policy options, will bring the agricultural sector closer to the desired state. Table 1 presents key indicators for the normative scenario as well as the source of information. planning documents only provide normative target values for the short or medium term period (e.g. coming 5 years). For the analysis these values need to be projected forward to the year 2050. Due to the qualitative nature of certain statements (e.g. "diversified agricultural economic sector") as well as the limitations of GLOBIOM, it has not been possible to quantify all variables. It is expected that with input from stakeholders we can add more indicators to the scenario. Similarly, in most cases, the approach to project the historical trend forward is based on a simple multiplication factor that extrapolates the short to medium term projections for which we have information. The underlying assumptions should be validated, and where possible, updated in collaboration with stakeholders. Figure 3-5 present the historical trend and normative target values for selected indicators.   
+The vision reflects a normative and positive scenario of Zambian agricultural development. It will be used as a benchmark to assess to extent to which the implementation of various policy options, will bring the agricultural sector closer to the desired state. The vision is based on the input that was provided at a stakeholder workshop as well as several national and agricultural planning reports that have been published over the last decade by the Zambian government. In most cases, the national planning documents only provide normative target values for the short or medium term period (e.g. coming 5 years). In such cases, we extrapolated the values up to the year 2050. 
+
+Table 1 summarizes the vision for Zambian agriculture. Figure X-X puts the vision into context by contrasting it with historical developments.
+
+_Table 1: Summary of the vision_
+
+```{r, tab_vision}
+tab_2 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_2")
+pander(tab_2, missing = "")
+```
+
 
 
 _Figure 3: Normative scenario yield projections_
@@ -157,6 +159,7 @@ fig_yld_vis
 ```
 
 Source: FAOSTAT and table 2.
+
 
 _Figure 4: Normative scenario irrigation projections_
 
@@ -186,14 +189,6 @@ fig_land_vis
 Source: FAOSTAT
 
 
-_Figure 7: Normative scenario GHG emissions projections_
-
-```{r fig_emis_vis}
-fig_nat_emis_ciat_vis
-```
-Source: Zambia INDC, Zambia National Communication 2.
-Note: Reported values scaled to FAOSTAT historical emissions and projected to 2050.
-
 _Figure 8: Normative scenario livestock projections_
 
 ```{r fig_lvst_vis}
@@ -203,23 +198,30 @@ fig_lvst_vis
 Source: FAOSTAT.
 Note: Livestock includes head of cattle only.
 
+
+_Figure 7: Normative scenario GHG emissions projections_
+
+```{r fig_emis_vis}
+fig_nat_emis_ciat_vis
+```
+Source: Zambia INDC, Zambia National Communication 2.
+Note: Reported values scaled to FAOSTAT historical emissions and projected to 2050.
+
+
+####
 _Figure 9: Normative scenario crop diversity_
 
 ```{r fig_div_vis, fig.width=8, fig.height=6}
 fig_div_vis
 ```
 
-Source: FAOSTAT.
+##### Source: FAOSTAT.
 
 
-## What if technology scenarios
 
-After consultation with stakeholders, FAO and the World Bank, six technology options were selected for assessment with the GLOBIOM model. 
+## What if CSA agricultural practices scenarios
 
-The sections below provides background information as well as model parameters and/or projections for each of these options. A number of sources are used to prepare the document, including FAO statistics, Zambia specific reports and scientific journal articles. The information will be used as an input into GLOBIOM to simulate the impact of adopting these options on agricultural futures in Zambia. 
-
-CSA adoption scenarios for the period 2015-2050. 2015 values are based on RALS and supplied by Nick Sitko. 2050 values are based on outcomes of the CSIP 2nd scenario workshop. Diffusion curves are non-parametrically constructed using start and end year values combined with the general functional form of a generalised logistic function with a mid point of 2035 and a growth rate of between 0.3 and 0.4.
-
+After consultation with stakeholders, FAO and the World Bank, five CSA agricultural practices were selected for further impact analysis with the GLOBIOM model. The sections below provide background information as well as scenario assumptions for each of the practices. The assumptions are based on a wide number of sources, including FAO statistics, Zambia specific reports and data, scientific journal articles and input provided at two stakeholder workshops. 
 
 ### Conservation agriculture
 
@@ -227,50 +229,40 @@ CSA adoption scenarios for the period 2015-2050. 2015 values are based on RALS a
 
 Conservation agriculture (CA) is build on three principles of agricultural management: (1) minimum mechanical soil disturbance, (2) crop rotation and (3) permanent organic soil cover [@Haggblade2003]. Since 1985, CA has been promoted in Zambia as a solution to low agricultural productivity caused by intensive tillage, lack of soil cover and burning of crop residue [@Baudron2007]. CA in Zambia, referred to as conservation farming, has a specific interpretation and consists of a package that involves five practices [@Haggblade2003; @Arslan2013]: (1) reduced tillage on no more than 15% of the field area without soil inversion, (2) precise digging of permanent planting basins or ripping of soil with a Magoye ripper (the latter where draft animals are available), (3) retention of crop residues from the prior harvest rather than burning it on the field, (4) rotation of cereals with legumes and (5) dry season land preparation. 
 
-_Figure 1: Agro-ecological zones in Zambia_
+_Figure X: Agro-ecological zones in Zambia_
 
 ```{r fig_aez}
 fig_aez
 ```
 
-CA has mainly been promoted in the arid and moderate rainfall regions in the agro-ecological zones I, IIa and IIb (Figure 1). There are no clear guidelines for the high-rainfall zone III, for which CA seems less suitable [@Baudron2007]. Despite the long history of CA in Zambia and the active promotion, national adoption rates are low. Using a nationally representative household survey @Zulu-mbata2016 estimated that only 3.7% of farmers fully adopted CA practices, while 1.1% partially adopted CA (i.e. minimum tillage and crop rotation or crop residue retention). The data shows that crop rotation and crop residue retention are practised widely in Zambia, while minimum tillage is much less applied, hence, is the main constraint to the use of CA. The data also show that CA adoption rates have more than doubled between 2012 and 2015 but it is unclear why this happened.
-
-_Table 1: Percent of households using CA practices in Zambia_
-
-```{r tab_ca_adoption}
-pander(tab_ca_adop)
-```
-
-##### Source: @Zulu-mbata2016
+CA has mainly been promoted in the arid and moderate rainfall regions in the agro-ecological zones I, IIa and IIb (Figure @X1). There are no clear guidelines for the high-rainfall zone III, for which CA seems less suitable [@Baudron2007]. Despite the long history of CA in Zambia and the active promotion, national adoption rates are low. According to the RALS 2015 only 0.3% of farmers fully adopted CA practices, while adoption of the various elements (i.e. minimum tillage and crop rotation or crop residue retention) is higher. 
 
 A large number of studies have investigated the low adoption rate of CA in Zambia. General factors, which have found to constrain the use of CA in other countries as well as in Zambia include [@Giller2009; @Arslan2013]: (1) Credit constraints: initial CA investment costs are high and benefits are usually realized after around four years; (2) labour: CA demands additional labour input for land preparation and weeding (although labour is saved for tillage activities) when it is implemented without pesticides (the common approach). This is regarded as the main barrier to adoption in Zambia; (3) competition for crop residues. Maintaining permanent soil cover can be costly as it demands access to seeds and residues cannot be used for other purposes such as livestock feed and fuel. 
 
 
 #### CSA benefits and costs
 
-CA can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption.
-
-@Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to plots on which conventional tilled is applied but only  after six cropping seasons. They also find an average carbon increase of 12% at the on-station plots, in comparison to a decrease of 15% for conventional control. This effect was not measured on the farm plots. @Erenstein2012 discuss on-farm trails in Zimbabwe and report a yield increase of 14%-81 of CA in comparison to conventional maize cropping.
+CA can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption. @Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to plots on which conventional tilled is applied but only  after six cropping seasons. They also find an average carbon increase of 12% at the on-station plots, in comparison to a decrease of 15% for conventional control. This effect was not measured on the farm plots. @Erenstein2012 discuss on-farm trails in Zimbabwe and report a yield increase of 14%-81 of CA in comparison to conventional maize cropping.
 
 
 #### Scenarios
 
-We propose to use the following paramters in GLOBIOM to model conservation agriculture
+The following parameters have been used to model the adoption and impact of conservation agriculture.
 
-- Target crop: maize (but could also consider cotton as it is applied there too).
-- Yield increase of 50% in comparison with convential farming systems
-- Costs increase of ? in comparison to conventional farming systems [NO DATA]
-- non-CO2/CO2 reduction of ? % in comparison to conventional farming systems [ONLY C sequestration, PROPOSE TO USE STEFAN's VALUES FOR NOW]
+- Target crop: maize.
+- Yield increase of 50% in comparison to conventional farming systems
+- non-CO2/CO2 reduction of @X % in comparison to conventional farming systems [ONLY C sequestration, PROPOSE TO USE STEFAN's VALUES FOR NOW]
 
-We propose the following s-shaped diffusion pattern for conservation agriculture between 2010 and 2050.
+We assume the following s-shaped diffusion curve for the adoption of conservation agriculture between 2010 and 2050.
 
-_Figure 2: Diffusion of conservation agriculture: 2010-2050_
+_Figure 2: Conservation agriculture diffusion scenario: 2010-2050_
 
 ```{r fig_ca_proj}
 fig_ca_proj
 ```
 
-##### Source: @Zulu-mbata2016 and authors
+##### Source: RALS 2015 for 2015 year value, stakeholder input for 2050 value.
+##### Note: The diffusion curve are constructed using start and end year values combined with the general functional form of a generalised logistic function with a mid point of 2035 and a growth rate of 0.3. 
 
 
 ### Agro-forestry
@@ -279,15 +271,14 @@ fig_ca_proj
 
 The term agro-forestry is used for a variety of agro-forestry systems (e.g. trees mono-cropped on arable or complex agro-forest systems). Here we use the term to refer to the integration of trees into annual food crop systems. More specifically, it involves crop ration or intercropping with fast-growing nitrogen fixing trees or woody shrub species. Agro-forestry is also sometimes referred to as 'evergreen agriculture', which is defined as "the direct and intimate intercropping of trees within annual crop fields" [@Garrity2010]. 
 
-Most common agroforestry models in Zambia are: Gliricidia-maize intercropping (Gliricidia), rotation of maize with Sesbania sesban (Sesbania), rotation of maize with Tephrosia vogelii (Tephrosia) fallows and Faidherbia albida intercropping (Faidherbia) [@Ajayi2009; @Garrity2010; @Shitumbanuma2012]. In the first three variations, the trees are grown on fallow land for 2-3 years, followed by 1-2 years of cropping after which a new cycle starts. Gliricidia is leguminous woody species that is able to re-sprout when cut back in contrast to the other two tree types. Agro-forestry involving this tree is therefore referred to as intercropping instead of crop rotation although the fallow-crop cycle is very similar between the two groups of tree species. The Faidherbia agro-forestry system is slightly different as there is no fallow-crop cycle and trees are grown alongside crops (i.e. continuous intercropping). Initial growth of Faidherbia is slow, which means that farmers only start to benefit after 1-6 years. It is estimated that currently about 500,000 Malawian farmers have Faidherbia trees on their farms [@Winterbottom2013]. The Zambian CFU estimates that the tree is now cultivated in conservation farming systems over an area of 300,000 [@Garrity2010]
-
+Most common agro-forestry models in Zambia are: Gliricidia-maize intercropping (Gliricidia), rotation of maize with Sesbania sesban (Sesbania), rotation of maize with Tephrosia vogelii (Tephrosia) fallows and Faidherbia albida intercropping (Faidherbia) [@Ajayi2009; @Garrity2010; @Shitumbanuma2012]. In the first three variations, the trees are grown on fallow land for 2-3 years, followed by 1-2 years of cropping after which a new cycle starts. Gliricidia is leguminous woody species that is able to re-sprout when cut back in contrast to the other two tree types. Agro-forestry involving this tree is therefore referred to as intercropping instead of crop rotation although the fallow-crop cycle is very similar between the two groups of tree species. The Faidherbia agro-forestry system is slightly different as there is no fallow-crop cycle and trees are grown alongside crops (i.e. continuous intercropping). Initial growth of Faidherbia is slow, which means that farmers only start to benefit after 1-6 years. It is estimated that currently about 500,000 Malawian farmers have Faidherbia trees on their farms [@Winterbottom2013]. The Zambian CFU estimates that the tree is now cultivated in conservation farming systems over an area of 300,000 [@Garrity2010]
 
 
 #### CSA benefits and costs
 
 Agro-forestry has the potential to: "maintain vegetative soil cover, bolster nutrient supply through nitrogen fixation and nutrient cycling, generate greater quantities of organic matter in soil surface residues, improve soil structure and water infiltration, increase greater direct production of food, fodder, fuel, fibre and income from products produced by the intercropped trees, enhance carbon storage both above-ground and below ground, and induce more effective conservation of above and below-ground biodiversity" [@Garrity2010, p 197].
 
-A number of studies investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia (under) in combination with four different crops in Eastern Zambia and compares the yield with conventional cropping systems (outside) (Figure 3).  The impact is particularly large for maize, where yield doubles. @Sileshi2008 conducted a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents similar improvements in production. @FAO2017 reports that mitigation impacts rangebetween the annual sequestration of 5 to 15 t CO2 per hectare but only reaches potential after 20 years.
+A number of studies investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia (under) in combination with four different crops in Eastern Zambia and compares the yield with conventional cropping systems (outside) (Figure 3).  The impact is particularly large for maize, where yield doubles. @Sileshi2008 conducted a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents similar improvements in production. @FAO2017 reports that mitigation impacts range between the annual sequestration of 5 to 15 t CO2 per hectare but only reaches potential after 20 years.
 
 _Figure 3: Comparison of crop yield with and with agro-forestry practices_
 
@@ -298,9 +289,7 @@ fig_af_yld
 ##### Source: @Shitumbanuma2012
 ##### Note: Average values are for 2008-2011. Error bars indicate variations over year.
 
-@Garrity2010 cites a study that reports improved fallows with Sesbania produce between 15 and 21 t/ha of fuel wood, that were harvested after a 2-3 fallow.
-
-@Ajayi2009 estimate labour inputs and financial profitability of agro-forestry based management practices in comparison to conventional farming approaches in Eastern Zambia. The find that aggregated over a five-year cycle, labour inputs for agroforestry were lower than fertilized maize fields but higher than non-fertilised maize. The main reason for this is that labour inputs in agroforestry are concentrated in the first year during the establishment of fallows and in the third year when the fallow is cut down and the field sown with maize. For continuous maize cropping labour demands are relatively high in each year, in particular for fertilized plots where production is higher.
+@Ajayi2009 estimate labour inputs and financial profitability of agro-forestry based management practices in comparison to conventional farming approaches in Eastern Zambia. The find that aggregated over a five-year cycle, labour inputs for agro-forestry were lower than fertilized maize fields but higher than non-fertilised maize. The main reason for this is that labour inputs in agro-forestry are concentrated in the first year during the establishment of fallows and in the third year when the fallow is cut down and the field sown with maize. For continuous maize cropping labour demands are relatively high in each year, in particular for fertilized plots where production is higher.
 
 _Figure 4: Comparison of labour input between continous maize and agro-forestry systems_
 
@@ -312,31 +301,31 @@ fig_af_lab
 
 #### Scenarios
 
-We propose to use the following parameters in GLOBIOM to model agro-forestry systems.
+The following parameters have been used to model the adoption and impact of agro-forestry systems.
 
 - Target crop: Maize
-- Yield increase of 85% in comparison with convential farming systems [NEED TO CHECK, seems high]
-- Costs increase of ? in comparison to conventional farming systems [CHECK FAO]
+- Yield increase of 85% in comparison with conventional farming systems [NEED TO CHECK, seems high]
 - CO2 reduction of ? % in comparison to conventional farming systems
 - CO2 reduction of 5 to 15 t CO2 per hectare [FAO DRAFT CSA REPORT CHECK]
 - non-CO2 reduction of ? % in comparison to conventional farming systems
 
-We propose the following s-shaped diffusion pattern for agro-forestry between 2010 and 2050.
+We assume the following s-shaped diffusion curve for the adoption of agro-forestry between 2010 and 2050.
 
-_Figure 5: Projection for adoption of agro-forestry_
+_Figure 5: Agro-forestry diffusion scenario: 2010-2050_
 
 ```{r fig_af_proj}
 fig_af_proj
 ```
 
-##### Source: @Winterbottom2013
+##### Source: RALS 2015 for 2015 year value, stakeholder input for 2050 value. 
+##### Note: The diffusion curve are constructed using start and end year values combined with the general functional form of a generalised logistic function with a mid point of 2035 and a growth rate of 0.3. 
 
 
-### Adoption of drought-tolerant maize varieties
+### Drought-tolerant maize varieties
 
 #### Background
 
-In view of a changing climate, drought tolerant maize (DTM) varieties are being developed that are able to deal with periods of drought and, in many cases, have other desirable characteristics, such as resistance to major diseases and high protein content. A major initiative is the CIMMYT Drought Tolerant Maize for Africa (DTMA) project, which released 160 DTM varieties in 13 African countries (including Zambia) between 2007 and 2013 [@Fisher2015]. All DTM varieties were bred using conventional methods and did not involve genetic modification. With 89%, the use of improved varieties of maize is high in Zambia in comparison to other countries. Following the inception of the DTMA project and the promotion of drought-tolerant varieties, the share of DTM has grown considerably from only 1% in 2006 to 23% in 2013 (Figure 7). 
+In view of a changing climate, drought tolerant maize (DTM) varieties are being developed that are able to deal with periods of drought and, in many cases, have other desirable characteristics, such as resistance to major diseases and high protein content. A major initiative is the CIMMYT Drought Tolerant Maize for Africa (DTMA) project, which released 160 DTM varieties in 13 African countries (including Zambia) between 2007 and 2013 [@Fisher2015]. All DTM varieties were bred using conventional methods and did not involve genetic modification. With 89%, the use of improved varieties of maize is high in Zambia in comparison to other countries. Following the inception of the DTMA project and the promotion of drought-tolerant varieties, the share of DTM has grown considerably from only 1% in 2006 to 23% in 2013 (Figure @x). 
 
 
 #### CSA benefits and costs
@@ -358,25 +347,25 @@ fig_dtm_yld
 
 #### Scenarios
 
-We propose to use the following parameters in GLOBIOM to model the adoption of DTMs.
+The following parameters have been used to model the adoption and impact of DTMs.
 
 - Target crop: Maize
-- Yield increase of 50% in comparison with convential (using non-improved traditional seeds) farming systems (to model this we probably should decrease the climate change shock with 50%).
+- Yield increase of 50% in comparison with conventional (using non-improved traditional seeds) farming systems (to model this we probably should decrease the climate change shock with 50%).
 - Yield increase of 20% in comparison with farming systems that use improved seeds already (idem)
 - Costs increase of ? in comparison to conventional farming systems [Probably none as we already model costs for improved seeds?]
 - CO2 reduction of 0 % in comparison to conventional farming systems
 - non-CO2 reduction of 0 % in comparison to conventional farming systems
 
-We propose the following s-shaped diffusion pattern for DTMs between 1997 and 2050.
+We assume the following s-shaped diffusion curve for the adoption of DTMs between 1997 and 2050.
 
-_Figure 7: Projection for adoption of drough-tolerant maize varieties_
+_Figure 7: Drough-tolerant maize variety diffusion scenario: 1997-2050:_
 
 ```{r fig_dtm_proj}
 fig_dtm_proj
 ```
 
 ##### Source: @Rovere2014a, @Fisher2015 and authors.
-##### Note: Total improved varieties is the sum of the adoption rate of open-pollinated varieties (OPVs) and hybrids (including DTMs).
+##### Note: Total improved varieties is the sum of the adoption rate of open-pollinated varieties (OPVs) and hybrids (including DTMs). The diffusion curves are constructed using start and end year values combined with the general functional form of a generalised logistic function with seed type specific parameters (mid-point of 2005 and growth of 0.3. for improved varieties and mid-point of 2020 and growth of 0.2 for DTMs).
 
 
 ### Reducing post-harvest losses
@@ -385,7 +374,7 @@ fig_dtm_proj
 
 Following the food price crisis in 2007/2008, there is a renewed interest in reducing post-harvest losses (PHL). The World Bank [@WorldBank2011], estimated that around USD 4 billion annually can be saved in Sub-Saharan Africa by reducing the PHL in grains (mainly cereals and legumes) alone. This value is more than the value of total food aid received in the region over the last decade. There are four major reasons to address PHLs [@Sheahan2017]: (1) improve food security; (2) improve food safety; (3) reduce unnecessary input use and (4) increase profits for food value actors. 
 
-PHL can take place at all stages of the value chain between the farmers field and the consumers' fork, which can be divided into five stages [@FAO2011]: (1) harvesting such as from mechanical damage and/or spillage, (2) postharvest handling, such as drying, winnowing, and storage (insect pests, rodents, rotting), (3) processing, (4) distribution and marketing, and (5) consumption. 
+PHL can take place at all stages of the value chain between the farmers field and the consumers' fork, which can be divided into five stages [@FAO2011]: (1) harvesting such as from mechanical damage and/or spillage, (2) post-harvest handling, such as drying, winnowing, and storage (insect pests, rodents, rotting), (3) processing, (4) distribution and marketing, and (5) consumption. 
 
 
 #### CSA benefits and costs
@@ -405,10 +394,10 @@ fig_phl
 
 #### Scenarios
 
-We propose to use the following parameters in GLOBIOM to model reduction in PHL.
+The following parameters have been used to model the reduction in PHL.
 
 - Target crop: All crops in GLOBIOM
-- Yield increase equalt to the highest values in Figure 8 [do we model this by means of a yield shock and do we already take in to account PHL in the baseline?].
+- Yield increase equal to the highest values in Figure 8 [do we model this by means of a yield shock and do we already take in to account PHL in the baseline?].
 - Costs increase of ? in comparison to conventional farming systems [Maybe we should assume this is a 'free' technology?]
 - CO2 reduction of 0 % in comparison to conventional farming systems [only indirect through land use change, etc)]
 - non-CO2 reduction of 0 % in comparison to conventional farming systems
@@ -417,56 +406,21 @@ We propose the following s-shaped diffusion pattern for PHL between 2010 and 205
 [Still have to decide? Gradual improvement or immediate?]
 
 
+### Expansion of irrigated area
 
-An annex is attached which includes the depicted values for each CSA practice for further use.
-
-\newpage
-_Conservation agriculture_
-
-```{r, fig_adoption}
-library(gridExtra)
-grid.arrange(fig_ca_proj, fig_msd_proj, fig_cr_proj, fig_rr_proj, fig_af_proj, fig_dtm_proj) 
-```
-
-\newpage
-_Minimum soil disturbance_
-
-```{r}
-fig_msd_proj
-```
-
-\newpage
-_Crop rotation_
-
-```{r}
-fig_cr_proj
-```
-
-\newpage
-_Residue retention_
-
-```{r}
-fig_rr_proj
-```
-
-\newpage
-_Agro-forestry_
-
-```{r}
-fig_af_proj
-```
+#### Background
+Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. According to the latest information (see Figure X), 155,912 ha of land is using surface, sprinkler or localized irrigation, which is about 30% of the economical irrigation potential [@FAO_IFC2014]. Nearly all area is owned or cultivated by large-scale commercial farmers, mainly producing sugar cane, soybeans and wheat. In addition, 100,000 ha is equipped with small drains, furrows and wells and mainly owned by small farmers. 
 
 
-\newpage
-_Drought tolerant maize_
+#### CSA benefits and costs
 
-```{r}
-fig_dtm_proj
-```
+#### Scenarios
+
+
 
 
 ##	Sensitivity analysis
-At the stakeholder workshop three clusteres of drivers of uncertainty were identified:
+At the stakeholder workshop three clusters of drivers of uncertainty were identified:
 
 - Climate change (e.g. rainfall, temperature and, pests and diseases)
 - Regional and international markets (e.g. global markets, external political stability and availability of external funds)
@@ -512,6 +466,22 @@ SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of t
 
 
 [^1]: The SSP scenarios include projections up to 2100.
+
+
+# Results
+
+## Business as usual
+
+
+
+## What if scenarios
+
+
+## Sensitivity analysis
+
+
+# Conclusions
+
 
 
 # References
