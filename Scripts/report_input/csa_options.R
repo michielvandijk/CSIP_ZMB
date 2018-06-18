@@ -76,10 +76,10 @@ ca_adop <- ca_adop_raw %>%
   mutate(value = value/100)
 
 # Assume 2050 rate for ca = 30%
-ca_proj <- data.frame(year = c(2015:2050), value = sigmoid(g = .3, 
-            a = ca_adop$value[ca_adop$source == "RALS2015"], xmid = 2035, 
+ca_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3, 
+            a = ca_adop$value[ca_adop$source == "RALS2015"], xmid = 2030, 
             k = ca_adop$value[ca_adop$source == "stakeholders"], 
-            x = 2015:2050), option = "ca")
+            x = 2010:2050), option = "ca")
 
 fig_ca_proj <- ggplot(data = ca_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
@@ -95,10 +95,10 @@ msd_adop <- ca_adop_raw %>%
   mutate(value = value/100)
 
 # Assume 2050 rate for msd = 50%
-msd_proj <- data.frame(year = c(2015:2050), value = sigmoid(g = .3, 
-                                                           a = msd_adop$value[msd_adop$source == "RALS2015"], xmid = 2035, 
+msd_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3, 
+                                                           a = msd_adop$value[msd_adop$source == "RALS2015"], xmid = 2030, 
                                                            k = msd_adop$value[msd_adop$source == "stakeholders"], 
-                                                           x = 2015:2050), option = "msd")
+                                                           x = 2010:2050), option = "msd")
 
 fig_msd_proj <- ggplot(data = msd_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
@@ -114,10 +114,9 @@ cr_adop <- ca_adop_raw %>%
   mutate(value = value/100)
 
 # Assume 2050 rate for msd = 60%
-cr_proj <- data.frame(year = c(2015:2050), value = sigmoid(g = .3, 
-                                                            a = cr_adop$value[cr_adop$source == "RALS2015"], xmid = 2035, 
-                                                            k = cr_adop$value[cr_adop$source == "stakeholders"], 
-                                                            x = 2015:2050), option = "cr")
+cr_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3, 
+                                                            a = cr_adop$value[cr_adop$source == "RALS2015"], xmid = 2030,                                                             k = cr_adop$value[cr_adop$source == "stakeholders"], 
+                                                            x = 2010:2050), option = "cr")
 
 
 fig_cr_proj <- ggplot(data = cr_proj, aes(x = year, y = value*100)) +
@@ -134,10 +133,10 @@ rr_adop <- ca_adop_raw %>%
   mutate(value = value/100)
 
 # Assume 2050 rate for msd = 80%
-rr_proj <- data.frame(year = c(2015:2050), value = sigmoid(g = .3, 
-                                                           a = rr_adop$value[rr_adop$source == "RALS2015"], xmid = 2035, 
+rr_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3, 
+                                                           a = rr_adop$value[rr_adop$source == "RALS2015"], xmid = 2030, 
                                                            k = rr_adop$value[rr_adop$source == "stakeholders"], 
-                                                           x = 2015:2050), option = "cr")
+                                                           x = 2010:2050), option = "rr")
 
 fig_rr_proj <- ggplot(data = rr_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
@@ -185,10 +184,10 @@ af_adop <- read_excel(file.path(projectPath, "Data/ZMB/Processed/Options/options
   mutate(value = value/100)
 
 # Assume 2050 rate for af = 25%
-af_proj <- data.frame(year = c(2015:2050), value = sigmoid(g = .3, 
-                                                           a = af_adop$value[af_adop$source == "RALS2015"], xmid = 2035, 
+af_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3, 
+                                                           a = af_adop$value[af_adop$source == "RALS2015"], xmid = 2030, 
                                                            k = af_adop$value[af_adop$source == "stakeholders"], 
-                                                           x = 2015:2050), option = "cr")
+                                                           x = 2010:2050), option = "af")
 
 fig_af_proj <-  ggplot(data = af_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
