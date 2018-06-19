@@ -36,7 +36,7 @@ igdx(GAMSPath)
 
 ### LOAD DATA
 # Zambia GLOBIOM OUTPUT Data
-zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT") %>%
+zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT_ZMB") %>%
   setNames(c("scenario", "variable", "unit", "ANYREGION", "item", "ssp", "bioscen", "enscen", "year", "value")) %>%
   mutate(year = as.integer(as.character(year))) %>%
   filter(ANYREGION == "ZambiaReg")
@@ -47,7 +47,7 @@ fao_hist_globiom_raw <- read_csv(file.path(projectPath, "/Data/ZMB/Processed/Agr
 #account_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "Account")
 
 # Scenario definitions
-scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def.xlsx"))
+scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v2.xlsx"))
 
 # Historical lvst statistics
 lvst_hist_raw <- read_csv(file.path(projectPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_lvst_ZMB.csv")) 
@@ -72,8 +72,7 @@ vision <- read_excel(file.path(projectPath, "Data/ZMB/Processed/Visions/visions.
 ### PROCESS RAW DATA
 # Add scenario definitions
 zmb <- zmb_raw %>%
-  mutate(scenario = gsub("-", "_", scenario),
-         year = as.integer(as.character(year))) 
+  mutate(year = as.integer(as.character(year))) 
 
 # Check for missing 2010 values
 check2010 <- zmb %>%
@@ -118,7 +117,7 @@ prod_hist <- fao_hist_globiom_raw %>%
 # Projections
 prod_proj <- zmb %>% 
   filter(variable == "Prod", unit == '1000 t', item %in% crop_globiom,  
-  scenario == "output_CSIP_ZMB_1")
+  scenario == "output_CSIP_ZMB-1")
 
 fig_bau_crop_prod <- ggplot() +
   geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
@@ -154,7 +153,7 @@ yld_hist <- fao_hist_globiom_raw %>%
 
 # projections
 yld_proj <- zmb %>%
-  filter(item %in% yld_crops_sel, variable %in% c("YILM"), unit == "fm t/ha",  scenario == "output_CSIP_ZMB_1") %>%
+  filter(item %in% yld_crops_sel, variable %in% c("YILM"), unit == "fm t/ha",  scenario == "output_CSIP_ZMB-1") %>%
   ungroup() %>%
   dplyr::select(year, item, value, variable, scenario) %>%
   group_by(item, variable) %>%
@@ -224,7 +223,7 @@ lvst_hist <- lvst_hist_raw %>%
 # Projections
 lvst_proj <- zmb %>% 
   filter(item %in% lvst_globiom,  
-         scenario == "output_CSIP_ZMB_1", year %in% c(2000:2050)) %>%
+         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
   group_by(scenario, scenario, year) %>%
   summarize(value = sum(value)*2) %>%
   mutate(item = "catt",
@@ -300,7 +299,7 @@ rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
 # Projected data
 calo_proj <- zmb %>% 
   filter(variable == "CALO",
-         scenario == "output_CSIP_ZMB_1",item == "TOT") %>%
+         scenario == "output_CSIP_ZMB-1",item == "TOT") %>%
   mutate(legend = "GLOBIOM")
 
 calo_df <- bind_rows(calo_proj, calo_hist)
@@ -346,7 +345,7 @@ rm(calo_df, calo_hist, calo_proj, calo_target)
 # crop_price_sel <- c("Corn", "Cass")
 # price_proj <- zmb %>% 
 #   filter(variable == "XPRP", 
-#          scenario == "output_CSIP_ZMB_1", year %in% c(2000:2050), item %in% crop_globiom)
+#          scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050), item %in% crop_globiom)
 # 
 # fig_bau_price <- ggplot() +
 #   #geom_line(data = price_hist, aes(x = year, y = value), colour = "blue") +
@@ -373,7 +372,7 @@ crp_area_hist <- fao_hist_globiom_raw %>%
 
 crp_area_proj <- zmb %>%
   filter(variable == "Area", 
-         scenario == "output_CSIP_ZMB_1", year %in% c(2000:2050),
+         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050),
          item %in% crop_globiom) %>%
   group_by(year) %>%
   mutate(share = value/sum(value)*100)
@@ -425,7 +424,7 @@ rm(crp_area_hist, crp_area_proj)
 # # Projected data
 # land_proj <- zmb %>%
 #   filter(variable == "LAND", 
-#          scenario == "output_CSIP_ZMB_1", year %in% c(2000:2050)) %>%
+#          scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
 #   filter(item == "CrpLnd") %>%
 #   rename(lc_class = item) %>%
 #   mutate(legend = "GLOBIOM")
