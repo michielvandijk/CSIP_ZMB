@@ -274,6 +274,6 @@ write_csv(dtm_param, file.path(projectPath, "Data/ZMB/Processed/Options/dtm_para
 proj <- bind_rows(ca_proj, msd_proj, cr_proj, rr_proj, af_proj, dtm_proj)
 
 # Save
-write_csv(proj, file.path(projectPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
+#write_csv(proj, file.path(projectPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
 
 
