@@ -72,11 +72,14 @@ The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM)
 
 ## The GLOBIOM model
 
-GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It has been used extensively to analyse the medium and long run effects of climate change [@add], deforestation [@add], food security [@add] and bio-fuel policies [@add] at the global and regional level. The supply side of the model is based on a bottom-up approach (from land cover, land use, and management systems to production and markets). The agricultural and forest productivity is modelled at the level of grid cells of 5x5 to 30x30 arc-minutes, input from crop and forest models. Demand is modelled at the regional level using [@add]. For this version the model is aggregated to X major regions (e.g. [@add]) and Zambia that together cover the whole world. 
+GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It has been used extensively to analyse the medium and long run effects of climate change [@Leclere2014, @Havlik2015a], deforestation [@Schmitz2014], food security [@Valin2014a, @Palazzo2017] and bio-fuel policies [@Valin2013b, @Havlik2011, @Mosnier2013, @Frank2013] at the global and regional level. The supply side of the model is based on a bottom-up approach (from land cover, land use, and management systems to production and markets). The agricultural and forest productivity is modelled at the level of grid cells of 5x5 to 30x30 arc-minutes, input from crop and forest models. Demand is modelled at the regional level using 30 economic regions which consist of single countries or bundles of countries based on the the food balance sheets developed by the FAO [@FAO2017,@Alexandratos2006]. For this version the model, Zambia has been taken out of the region "Southern Africa" to further develop.  
 
-The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM use a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
+The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints [@McCarl1980]. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions based on the spaital equilibrium approach [@Schneider2007, @Takayama1971]. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM use a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
 
 By including not only the bio-energy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland.
+
+With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for 17 of the 18 crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer, water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the country level [@FAO20107]. 
+
 
 __Figure 1: Overview of GLOBIOM__
 
@@ -87,14 +90,19 @@ include_graphics(file.path(root, "Fig_tab_map/external/globiom_framework.png"))
 
 ## Zambia adjustments
 
- To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, if available, data on irrigation, costs and livestock.  The indicators which can be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
+ To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, data on irrigation, costs and livestock.  The indicators which have be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
 
 ```{r}
 #fig_simu
 ```
 
-## Modelling of adoption of agricultural practices
+In GLOBIOM we model the impact of the adoption of different CSA practices/technologies on the productivity of the agriculture sector as well as the potential for CSA mitigation of GHG emissions. We have used the structural model developments from @Frank2018 to further develop the mitigation options for Zambia. We futher refined the assumptions of yield and mitigation potential of some of the mitigation technology options from @Beach2015 based on the stakeholder workshop held in April 2018. 
 
+The emission savings for each technical mitigation option are multiplied by GLOBIOM production system specific (crop- or livestock sector) emission factors to calculate absolute emission savings. This modeling approach explores the impact of the adoption of the mitigaiton options and therefore does not consider the direct costs and labor costs, change in input costs of each mitigation technology.  
+
+
+[add]
+_Figure X: adoption curve_ 
 
 
 # Scenario design
@@ -409,14 +417,29 @@ We propose the following s-shaped diffusion pattern for PHL between 2010 and 205
 ### Expansion of irrigated area
 
 #### Background
-Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. According to the latest information (see Figure X), 155,912 ha of land is using surface, sprinkler or localized irrigation, which is about 30% of the economical irrigation potential [@FAO_IFC2014]. Nearly all area is owned or cultivated by large-scale commercial farmers, mainly producing sugar cane, soybeans and wheat. In addition, 100,000 ha is equipped with small drains, furrows and wells and mainly owned by small farmers. 
+Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. Intensification of agriculture through irrigation is seen as a way to increase the productivity of land as well as reduce the exposure to the impacts of climate change which are estimated to be significant for rainfed agriculture [@Leclere2014, @Muller2011, @Roudier2011]. Subbsidizing the cost of water for irrigation was been common practice in developed regions like Europe and the US as a means to encourage agricultural development, though many of these policies are currently being reformed due to their environmental impacts (over-extraction and water pollution [@add].
+
+According to the latest information (see Figure X), 155,912 ha of land is using surface, sprinkler or localized irrigation, which is about 30% of the economical irrigation potential [@FAO_IFC2014]. Nearly all area is owned or cultivated by large-scale commercial farmers, mainly producing sugar cane, soybeans and wheat. In addition, 100,000 ha is equipped with small drains, furrows and wells and mainly owned by small farmers. 
+
+The representation of irrigated cropland production systems within GLOBIOM considers both the biophysical suitability and irrigation water requirements of crops at a monthly level which is simulated by EPIC and harmonized with the country-level FAO AQUASTAT statistics for water withdrawn for irrigation available from AQUASTAT [@FAO2017]. Four irrigation systems are modeled at a high spatial resolution for irrigated cropland – basin, furrow irrigation, localized drip, and sprinkler which consider the biophysical and economic suitability and efficiency of each system in determining the crop/system compatibility for each land unit [@Sauer2010]. The shares of irrigated areas by systems have been harmonized with shares of irrigated area by systems from [@Jagermeyr2015]. The final irrigation water demand for crops for a given land unit depends on the application efficiency of each system. 
+
 
 
 #### CSA benefits and costs
 
+FAO estimates that 35Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 million ha of cropland were irrigated [@FAO2017, @Fenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
+
+Water withdrawals for irrigation account for more than 76% of the total withdrwals in 2000 according to the FAO's AQUASTAT database [@FAO2017]. 
+
 #### Scenarios
 
+The following scenarios have been developed to model the impact of irrigation support policies.  The scenario we have modeled assumes that transforming traditional rainfed systems into productive irrigation systems require investments from the public sector to increase the accessibility of water. 
 
+-MaxInvest is a scenario where ambitious investment is made to expand irrigated areas in Zambia.
+
+Farmers are responsible for the operations and maintenance costs of the irrigation systems, which have been included in the model as production costs and they are responsible for paying per unit cost of water used for irrigation.
+
+The expansion of irrigation takes into account the biophysical availability of water, the growing competition for water from other sectors (domestic, energy and industry) as well as the impacts upgraded and expanded irrigation systems have on regional crop production, land use change and emissions, food security and water demand.
 
 
 ##	Sensitivity analysis
@@ -431,7 +454,7 @@ This section presents the sensitivity analysis that is proposed to take into acc
 ### Climate change uncertainty
 To analyse the impact of climate change We will conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change on crop yields. We combine the outputs of five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5A-LR, GFDL-ESM2M, MIROC-ESM_CHEM and NorESM1-M with two crop models: EPIC and LPJmL to obtain a bandwidth of the yield shock that is caused by climate change in comparison to a no climate change scenario. Note that the yield shocks simulated by the crop models only account for the effect of long-run changes in precipitation and temperature. They do not capture extreme climate effects nor the potential increase in pests and diseases that affect plant growth. We only use the yield simulations for rcp 8.5, which is the most extreme climate scenario [@Riahi2011].
 
-Figure @x shows the average (2 crop models x 4 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rozenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
+Figure @x shows the average (2 crop models x 4 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
 
 _Figure 6: Yield change under climate change: 2000-2050_
 
