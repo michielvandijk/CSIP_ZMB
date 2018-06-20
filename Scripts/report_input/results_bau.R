@@ -218,7 +218,7 @@ fig_bau_yld <- ggplot() +
   guides(colour = F)
 
 # Clean up
-rm(yld_base_2000, yld_hist, yld_proj, yld_target, yld_vis)
+rm(yld_base_2000, yld_hist, yld_proj, yld_vis)
 
 
 ### LIVESTOCK PRODUCTION
@@ -273,6 +273,35 @@ fig_bau_lvst <- ggplot() +
   theme_bw() +
   labs(x = "", y = "1000 Heads", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
+  theme(panel.grid.minor = element_blank()) +
+  theme(legend.position = "bottom") +
+  guides(fill = guide_legend(""))
+
+# Clean up
+rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
+
+
+### BVMEAT
+meat_globiom <- c("BVMEAT")
+
+
+# Projections
+meat_proj <- zmb %>% 
+  filter(item %in% meat_globiom, variable == "Prod",
+         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
+  mutate(legend = "GLOBIOM")
+
+col_bau <- c("blue")
+names(col_bau) <- c("GLOBIOM")
+
+fig_bau_meat <- ggplot() +
+  geom_col(data = meat_proj, aes(x = year, y = value, fill = legend)) +
+  scale_fill_manual(values = col_bau) +
+  scale_x_continuous(limits = c(2005, 2055), breaks = c(2000, seq(2000, 2050, 10)), expand = c(0.0,0.0))  +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 150))  +
+  theme_bw() +
+  labs(x = "", y = "1000 t", colour = "", linetype = "") +
+  #geom_vline(xintercept = 2000, linetype = "dashed") +
   theme(panel.grid.minor = element_blank()) +
   theme(legend.position = "bottom") +
   guides(fill = guide_legend(""))

@@ -222,7 +222,7 @@ fig_reg_yld <- ggplot() +
   geom_line(data = filter(yld_reg_hist, year <= 2000), aes(x = year, y = value, colour = item), size = 1) +
   geom_line(data = yld_reg_proj, aes(x = year, y = value, colour = item, linetype = ssp), size = 1) +
   scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10)) +
-  scale_y_continuous(limits = c(0, 7.5))  +
+  scale_y_continuous(limits = c(0, 6))  +
   scale_colour_discrete(breaks = crops_sel,
                         labels= crops_label) +
   scale_linetype_manual(values = c("dashed", "solid", "dotdash")) + 
