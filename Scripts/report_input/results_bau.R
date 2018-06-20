@@ -147,7 +147,7 @@ fig_bau_crop_prod <- ggplot() +
   guides(fill = guide_legend(""))
 
 # clean up
-rm(prod_hist, prod_proj)
+rm(prod_hist, prod_proj, dm_conv)
 
 
 ### YIELD
@@ -172,8 +172,9 @@ yld_proj <- zmb %>%
 
 # base year
 yld_base_2000 <- yld_hist %>%
-  filter(year == 2000) %>%
-  rename(base2000 = value) %>%
+  filter(year %in% c(1998:2001)) %>%
+  group_by(item) %>%
+  summarize(base2000 = mean(value, na.rm = T)) %>%
   dplyr::select(base2000, item)
 
 # Create t/ha series
@@ -281,12 +282,28 @@ rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
 
 # 
 # ### GHG
-# ghg_proj <- zmb %>% 
+# # Excluded "Burn_Biomass_CH4", "Burn_Biomass_N2O", "Burn_CropRes_CH4", "Burn_CropRes_N2O", "Burn_Savanna_N2O"
+# emis_sel <- c(, "CropRes_N2O", "CropSoil_N2O", "Entferm_CH4", "ManaplTot_N2O",
+#                    "ManmgtTot_CH4", "ManmgtTot_N2O", "ManprpTot_N2O", "Rice_CH4")
+# 
+# ghg_hist <- fao_hist_globiom_raw %>%
+#   filter(variable == "EMIS") %>%
+#   rename(item = crop) %>%
+#   filter(item %in% emis_sel) %>%
+#   filter(year <= 2000) %>%
+#   #group_by(year, unit) %>%
+#   #summarize(value = sum(value, na.rm = T)) %>%
+#   mutate(scenario = "Historical")
+#   
+# ghg_proj <- zmb %>%
 #   mutate(year = as.integer(as.character(year))) %>%
-#   filter(variable == "EMIS", scenario == "output_CSIP_ZMB-1") 
+#   filter(variable == "EMIS", scenario == "output_CSIP_ZMB-1") %>%
+#   filter(item %in% emis_sel)
+# 
+# ghg_df <- bind_rows(ghg_hist, ghg_proj)
 # 
 # fig_bau_emis <- ggplot() +
-#   geom_line(data = ghg_proj, aes(x = year, y = value, colour = item)) +
+#   geom_line(data = ghg_df, aes(x = year, y = value, colour = scenario)) +
 #   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
 #   #scale_colour_manual(values = scen_col, name = "SSPs") +
 #   theme_bw() +
