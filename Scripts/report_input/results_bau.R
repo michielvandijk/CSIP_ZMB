@@ -307,7 +307,7 @@ fig_bau_meat <- ggplot() +
   guides(fill = guide_legend(""))
 
 # Clean up
-rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
+
 
 
 ### GHG
@@ -463,18 +463,18 @@ fig_bau_luc <- ggplot() +
 # Clean up
 rm(crp_area_hist, crp_area_proj)
 
-# 
-# ### LAND COVER
-# # Historical CrpLnd data (only GLOBIOM CROPS)
-# crplnd_hist <- fao_hist_raw %>%
-#   filter(variable == "AREA", crop %in% c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott",
-#                                          "Gnut", "Mill", "Pota", "Rape", "Rice", "Soya",
-#                                          "Srgh", "SugC", "sunf", "SwPo", "Whea")) %>%
-#   group_by(year) %>%
-#   summarize(value = sum(value, na.rm = T)) %>%
-#   mutate(lc_class = "CrpLnd", scenario = "Historical")
-#   
-# 
+ 
+### LAND COVER
+# Historical CrpLnd data (only GLOBIOM CROPS)
+crplnd_hist <- fao_hist_globiom_raw %>%
+  filter(variable == "AREA", crop %in% c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott",
+                                         "Gnut", "Mill", "Pota", "Rape", "Rice", "Soya",
+                                         "Srgh", "SugC", "sunf", "SwPo", "Whea")) %>%
+  group_by(year) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  mutate(lc_class = "CrpLnd", scenario = "Historical", legend = "Historical")
+
+
 # land_hist <- land_hist_raw %>%
 #   rename(value = Value, year = Year) %>%
 #   mutate(iso3c = countrycode(Area.Code, "fao", "iso3c")) %>%
@@ -486,53 +486,54 @@ rm(crp_area_hist, crp_area_proj)
 #   bind_rows(crplnd_hist) %>%
 #   filter(year %in% c(1961, 1970:2001)) %>%
 #   mutate(legend = "Historical (GLOBIOM)")
-# 
-# # Projected data
-# land_proj <- zmb %>%
-#   filter(variable == "LAND", 
-#          scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
-#   filter(item == "CrpLnd") %>%
-#   rename(lc_class = item) %>%
-#   mutate(legend = "GLOBIOM")
-# # %>%
-# #   left_join(lc_type_map) %>%
-# #   group_by(lc_class, year, scenario) %>%
-# #   summarize(value = sum(value, na.rm = T)) %>%
-# #   filter(!lc_class %in% c("PltFor, PriFor")) %>%
-# 
-# # Vision
-# land_fact <- vision$parameter[vision$variable == "land"]
-# 
-# land_vis <- land_hist_raw %>%
-#   filter(year %in% c(2012, 2013, 2014)) %>%
-#   group_by(unit, item) %>%
-#   summarize(value = mean(value, na.rm = T)) %>%
-#   ungroup() %>%
-#   mutate(label = "Vision",
-#          year = 2050,
-#          value = value * land_fact,
-#          variable = "AREA") %>%
-#   filter(year == 2050)
-# 
-# land_target <- data.frame(year = 2050, value = 1900, label = "Normative scenario")
-# 
-# fig_bau_lc <- ggplot() +
-#   geom_line(data = filter(land_hist, lc_class == "CrpLnd"), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
-#   geom_line(data = filter(land_proj, lc_class == "CrpLnd"), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
-#   geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
-#   geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
-#   scale_colour_manual(values = c("blue", "black")) +
-#   scale_linetype_manual(values = c("dashed", "solid")) +
-#   theme_bw() +
-#   scale_x_continuous(limits = c(1955, 2059), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
-#   scale_y_continuous(labels = comma) +
-#   theme_bw() +
-#   labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
-#   geom_vline(xintercept = 2000, linetype = "dashed") +
-#   theme(panel.grid.minor = element_blank()) +
-#   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
-#   guides(linetype = "none") +
-#   theme(legend.position = "bottom")
+
+# Projected data
+land_proj <- zmb %>%
+  filter(variable == "LAND",
+         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
+  filter(item == "CrpLnd") %>%
+  rename(lc_class = item) %>%
+  mutate(legend = "GLOBIOM")
+# %>%
+#   left_join(lc_type_map) %>%
+#   group_by(lc_class, year, scenario) %>%
+#   summarize(value = sum(value, na.rm = T)) %>%
+#   filter(!lc_class %in% c("PltFor, PriFor")) %>%
+
+# Vision
+land_fact <- vision$parameter[vision$variable == "land"]
+
+land_vis <- land_hist_raw %>%
+  filter(year %in% c(2012, 2013, 2014)) %>%
+  group_by(unit, item) %>%
+  summarize(value = mean(value, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(label = "Vision",
+         year = 2050,
+         value = value * land_fact,
+         variable = "AREA") %>%
+  filter(year == 2050)
+
+land_target <- data.frame(year = 2050, value = 1900, label = "Normative scenario")
+
+fig_bau_lc <- ggplot() +
+  #geom_line(data = filter(land_hist, lc_class == "CrpLnd"), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
+  geom_line(data = filter(crplnd_hist, lc_class == "CrpLnd", year <= 2000), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
+  geom_line(data = filter(land_proj, lc_class == "CrpLnd"), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
+  geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
+  geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
+  scale_colour_manual(values = c("blue", "black")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  theme_bw() +
+  scale_x_continuous(limits = c(1955, 2059), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
+  scale_y_continuous(labels = comma) +
+  theme_bw() +
+  labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
+  geom_vline(xintercept = 2000, linetype = "dashed") +
+  theme(panel.grid.minor = element_blank()) +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  guides(linetype = "none") +
+  theme(legend.position = "bottom")
 
 
   
