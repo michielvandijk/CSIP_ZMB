@@ -75,51 +75,97 @@ zmb <- zmb %>%
 
 # Add scenario definition
 zmb <- zmb %>% 
-  left_join(., scen_def)
+  left_join(., scen_def) %>%
+  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir")))
 
 
 ### PLOT FUNCTIONS
 
-# Growth 2000-2050 
+# # Growth 2000-2050 
+# plot_growth <- function(df){
+#   p = ggplot(data = df) +
+#     geom_col(aes(x = option, y = growth, fill = scenario, colour = scenario)) +
+#     #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+#     guides(fill=F, colour = F) +
+#     labs(x = "", y = "growth (2000-2050)", title = unique(df$variable)) + 
+#     theme_bw() +
+#     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+#     facet_wrap(~item, scales = "free")
+#   p
+# }
+# 
+# # Difference in 2050 (%)
+# plot_dif <- function(df){
+#   p = ggplot(data = df) +
+#     geom_col(aes(x = option, y = dif, fill = scenario, colour = scenario)) +
+#     #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+#     guides(fill=F, colour = F) +
+#     labs(x = "", y = "dif BAU-option in 2050 (%)", title = unique(df$variable)) + 
+#     theme_bw() +
+#     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+#     facet_wrap(~item, scales = "free")
+#   p
+# }
+
+
+# Growth 2000-2050 with cc
 plot_growth <- function(df){
-  p = ggplot(data = df) +
+  df <- df %>% 
+    ungroup %>%
+    group_by(option, item) %>%
+    mutate(max_val = max(growth, na.rm = T),
+           min_val = min(growth, na.rm = T)) %>%
+    filter(rcp == "noCC")
+
+    p = ggplot(data = df) +
     geom_col(aes(x = option, y = growth, fill = scenario, colour = scenario)) +
-    #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+    geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
     labs(x = "", y = "growth (2000-2050)", title = unique(df$variable)) + 
     theme_bw() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_wrap(~item, scales = "free")
   p
 }
 
-# Difference in 2050 (%)
+# Difference in 2050 (%) with cc
 plot_dif <- function(df){
+  df <- df %>% 
+    ungroup %>%
+    group_by(option, item) %>%
+    mutate(max_val = max(dif, na.rm = T),
+           min_val = min(dif, na.rm = T)) %>%
+    filter(rcp == "noCC")
+  
   p = ggplot(data = df) +
     geom_col(aes(x = option, y = dif, fill = scenario, colour = scenario)) +
-    #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+    geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
     labs(x = "", y = "dif BAU-option in 2050 (%)", title = unique(df$variable)) + 
     theme_bw() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_wrap(~item, scales = "free")
   p
 }
 
-
 # Baseline selection
-base_options <- zmb %>% 
+# base_options <- zmb %>% 
+#   ungroup() %>%
+#   filter(scen_type %in% c("baseline", "CSA", "irrigation"), 
+#          gcm == "noCC", ssp == "SSP2", year == 2050)
+
+cc_options <- zmb  %>%
   ungroup() %>%
-  filter(scen_type %in% c("baseline", "CSA", "irrigation"), 
-         gcm == "noCC", SSP == "SSP2", year == 2050)
-  
+  filter(scen_type %in% c("none", "CSA"), 
+         ssp == "SSP2", year == 2050)
+
 
 ### YIELD
 # Selected crops
 crop_sel <- c("Corn", "Cass", "Gnut", "Mill")
 
 # projections
-yld_opt <- base_options %>%
+yld_opt <- cc_options %>%
   filter(item %in% crop_sel, variable == "YIRF", unit == "fm t/ha") %>%
   group_by(variable, item, unit) %>%
   mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
@@ -130,7 +176,7 @@ fig_opt_yld_dif <- plot_dif(yld_opt)
 
   
 ### EMISSIONS
-emis_opt <- base_options %>%
+emis_opt <- cc_options %>%
   filter(variable == "EMIS") %>%
   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) %>%
   ungroup() %>%
@@ -143,7 +189,7 @@ fig_opt_emis_dif <- plot_dif(emis_opt)
 
 
 ### LAND
-land_opt <- base_options %>%
+land_opt <- cc_options %>%
   filter(variable == "LAND", item %in% c("CrpLnd", "Forest","GrsLnd", "NatLnd")) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
@@ -155,7 +201,7 @@ fig_opt_land_dif <- plot_dif(land_opt)
 
 
 ### PRICE
-price_opt <- base_options %>%
+price_opt <- cc_options %>%
   filter(variable == "XPRP", item %in% crop_sel) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
@@ -168,16 +214,21 @@ fig_opt_price_dif <- plot_dif(price_opt)
 
 
 ### TRADE
-trade_opt <- base_options %>%
+trade_opt <- cc_options %>%
   filter(variable == "NTMS", item %in% crop_sel) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"]))*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"]))*100) %>%
+  ungroup %>%
+  group_by(option, item) %>%
+  mutate(max_val = max(growth, na.rm = T),
+         min_val = min(growth, na.rm = T)) %>%
+  filter(rcp == "noCC")
 
 
 fig_opt_trade <- ggplot(data = trade_opt) +
   geom_col(aes(x = option, y = value, fill = scenario, colour = scenario)) +
-  #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+  geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
   guides(fill=F, colour = F) +
   labs(x = "", y = "growth (2000-2050)", title = unique(trade_opt$variable)) + 
   theme_bw() +
@@ -186,7 +237,7 @@ fig_opt_trade <- ggplot(data = trade_opt) +
 
 fig_opt_trade_dif <- ggplot(data = trade_opt) +
   geom_col(aes(x = option, y = dif, fill = scenario, colour = scenario)) +
-  #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
+  geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
   guides(fill=F, colour = F) +
   labs(x = "", y = "growth (2000-2050)", title = unique(trade_opt$variable)) + 
   theme_bw() +
@@ -195,7 +246,7 @@ fig_opt_trade_dif <- ggplot(data = trade_opt) +
 
 
 ### LIVESTOCK
-lvst_opt1 <- base_options %>%
+lvst_opt1 <- cc_options %>%
   filter(variable == "Anim", item %in% c("BVMEAT","SGMEAT", "PGMEAT", "PTMEAT","ALMILK")) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
@@ -207,7 +258,7 @@ fig_opt_lvst1 <- plot_growth(lvst_opt1)
 fig_opt_lvst_dif1 <- plot_dif(lvst_opt1)
 
 
-lvst_opt2 <- base_options %>%
+lvst_opt2 <- cc_options %>%
   filter(variable == "Anim", item %in% c("PIGS","BOVD", "BOVO", "BOVF","SGTO", "PTRB","PTRH")) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
@@ -219,8 +270,8 @@ fig_opt_lvst_dif2 <- plot_dif(lvst_opt2)
 
 
 ### CONSUMPTION
-cons_opt <- base_options %>%
-  filter(variable == "CONS", item %in% crop_sel) %>%
+cons_opt <- cc_options %>%
+  filter(variable == "CONS", item %in% crop_sel, unit == "1000 t") %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
   mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
@@ -232,8 +283,8 @@ fig_opt_cons_dif <- plot_dif(cons_opt)
 
 
 ### PRODUCTION
-prod_opt <- base_options %>%
-  filter(variable == "Prod", item %in% crop_sel) %>%
+prod_opt <- cc_options %>%
+  filter(variable == "Prod", item %in% crop_sel, unit == "1000 t") %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
   mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
