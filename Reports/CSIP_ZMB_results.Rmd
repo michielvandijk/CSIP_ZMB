@@ -47,13 +47,11 @@ In the following section, the business as usual future for Zambia, quantified us
 
 The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. We can amining the relative differences in regional production allows us to identify regions where the scenario investments in irrigation infrastructure increase the region’s production contributions.
 
-In 2010, corn accounted for nearly half of the total production of crop products in Zambia (46% of the total dry matter production), sugar cane accounted for 30% of the production, cassava accounted for 11%, and millet and groundnut together accounted for about 5% of the total production. 
+In 2010, maize accounted for nearly half of the total production of crop products in Zambia (46% of the total dry matter production), sugar cane accounted for 30% of the production, cassava accounted for 11%, and millet and groundnut together accounted for about 5% of the total production. 
 
-In terms of cropland area, in 2010 more than half of cropland grew corn, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. 
+In terms of cropland area, in 2010 more than half of cropland produced mazie, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. 
 
-Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  Corn is still the dominant crop in the region and increases 221%. 
-
-
+Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  By 2050, maize is still the most produced crop in the region (production increases 221%), sugar cane increases 215% by 2050 and cassava production increases by 140%.  
 
 
 
@@ -64,9 +62,10 @@ fig_bau_crop_prod
 ```
 
 
-
 - Crop Yields
+GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements (Byerlee, Stevenson, & Villoria, 2014; Hillocks, 2002).
 
+In the BAU, maize yields increase by more than 65% from 2010 to 2050. Cassava yields increase 45%
 
 
 
@@ -164,6 +163,7 @@ _Figure X: Trade_
 fig_opt_trade
 fig_opt_trade_dif
 ```
+
 
 _Figure X: Livestock_
 
