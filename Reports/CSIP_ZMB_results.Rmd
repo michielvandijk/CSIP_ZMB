@@ -63,9 +63,11 @@ fig_bau_crop_prod
 
 
 - Crop Yields
-GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements (Byerlee, Stevenson, & Villoria, 2014; Hillocks, 2002).
 
-In the BAU, maize yields increase by more than 65% from 2010 to 2050. Cassava yields increase 45%
+GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014, @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions on the and adjusted the exogenous yield assumptions.
+
+In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050. 
+
 
 
 

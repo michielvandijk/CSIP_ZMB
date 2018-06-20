@@ -519,7 +519,7 @@ Using an average yield crops, as an indicator, provides us with measure of the o
 
 - Livestock production and Livestock heads
 
-Livestock is modeled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
+Livestock is modeled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014, @Herrero2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
 
 
 - Cropland and Land use change
