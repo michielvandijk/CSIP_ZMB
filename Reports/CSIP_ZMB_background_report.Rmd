@@ -78,7 +78,7 @@ The model computes market equilibrium for agricultural and forest products by al
 
 By including not only the bio-energy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland.
 
-With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for 17 of the 18 crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer, water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the country level [@FAO20107]. 
+With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for 17 of the 18 crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer, water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the country level [@FAO2017]. 
 
 
 __Figure 1: Overview of GLOBIOM__
@@ -427,7 +427,7 @@ The representation of irrigated cropland production systems within GLOBIOM consi
 
 #### CSA benefits and costs
 
-FAO estimates that 35Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 million ha of cropland were irrigated [@FAO2017, @Fenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
+FAO estimates that 35Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 million ha of cropland were irrigated [@FAO2017, @Frenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
 
 Water withdrawals for irrigation account for more than 76% of the total withdrwals in 2000 according to the FAO's AQUASTAT database [@FAO2017]. 
 
@@ -492,9 +492,56 @@ SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of t
 
 
 # Results
+Quantifying impacts of technologies with global models provides additional insights to the regional assumptions, as well as offer context for the impact of global developments on the region, giving policy makers more detailed information. Additionally, a model represent a structured set of assumptions that can be used to challenge the ideas proposed by the visions and to check the visions for internal consistentency. In an iterative process, the Zambian stakeholders challenged the modelling results if they thought these were not plausible from a regional perspective.
+
+
+##Indicators of impacts of irrigation investments 
+We have compared the impacts of the Business as Usual future with the scenarios that include the CSA technolgoies and options under a range of indicators related to:
+
+  -	economic development: crop production, livestock production and numbers, and net trade 
+
+  -	food security: average daily per capita calorie availability
+
+  -	climate change mitigation: AFOLU (Agriculture, Forestry, and Other Land Uses) greenhouse gas (GHG) emissions 
+
+  -	terrestrial biodiversity: crop yields, cropland area, and area of forests and other natural vegetation
+
+ 
+
+- Crop Production 
+
+The supply of crop products, as an indicator does not enough provide context for achieving food security, as historically in many regions, increases in production have come from the expansion of cropland area rather than through intensification or yield improvements [@Alcott2005; @Byerlee2014; @Hertel2014]. 
+
+- Crop Yields
+
+Using an average yield crops, as an indicator, provides us with measure of the overall productivity of cropland and provide a context for examining the potential impacts of irrigation as an intensification.
+
+- Cropland and Land use change
+
+While productivity gains can increase profitability and may incentivize expanding cropland and grassland, in what is known as Jevon’s paradox [@Alcott2005; @Byerlee2014; @Hertel2014], we also examine the change in irrigated and rainfed cropland, grassland, forest, and other natural lands to determine to what extent productivity gains from irrigation is sparing land for protection of terrestrial ecosystems and climate stabilization. 
+
+- Food Consumption
+
+We use the demand for crop products for food, livestock feed, bioenergy and fiber as an indicator of the food security needs of a wealthier, growing population. Our analysis uses kilocalorie availability per capita per day as an additional indicator to measure food security, considers the total food products demanded by a region and translates the quantity of product to calories. 
+
+- Trade
+
+Examining a region's imports or exports as a share of the domestic consumption allows us to assess the agricultural self-sufficiency or dependence on the outside world. 
+
+- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
+
+Examining emissions from the AFOLU (Agriculture, Forestry, and Other Land Use) sector allows us to contextualize climate stabilization through the impacts of expanded afforestation and biomass production for energy use, land use change such as deforestation and conversion of natural land to grassland and cropland, and the impacts of production of crop and livestock product. 
+
+
+- Livestock production and Livestock heads
+
+Livestock is modeled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
+
+
+
 
 ## Business as usual
-
+In the following section, the business as usual future for Zambia, quantified using the GLOBIOM, is summarized to create a complete picture of the changes over time in terms of socio-economic and agricultural development. 
 
 
 ## What if scenarios
