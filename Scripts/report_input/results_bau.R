@@ -299,7 +299,7 @@ ghg_hist <- fao_hist_globiom_raw %>%
 ghg_proj <- zmb %>%
   mutate(year = as.integer(as.character(year))) %>%
   filter(variable == "EMIS", scenario == "output_CSIP_ZMB-1") %>%
-  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) 
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) 
   #filter(item %in% emis_sel)
 
 ghg_df <- bind_rows(ghg_hist, ghg_proj)
@@ -309,7 +309,7 @@ fig_bau_emis <- ggplot() +
   #geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
   geom_col(data = ghg_proj, aes(x = year, y = value, fill = item), colour = "black") +
   scale_x_continuous(expand = c(0.0,0.0), breaks = seq(2000, 2050, 10), limits = c(1995, 2055))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 25))  +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 15))  +
   #annotate("text", x = 1980, y = 9000, label = "Historical (FAOSTAT)") +
   #annotate("text", x = 2030, y = 25, label = "GLOBIOM") +
   theme_bw() +
@@ -351,7 +351,7 @@ fig_bau_cal <- ggplot() +
   geom_line(data = calo_df, aes(x = year, y = value, colour = legend, linetype = legend), size = 2) +
   geom_point(data = calo_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
   geom_text(data = calo_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
-  scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10))  +
+  scale_x_continuous(limits = c(1985, 2050), breaks = seq(1960, 2050, 10))  +
   scale_colour_manual(values = c("blue", "black")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   theme_bw() +
