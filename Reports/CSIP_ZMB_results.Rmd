@@ -35,13 +35,33 @@ source(file.path(root, "Scripts/report_input/results_bau.R"))
 source(file.path(root, "Scripts/report_input/results_options.R"))
 ```
 
-# Baseline scenario
+# BAU scenario
+
+
+In the following section, the business as usual future for Zambia, quantified using the GLOBIOM, is summarized to create a complete picture of the changes over time in terms of socio-economic and agricultural development. 
+
+
+
+
+- Crop Production 
+
+The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. We can amining the relative differences in regional production allows us to identify regions where the scenario investments in irrigation infrastructure increase the region’s production contributions.
+
+In 2010, corn accounts for 
+
+
 
 _Figure X: BAU crop production_
 
 ```{r fig_bau_crop_prod}
 fig_bau_crop_prod
 ```
+
+
+
+- Crop Yields
+
+
 
 
 _Figure X: BAU yield_
@@ -52,12 +72,25 @@ fig_bau_yld
 
 
 
+
+- Cropland and Land use change
+
+
+
+- Livestock production and Livestock heads
+
+
+
 _Figure X: BAU lvst_
 
 ```{r fig_bau_lvst}
 fig_bau_lvst
 ```
 
+
+
+
+- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
 
 _Figure X: BAU Emissions_
 
@@ -66,11 +99,22 @@ _Figure X: BAU Emissions_
 ```
 
 
+
+- Food Consumption
+
+According to the FAO, calorie availability in Zambia has hovered at or below 2000 kilocalories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 [@FAO2017]. In the BAU scenario, calorie availability increases over the time period by about due to the increase in the GDP per capita. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day).
+
+
+
 _Figure X: BAU Calorie availability_
 
 ```{r fig_bau_cal}
 fig_bau_cal
 ```
+
+
+- Trade
+
 
 
 # Comparison of technology options
@@ -122,6 +166,13 @@ fig_opt_lvst_dif1
 fig_opt_lvst2
 fig_opt_lvst_dif2
 ```
+
+
+- Food Consumption
+
+In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita (@add) calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
+
+
 
 
 _Figure X: Consumption_

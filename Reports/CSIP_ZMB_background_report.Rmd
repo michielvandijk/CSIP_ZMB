@@ -543,44 +543,12 @@ Examining emissions from the AFOLU (Agriculture, Forestry, and Other Land Use) s
 
 
 ## Business as usual
-In the following section, the business as usual future for Zambia, quantified using the GLOBIOM, is summarized to create a complete picture of the changes over time in terms of socio-economic and agricultural development. 
-
-- Crop Production 
-
-
-- Crop Yields
-
-
-- Livestock production and Livestock heads
-
-
-
-- Cropland and Land use change
-
-
-
-- Food Consumption
-
-According to the FAO, calorie availability in Zambia has hovered at or below 2000 kilocalories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 [@FAO2017]. In the BAU scenario, calorie availability increases over the time period by about due to the increase in the GDP per capita. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day).
-
-
-
-- Trade
-
-
-
-- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
-
 
 
 ## What if scenarios
 
 
 ## Sensitivity analysis
-
-- Food Consumption
-
-In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita (@add) calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP only increases by 511 calories. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day).
 
 
 # Conclusions
