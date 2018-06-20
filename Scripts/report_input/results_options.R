@@ -36,13 +36,13 @@ igdx(GAMSPath)
 
 ### LOAD DATA
 # Zambia GLOBIOM OUTPUT Data
-zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT") %>%
+zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT_ZMB") %>%
   setNames(c("scenario", "variable", "unit", "ANYREGION", "item", "ssp", "bioscen", "enscen", "year", "value")) %>%
   mutate(year = as.integer(as.character(year))) %>%
   filter(ANYREGION == "ZambiaReg")
 
 # Scenario definitions
-scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def.xlsx"))
+scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v2.xlsx"))
 
 # LC Map
 #lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "LC_TYPE")
@@ -51,8 +51,7 @@ scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def.xls
 ### PROCESS RAW DATA
 # Add scenario definitions
 zmb <- zmb_raw %>%
-  mutate(scenario = gsub("-", "_", scenario),
-         year = as.integer(as.character(year))) 
+  mutate(year = as.integer(as.character(year))) 
 
 # Check for missing 2010 values
 check2010 <- zmb %>%
@@ -108,32 +107,35 @@ plot_dif <- function(df){
 }
 
 
+# Baseline selection
+base_options <- zmb %>% 
+  ungroup() %>%
+  filter(scen_type %in% c("baseline", "CSA", "irrigation"), 
+         gcm == "noCC", SSP == "SSP2", year == 2050)
+  
+
 ### YIELD
 # Selected crops
 crop_sel <- c("Corn", "Cass", "Gnut", "Mill")
 
 # projections
-yld_opt <- zmb %>%
+yld_opt <- base_options %>%
   filter(item %in% crop_sel, variable == "YIRF", unit == "fm t/ha") %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
-  ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 fig_opt_yld <- plot_growth(yld_opt)
   
 fig_opt_yld_dif <- plot_dif(yld_opt)
+
   
 ### EMISSIONS
-emis_opt <- zmb %>%
+emis_opt <- base_options %>%
   filter(variable == "EMIS") %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 fig_opt_emis <- plot_growth(emis_opt)
 
@@ -141,13 +143,11 @@ fig_opt_emis_dif <- plot_dif(emis_opt)
 
 
 ### LAND
-land_opt <- zmb %>%
+land_opt <- base_options %>%
   filter(variable == "LAND", item %in% c("CrpLnd", "Forest","GrsLnd", "NatLnd")) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-       gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 fig_opt_land <- plot_growth(land_opt)
 
@@ -155,13 +155,11 @@ fig_opt_land_dif <- plot_dif(land_opt)
 
 
 ### PRICE
-price_opt <- zmb %>%
+price_opt <- base_options %>%
   filter(variable == "XPRP", item %in% crop_sel) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 
 fig_opt_price <- plot_growth(price_opt)
@@ -170,13 +168,11 @@ fig_opt_price_dif <- plot_dif(price_opt)
 
 
 ### TRADE
-trade_opt <- zmb %>%
+trade_opt <- base_options %>%
   filter(variable == "NTMS", item %in% crop_sel) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"]))*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"]))*100)
 
 
 fig_opt_trade <- ggplot(data = trade_opt) +
@@ -199,13 +195,11 @@ fig_opt_trade_dif <- ggplot(data = trade_opt) +
 
 
 ### LIVESTOCK
-lvst_opt1 <- zmb %>%
+lvst_opt1 <- base_options %>%
   filter(variable == "Anim", item %in% c("BVMEAT","SGMEAT", "PGMEAT", "PTMEAT","ALMILK")) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 
 fig_opt_lvst1 <- plot_growth(lvst_opt1)
@@ -213,14 +207,11 @@ fig_opt_lvst1 <- plot_growth(lvst_opt1)
 fig_opt_lvst_dif1 <- plot_dif(lvst_opt1)
 
 
-lvst_opt2 <- zmb %>%
+lvst_opt2 <- base_options %>%
   filter(variable == "Anim", item %in% c("PIGS","BOVD", "BOVO", "BOVF","SGTO", "PTRB","PTRH")) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
-
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 fig_opt_lvst2 <- plot_growth(lvst_opt2)
 
@@ -228,13 +219,11 @@ fig_opt_lvst_dif2 <- plot_dif(lvst_opt2)
 
 
 ### CONSUMPTION
-cons_opt <- zmb %>%
+cons_opt <- base_options %>%
   filter(variable == "CONS", item %in% crop_sel) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 
 fig_opt_cons <- plot_growth(cons_opt)
@@ -243,13 +232,11 @@ fig_opt_cons_dif <- plot_dif(cons_opt)
 
 
 ### PRODUCTION
-prod_opt <- zmb %>%
+prod_opt <- base_options %>%
   filter(variable == "Prod", item %in% crop_sel) %>%
-  filter(option %in% c("baseline", "no_till_100", "no_till_50", "residues_100", "residues_50", "irrigation"), 
-         gcm == "nocc", SSP == "SSP2", trade == "none", rcp != "2p6", year == 2050) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB_1"])/value[scenario == "output_CSIP_ZMB_1"])*100)
+  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
 
 
 fig_opt_prod <- plot_growth(prod_opt)
