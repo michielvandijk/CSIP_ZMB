@@ -47,7 +47,13 @@ In the following section, the business as usual future for Zambia, quantified us
 
 The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. We can amining the relative differences in regional production allows us to identify regions where the scenario investments in irrigation infrastructure increase the region’s production contributions.
 
-In 2010, corn accounts for 
+In 2010, corn accounted for nearly half of the total production of crop products in Zambia (46% of the total dry matter production), sugar cane accounted for 30% of the production, cassava accounted for 11%, and millet and groundnut together accounted for about 5% of the total production. 
+
+In terms of cropland area, in 2010 more than half of cropland grew corn, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. 
+
+Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  Corn is still the dominant crop in the region and increases 221%. 
+
+
 
 
 

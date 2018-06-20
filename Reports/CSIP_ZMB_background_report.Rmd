@@ -427,7 +427,7 @@ The representation of irrigated cropland production systems within GLOBIOM consi
 
 #### CSA benefits and costs
 
-FAO estimates that 35Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 million ha of cropland were irrigated [@FAO2017, @Frenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
+FAO estimates that 35Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 Mha of cropland were irrigated [@FAO2017, @Frenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability and water availability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
 
 Water withdrawals for irrigation account for more than 76% of the total withdrwals in 2000 according to the FAO's AQUASTAT database [@FAO2017]. 
 
