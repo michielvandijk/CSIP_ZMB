@@ -495,7 +495,7 @@ SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of t
 Quantifying impacts of technologies with global models provides additional insights to the regional assumptions, as well as offer context for the impact of global developments on the region, giving policy makers more detailed information. Additionally, a model represent a structured set of assumptions that can be used to challenge the ideas proposed by the visions and to check the visions for internal consistentency. In an iterative process, the Zambian stakeholders challenged the modelling results if they thought these were not plausible from a regional perspective.
 
 
-##Indicators of impacts of irrigation investments 
+##Indicators of impacts 
 We have compared the impacts of the Business as Usual future with the scenarios that include the CSA technolgoies and options under a range of indicators related to:
 
   -	economic development: crop production, livestock production and numbers, and net trade 
@@ -514,7 +514,7 @@ The supply of crop products, as an indicator does not enough provide context for
 
 - Crop Yields
 
-Using an average yield crops, as an indicator, provides us with measure of the overall productivity of cropland and provide a context for examining the potential impacts of irrigation as an intensification.
+Using an average yield crops, as an indicator, provides us with measure of the overall productivity of cropland and provide a context for examining the potential impacts of the CSA technologies.
 
 
 - Livestock production and Livestock heads
