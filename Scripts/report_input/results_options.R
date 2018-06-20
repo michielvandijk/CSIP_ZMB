@@ -121,7 +121,7 @@ plot_growth <- function(df){
     geom_col(aes(x = option, y = growth, fill = scenario, colour = scenario)) +
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
-    labs(x = "", y = "growth (2000-2050)", title = unique(df$variable)) + 
+    labs(x = "", y = "growth (2010-2050)", title = unique(df$variable)) + 
     theme_bw() +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_wrap(~item, scales = "free")
@@ -179,7 +179,7 @@ cc_options <- zmb  %>%
   ungroup() %>%
   filter(scen_type %in% c("none", "CSA"), 
          ssp == "SSP2") %>%
-  filter(option != "msd")
+  filter(option != "msd", year == 2050)
 
 
 ### YIELD
@@ -190,8 +190,8 @@ crop_sel <- c("Corn")
 # projections
 yld_opt <- cc_options %>%
   filter(item %in% crop_sel, variable == "YILM", unit == "fm t/ha") %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 fig_opt_yld <- plot_growth(yld_opt)
   
@@ -206,8 +206,8 @@ emis_opt <- cc_options %>%
   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) %>%
   filter(item %in% "TOT") %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 fig_opt_emis <- plot_growth(emis_opt)
 
@@ -219,8 +219,8 @@ fig_opt_emis_abs <- plot_abs(emis_opt)
 land_opt <- cc_options %>%
   filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd")) %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 fig_opt_land <- plot_growth(land_opt)
 
@@ -233,19 +233,19 @@ fig_opt_land_abs <- plot_abs(land_opt)
 price_opt <- cc_options %>%
   filter(variable == "XPRP", item %in% crop_sel) %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 
 fig_opt_price <- plot_growth(price_opt)
 
 fig_opt_price_dif <- plot_dif(price_opt)
 
-fig_opt_price_dif <- plot_abs(price_opt)
+fig_opt_price_abs <- plot_abs(price_opt)
 
 ### TRADE
 trade_opt <- cc_options %>%
-  filter(variable == "NTMS", item %in% crop_sel) %>%
+  filter(variable == "NTMS2", item %in% crop_sel) %>%
   ungroup() %>%
   group_by(variable, item, unit) %>%
   mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"]))*100) %>%
@@ -279,8 +279,8 @@ fig_opt_trade_dif <- ggplot(data = trade_opt) +
 lvst_opt1 <- cc_options %>%
   filter(variable == "Anim", item %in% c("BVMEAT","SGMEAT", "PGMEAT", "PTMEAT","ALMILK")) %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 
 fig_opt_lvst1 <- plot_growth(lvst_opt1)
@@ -292,8 +292,8 @@ fig_opt_lvst_abs1 <- plot_abs(lvst_opt1)
 lvst_opt2 <- cc_options %>%
   filter(variable == "Anim", item %in% c("PIGS","BOVD", "BOVO", "BOVF","SGTO", "PTRB","PTRH")) %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 fig_opt_lvst2 <- plot_growth(lvst_opt2)
 
@@ -306,9 +306,8 @@ fig_opt_lvst_abs2 <- plot_abs(lvst_opt2)
 cons_opt <- cc_options %>%
   filter(variable == "CONS", item %in% crop_sel, unit == "1000 t") %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
-
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 fig_opt_cons <- plot_growth(cons_opt)
 
@@ -321,8 +320,8 @@ fig_opt_cons_abs <- plot_abs(cons_opt)
 prod_opt <- cc_options %>%
   filter(variable == "Prod", item %in% crop_sel, unit == "1000 t dm") %>%
   ungroup() %>%
-  group_by(variable, item, unit) %>%
-  mutate(dif = ((value-value[scenario == "output_CSIP_ZMB-1"])/value[scenario == "output_CSIP_ZMB-1"])*100)
+  group_by(variable, item, unit, gcm, crop_model) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100)
 
 
 fig_opt_prod <- plot_growth(prod_opt)
