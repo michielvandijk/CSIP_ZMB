@@ -95,7 +95,7 @@ fig_bau_lvst
 _Figure X: BAU Emissions_
 
 ```{r fig_bau_emis}
-#fig_bau_emis
+fig_bau_emis
 ```
 
 
@@ -124,6 +124,7 @@ _Figure X: Yield_
 ```{r fig_opt_yld}
 fig_opt_yld
 fig_opt_yld_dif
+fig_opt_yld_abs
 ```
 
 
