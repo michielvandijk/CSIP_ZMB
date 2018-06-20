@@ -516,6 +516,12 @@ The supply of crop products, as an indicator does not enough provide context for
 
 Using an average yield crops, as an indicator, provides us with measure of the overall productivity of cropland and provide a context for examining the potential impacts of irrigation as an intensification.
 
+
+- Livestock production and Livestock heads
+
+Livestock is modeled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
+
+
 - Cropland and Land use change
 
 While productivity gains can increase profitability and may incentivize expanding cropland and grassland, in what is known as Jevon’s paradox [@Alcott2005; @Byerlee2014; @Hertel2014], we also examine the change in irrigated and rainfed cropland, grassland, forest, and other natural lands to determine to what extent productivity gains from irrigation is sparing land for protection of terrestrial ecosystems and climate stabilization. 
@@ -533,21 +539,48 @@ Examining a region's imports or exports as a share of the domestic consumption a
 Examining emissions from the AFOLU (Agriculture, Forestry, and Other Land Use) sector allows us to contextualize climate stabilization through the impacts of expanded afforestation and biomass production for energy use, land use change such as deforestation and conversion of natural land to grassland and cropland, and the impacts of production of crop and livestock product. 
 
 
-- Livestock production and Livestock heads
-
-Livestock is modeled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
-
 
 
 
 ## Business as usual
 In the following section, the business as usual future for Zambia, quantified using the GLOBIOM, is summarized to create a complete picture of the changes over time in terms of socio-economic and agricultural development. 
 
+- Crop Production 
+
+
+- Crop Yields
+
+
+- Livestock production and Livestock heads
+
+
+
+- Cropland and Land use change
+
+
+
+- Food Consumption
+
+According to the FAO, calorie availability in Zambia has hovered at or below 2000 kilocalories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 [@FAO2017]. In the BAU scenario, calorie availability increases over the time period by about due to the increase in the GDP per capita. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day).
+
+
+
+- Trade
+
+
+
+- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
+
+
 
 ## What if scenarios
 
 
 ## Sensitivity analysis
+
+- Food Consumption
+
+In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita (@add) calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP only increases by 511 calories. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day).
 
 
 # Conclusions
