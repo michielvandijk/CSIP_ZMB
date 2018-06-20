@@ -130,10 +130,10 @@ prod_proj <- zmb %>%
   scenario == "output_CSIP_ZMB-1")
 
 fig_bau_crop_prod <- ggplot() +
-  geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
-  geom_col(data = prod_proj, aes(x = year, y = value, fill = item)) +
+  geom_col(data = prod_hist, aes(x = year, y = value, fill = crop), colour = "black") +
+  geom_col(data = prod_proj, aes(x = year, y = value, fill = item), colour = "black") +
   scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 12500))  +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 10000))  +
   annotate("text", x = 1980, y = 9000, label = "Historical (FAOSTAT)") +
   annotate("text", x = 2030, y = 9000, label = "GLOBIOM") +
   theme_bw() +
@@ -280,41 +280,50 @@ fig_bau_lvst <- ggplot() +
 # Clean up
 rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
 
-# 
-# ### GHG
-# # Excluded "Burn_Biomass_CH4", "Burn_Biomass_N2O", "Burn_CropRes_CH4", "Burn_CropRes_N2O", "Burn_Savanna_N2O"
-# emis_sel <- c(, "CropRes_N2O", "CropSoil_N2O", "Entferm_CH4", "ManaplTot_N2O",
-#                    "ManmgtTot_CH4", "ManmgtTot_N2O", "ManprpTot_N2O", "Rice_CH4")
-# 
-# ghg_hist <- fao_hist_globiom_raw %>%
-#   filter(variable == "EMIS") %>%
-#   rename(item = crop) %>%
-#   filter(item %in% emis_sel) %>%
-#   filter(year <= 2000) %>%
-#   #group_by(year, unit) %>%
-#   #summarize(value = sum(value, na.rm = T)) %>%
-#   mutate(scenario = "Historical")
-#   
-# ghg_proj <- zmb %>%
-#   mutate(year = as.integer(as.character(year))) %>%
-#   filter(variable == "EMIS", scenario == "output_CSIP_ZMB-1") %>%
-#   filter(item %in% emis_sel)
-# 
-# ghg_df <- bind_rows(ghg_hist, ghg_proj)
-# 
-# fig_bau_emis <- ggplot() +
-#   geom_line(data = ghg_df, aes(x = year, y = value, colour = scenario)) +
-#   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
-#   #scale_colour_manual(values = scen_col, name = "SSPs") +
-#   theme_bw() +
-#   labs(x = "", y = "Emissions", colour = "", linetype = "") +
-#   geom_vline(xintercept = 2000, linetype = "dashed") +
-#   theme(panel.grid.minor = element_blank()) +
-#   guides(linetype = "none") +
-#   facet_wrap(~item, scales = "free")
 
-# # Clean up
-# rm(ghg_proj)
+### GHG
+# Excluded "Burn_Biomass_CH4", "Burn_Biomass_N2O", "Burn_CropRes_CH4", "Burn_CropRes_N2O", "Burn_Savanna_N2O"
+# emis_sel <- c("CropRes_N2O", "CropSoil_N2O", "Entferm_CH4", "ManaplTot_N2O",
+#                    "ManmgtTot_CH4", "ManmgtTot_N2O", "ManprpTot_N2O", "Rice_CH4")
+
+ghg_hist <- fao_hist_globiom_raw %>%
+  filter(variable == "EMIS") %>%
+  rename(item = crop) %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) %>%
+  #filter(item %in% emis_sel) %>%
+  filter(year <= 2000) %>%
+  #group_by(year, unit) %>%
+  #summarize(value = sum(value, na.rm = T)) %>%
+  mutate(scenario = "Historical")
+
+ghg_proj <- zmb %>%
+  mutate(year = as.integer(as.character(year))) %>%
+  filter(variable == "EMIS", scenario == "output_CSIP_ZMB-1") %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) 
+  #filter(item %in% emis_sel)
+
+ghg_df <- bind_rows(ghg_hist, ghg_proj)
+
+
+fig_bau_emis <- ggplot() +
+  #geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
+  geom_col(data = ghg_proj, aes(x = year, y = value, fill = item), colour = "black") +
+  scale_x_continuous(expand = c(0.0,0.0), breaks = seq(2000, 2050, 10), limits = c(1995, 2055))  +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 25))  +
+  #annotate("text", x = 1980, y = 9000, label = "Historical (FAOSTAT)") +
+  #annotate("text", x = 2030, y = 25, label = "GLOBIOM") +
+  theme_bw() +
+  labs(x = "", y = "Mt CO2eq/yr", colour = "", linetype = "") +
+  #geom_vline(xintercept = 2000, linetype = "dashed") +
+  #theme(legend.position = c(.15,.8)) +
+  #theme(legend.background = element_rect(colour = "black")) +
+  theme(panel.grid.minor = element_blank()) +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
+  theme(legend.position = "bottom") +
+  guides(fill = guide_legend(""))
+
+# Clean up
+rm(ghg_proj)
 
 
 ### CALORIE CONSUMPTION
