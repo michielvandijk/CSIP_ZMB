@@ -121,7 +121,7 @@ fig_bau_cal
 
 
 - Trade
-
+Although production of maize in Zambia increases, the demand for maize increases more significantly. In 2010, about imports represented about 9% of the market share of corn. By 2050, however, that share decreases to only 7%. 
 
 
 
@@ -156,8 +156,41 @@ fig_opt_yld_dif
 #fig_opt_yld_abs
 ```
 
+Corn production under the residue retention is 4% higher than the BAU, 2% higher under agroforestry and 1% higher under the conservation agriculture stratety. 
 
-In figure x, we compare the difference in total emissions in 2050 under the BAU with the total emissions in 2050 under the different technologies. In almost all cases the adoption of the CSA technologies/practices result slightly less GHG emissions. Residue retention results in slightly more GHG emissions although this GHG accounting methodology does not account for the residue burning and therefore underestimates the potential GHG savings from residue retention. The impacts of GHG savings compared to the BAU are quite small because many of the proposed strategies were only applied to maize production (agroforestry, drought tolerant maize). Drought tolerant maize was also assumed to have no mitigation potential, however GHG mitigation is due to land sparing due to more higher yielding maize. 
+_Figure X: Production_
+
+```{r fig_opt_prod}
+#fig_opt_prod
+fig_opt_prod_dif
+```
+
+
+
+
+_Figure X: Land_
+
+In 2050, cropland area is lower than the BAU under the CSA strategy scenarios with agroforestry, conservation agriculture, residue retention and drought tolerent maize (Figure X). Irrigation infrastructure investements increase the cropland area expansion in 2050 by about 3%.  Residue retention saves the most land sparing appox. 64,000 ha of natural land in 2050 from conversion to cropland and grassland. 
+
+```{r fig_opt_land}
+#fig_opt_land
+fig_opt_land_dif
+```
+
+
+The increase in corn production from the adoption of the CSA practices, further reduces the imports of maize which drops to only 5% of the domestic market share by 2050. 
+
+_Figure X: Trade_
+```{r fig_opt_trade}
+fig_opt_trade
+fig_opt_trade_dif
+```
+
+
+
+
+
+In figure x, we compare the difference in total emissions in 2050 under the BAU with the total emissions in 2050 under the different technologies. In almost all cases the adoption of the CSA technologies/practices result slightly less GHG emissions. Residue retention results in slightly more GHG emissions although this GHG accounting methodology does not account for the residue burning and therefore underestimates the potential GHG savings from residue retention. The impacts of GHG savings compared to the BAU are quite small because many of the proposed strategies were only applied to maize production (agroforestry, drought tolerant maize). Drought tolerant maize was also assumed to have no mitigation potential, however GHG mitigation is due to land sparing (less cropland area expansion) as a result of the more productive yielding maize. 
 
 
 
@@ -170,59 +203,18 @@ fig_opt_emis_dif
 ```
 
 
-_Figure X: Land_
-
-```{r fig_opt_land}
-fig_opt_land
-fig_opt_land_dif
-```
 
 
-_Figure X: Price_
-
-```{r fig_opt_price}
-fig_opt_price
-fig_opt_price_dif
-```
-
-
-_Figure X: Trade_
-
-```{r fig_opt_trade}
-fig_opt_trade
-fig_opt_trade_dif
-```
-
-
-_Figure X: Livestock_
-
-```{r fig_opt_lvst}
-fig_opt_lvst1
-fig_opt_lvst_dif1
-fig_opt_lvst2
-fig_opt_lvst_dif2
-```
-
-
+#Sensitivity Analaysis
 - Food Consumption
 
-In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita (@add) calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
+In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capitacalories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
 
 
-
-
-_Figure X: Consumption_
 
 ```{r fig_opt_cons}
-fig_opt_cons
-fig_opt_cons_dif
+#fig_opt_cons
+#fig_opt_cons_dif
 ```
 
 
-
-_Figure X: Production_
-
-```{r fig_opt_prod}
-fig_opt_prod
-fig_opt_prod_dif
-```
