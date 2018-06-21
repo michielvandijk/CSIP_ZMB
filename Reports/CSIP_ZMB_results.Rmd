@@ -45,11 +45,11 @@ In the following section, the business as usual future for Zambia, quantified us
 
 - Crop Production 
 
-The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. We can amining the relative differences in regional production allows us to identify regions where the scenario investments in irrigation infrastructure increase the region’s production contributions.
+The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. 
 
 In 2010, maize accounted for nearly half of the total production of crop products in Zambia (46% of the total dry matter production), sugar cane accounted for 30% of the production, cassava accounted for 11%, and millet and groundnut together accounted for about 5% of the total production. 
 
-In terms of cropland area, in 2010 more than half of cropland produced mazie, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. by 2050 the share of area producing each crop remains relatively unchanged. Under the BAU, achieving the vision of acheiving the diversified agricultural sector not achieved under the current market conditions which favor maize production. 
+In terms of cropland area, in 2010 more than half of cropland produced maize, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. by 2050 the share of area producing each crop remains relatively unchanged. Under the BAU, acheiving the vision of acheiving the diversified agricultural sector not achieved under the current market conditions which favor maize production. 
 
 Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  By 2050, maize is still the most produced crop in the region (production increases 221%), sugar cane increases 215% by 2050 and cassava production increases by 140% (Figure X).
 
@@ -63,7 +63,8 @@ fig_bau_crop_prod
 
 - Crop Yields
 
-GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014, @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions on the and adjusted the exogenous yield assumptions.
+GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014, @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions and then adjusted them to be more in line with what the stakeholders envisioned.
+
 
 In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050 (Figure X). 
 
@@ -79,7 +80,7 @@ fig_bau_yld
 
 - Land use change
 
-GLOBIOM endogenously models the global demand for land by considering the main users of land, cropland, grassand, short rotation plantation, managed forests and unmanaged forests and other natural land. Conversion from other natural and and unmanaged forests will take place based on the economic profitability of the alternative land uses which include the costs to convert the land. To expand cropland comes  An increases in the demand for food in Zambia is met by the region’s agricultural supply through productivity increases or though expansion of crop and grassland or by increasing the region's imports. 
+GLOBIOM endogenously models the global demand for land by considering the main users of land, cropland, grassland, short rotation plantation, managed forests and unmanaged forests and other natural land. Conversion from other natural and unmanaged forests will take place based on the economic profitability of the alternative land uses which include the costs to convert the land. An increase in the demand for food in Zambia is met by the region’s agricultural supply through productivity increases or though expansion of crop and grassland or by increasing the region's imports. 
 
 
 In 2010, agricultural land accounts for less than 30% of the total land cover and cropland only 2%. 60% of the total land cover of Zambia in 2010 was forest area. Under the BAU, cropland area expands by a little more than 1 Mha by 2050, with total agricultural land (cropland and grassland) expanding by more than 3.2 Mha. Most of the new agricultural land comes from forest (2.4 Mha), reducing the total forest area by 5%. 
@@ -122,14 +123,14 @@ fig_bau_cal
 
 - Trade
 
-Although production of maize in Zambia increases, the demand for maize increases more significantly. In 2010, about imports represented about 9% of the market share of corn. By 2050, however, that share decreases to only 7%. 
+Although production of maize in Zambia increases, the demand for maize increases more significantly. In 2010, about imports represented about 9% of the market share of maize. By 2050, however, that share decreases to only 7%. 
 
 
 
 
 - Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
 
-In 2010, livestock accounted for nearly 60% of the total GHG emissions from the AFOLU sector. GHG emissions over the period continue to grow and by 2050, the emissions from the conversion of forest to cropland and grassland become to the largest share of of emissions for Zambia. There is relatively little conversion of other natural land to cropland and grassland over the time period. N2O emissions from crop production also contiue to increase due to the expansion of cropland as well as the existing cropland shifting toward more intensive production systems that make use of chemical fertilizers. 
+In 2010, livestock accounted for nearly 60% of the total GHG emissions from the AFOLU sector. GHG emissions over the period continue to grow and by 2050, the emissions from the conversion of forest to cropland and grassland become to the largest share of emissions for Zambia. There is relatively little conversion of other natural land to cropland and grassland over the time period. N2O emissions from crop production also continue to increase due to the expansion of cropland as well as the existing cropland shifting toward more intensive production systems that make use of chemical fertilizers. 
 
 
 
@@ -150,8 +151,7 @@ In the figures below we present the BAU as "none" and then each column represent
 
 
 
-Crop yields take into account the underlying assumption of the productivity of the CSA technologies as well as the assumed adoption rates of the technologies. 
-In figure X we compare the average maize yield in 2050 under the different CSA scenario with the BAU average maize yield. For all of the CSA strategies except irrigation, the maize yields are higher, though residue retention has the largest yield impact. The error bar lines represent the impacts of the technologies under climate change. Residue retention, although the yields are highest, has the most sensitivity to climate change. 
+Crop yields take into account the underlying assumption of the productivity of the CSA technologies as well as the assumed adoption rates of the technologies.In figure X we compare the average maize yield in 2050 under the different CSA scenario with the BAU average maize yield. For all of the CSA strategies except irrigation, the maize yields are higher, though residue retention has the largest yield impact. The error bar lines represent the impacts of the technologies under climate change. Residue retention, although the yields are highest, has the most sensitivity to climate change. 
 
 
 _Figure X: Yield_
@@ -162,7 +162,7 @@ fig_opt_yld_dif
 #fig_opt_yld_abs
 ```
 
-Corn production under the residue retention is 4% higher than the BAU, 2% higher under agroforestry and 1% higher under the conservation agriculture stratety. 
+maize production under the residue retention is 4% higher than the BAU, 2% higher under agroforestry and 1% higher under the conservation agriculture strategy. 
 
 _Figure X: Production_
 
@@ -176,7 +176,7 @@ fig_opt_prod_dif
 
 _Figure X: Land_
 
-In 2050, cropland area is lower than the BAU under the CSA strategy scenarios with agroforestry, conservation agriculture, residue retention and drought tolerent maize (Figure X). Irrigation infrastructure investements increase the cropland area expansion in 2050 by about 3%.  Residue retention saves the most land sparing appox. 64,000 ha of natural land in 2050 from conversion to cropland and grassland. Under BAU, irrigated area expands by 130% (reaching 120,000 ha of full control irrigation) and undre a strategy where irrigation costs are partially subsidized, irrigated area expands 230% (an increase of an additional 52,000 ha). 
+In 2050, cropland area is lower than the BAU under the CSA strategy scenarios with agroforestry, conservation agriculture, residue retention and drought tolerant maize (Figure X). Irrigation infrastructure investments increase the cropland area expansion in 2050 by about 3%.  Residue retention saves the most land sparing appox. 64,000 ha of natural land in 2050 from conversion to cropland and grassland. Under BAU, irrigated area expands by 130% (reaching 120,000 ha of full control irrigation) and under a strategy where irrigation costs are partially subsidized, irrigated area expands 230% (an increase of an additional 52,000 ha). 
 
 ```{r fig_opt_land}
 #fig_opt_land
@@ -184,7 +184,7 @@ fig_opt_land_dif
 ```
 
 
-The increase in corn production from the adoption of the residue rentention reduces the imports of maize dropping to only 5% of the domestic market share by 2050. The impacts on imports in the other CSA scenarios are limited since the relative increase in production compared to BAU is also about 1%. 
+The increase in maize production from the adoption of the residue retention reduces the imports of maize dropping to only 5% of the domestic market share by 2050. The impacts on imports in the other CSA scenarios are limited since the relative increase in production compared to BAU is also about 1%. 
 
 [Insert trade figure manually]
 _Figure X: Trade_
@@ -222,10 +222,8 @@ To evaluate the uncertainty of the impacts of CSA strategies within our modeling
 The assumptions of the BAU and the CSA policy scenarios are varied across different sensitivity analyses. We first test the sensitivity to i) socioeconomic conditions  and ii)climate change impact magnitude.
 
 
-- Food Consumption
+In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
 
-In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capitacalories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
-
-The biophysical impacts of climate change modeled by EPIC and LPJmL move in opposite directions. Maize yields from LPJmL are on average 21% lower than with no climate change assumptions. Maize yields from EPIC are on average about 1 percent higher than yields with no climate change assumptions. Drought tolerant maize performs better under climate change than the other CSA technolgoies, in part because of the design of the strategy where impacts from climate are dampened. Residue retention has slightly more negative impacts on maize yields, however, this could be due to the spillover productivity impacts from other crops which see less maize cultivated (which could lower the overall yield).  
+The biophysical impacts of climate change modeled by EPIC and LPJmL move in opposite directions. Maize yields from LPJmL are on average 21% lower than with no climate change assumptions. Maize yields from EPIC are on average about 1 percent higher than yields with no climate change assumptions. Drought tolerant maize performs better under climate change than the other CSA strategies, in part because of the design of the strategy where impacts from climate are dampened. Residue retention has slightly more negative impacts on maize yields, however, this could be due to the spillover productivity impacts from other crops which see less maize cultivated (which could lower the overall yield).  
 
 
