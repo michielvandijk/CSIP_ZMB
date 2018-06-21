@@ -65,7 +65,7 @@ A few papers assess the impact of climate change on agriculture in Zambia. @Jain
 
 Drivers of agricultural development in Zambia include both local and global factors. At the local level, national policies (e.g. agricultural support and investment plans), population growth and economic growth are key drivers, while at the global level, climate change and international trade are important factors. it is the interplay and interaction between these two sets of drivers that eventually will determine the future development trajectory of agriculture in Zambia. 
 
-In this paper we adopt a global-to-local modelling framework that is able to incorporate both the global and local drivers of national agricultural growth. To capture the high level of uncertainty related to the future development of these drivers, we apply an exploratory scenario framework [@REF] both takes into account the uncertainties associated with climate change (e.g. precipitation and temperature change that affect crop yield) and the possible trajectories of socio-economic drivers of agricultural growth (e.g. population growth, economic development and technical change). The methodology is similar to the one used in recent global impact assessments of climate change [@REF], in which a matrix approach is used that combines five possible and realistic socio-economic futures with four emissions pathways. [@DEPENDS ON WHAT WE WILL DO]
+In this paper we adopt a global-to-local modelling framework that is able to incorporate both the global and local drivers of national agricultural growth. To capture the high level of uncertainty related to the future development of these drivers, we apply an exploratory scenario framework [@REF] both takes into account the uncertainties associated with climate change (e.g. precipitation and temperature change that affect crop yield) and the possible trajectories of socio-economic drivers of agricultural growth (e.g. population growth, economic development and technical change). The methodology is similar to the one used in recent global impact assessments of climate change [@ONeill2017a].
 
 The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM) model, which quantifies the impact of the global and national developments on the agricultural sector in Zambia (Figure 1). The remainder of this chapter describes GLOBIOM and the modifications we made to tailor if for the Zambia analysis. The next section presents the socio-economic and climate change scenarios that are use to calibrate the model and quantify future agricultural development pathways.
 
@@ -259,7 +259,7 @@ The following parameters have been used to model the adoption and impact of cons
 
 - Target crop: maize.
 - Yield increase of 50% in comparison to conventional farming systems
-- non-CO2/CO2 reduction of @X % in comparison to conventional farming systems [ONLY C sequestration, PROPOSE TO USE STEFAN's VALUES FOR NOW]
+- non-CO2/CO2 reduction of -2.2 % in comparison to conventional farming systems 
 
 We assume the following s-shaped diffusion curve for the adoption of conservation agriculture between 2010 and 2050.
 
@@ -312,10 +312,9 @@ fig_af_lab
 The following parameters have been used to model the adoption and impact of agro-forestry systems.
 
 - Target crop: Maize
-- Yield increase of 85% in comparison with conventional farming systems [NEED TO CHECK, seems high]
-- CO2 reduction of ? % in comparison to conventional farming systems
-- CO2 reduction of 5 to 15 t CO2 per hectare [FAO DRAFT CSA REPORT CHECK]
-- non-CO2 reduction of ? % in comparison to conventional farming systems
+- Yield increase of doubling of maize yields in comparison with conventional farming systems
+- GHG emission (N2O) reduction of 3 % in comparison to conventional farming systems
+
 
 We assume the following s-shaped diffusion curve for the adoption of agro-forestry between 2010 and 2050.
 
@@ -358,9 +357,7 @@ fig_dtm_yld
 The following parameters have been used to model the adoption and impact of DTMs.
 
 - Target crop: Maize
-- Yield increase of 50% in comparison with conventional (using non-improved traditional seeds) farming systems (to model this we probably should decrease the climate change shock with 50%).
-- Yield increase of 20% in comparison with farming systems that use improved seeds already (idem)
-- Costs increase of ? in comparison to conventional farming systems [Probably none as we already model costs for improved seeds?]
+- Yields impacted by climate change are buffered by 50% in comparison with conventional (using non-improved traditional seeds) farming systems.
 - CO2 reduction of 0 % in comparison to conventional farming systems
 - non-CO2 reduction of 0 % in comparison to conventional farming systems
 
@@ -417,7 +414,7 @@ We propose the following s-shaped diffusion pattern for PHL between 2010 and 205
 ### Expansion of irrigated area
 
 #### Background
-Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. Intensification of agriculture through irrigation is seen as a way to increase the productivity of land as well as reduce the exposure to the impacts of climate change which are estimated to be significant for rainfed agriculture [@Leclere2014, @Muller2011, @Roudier2011]. Subbsidizing the cost of water for irrigation was been common practice in developed regions like Europe and the US as a means to encourage agricultural development, though many of these policies are currently being reformed due to their environmental impacts (over-extraction and water pollution [@add]).
+Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. Intensification of agriculture through irrigation is seen as a way to increase the productivity of land as well as reduce the exposure to the impacts of climate change which are estimated to be significant for rainfed agriculture [@Leclere2014, @Muller2011, @Roudier2011]. Subbsidizing the cost of water for irrigation was been common practice in developed regions like Europe and the US as a means to encourage agricultural development, though many of these policies are currently being reformed due to their environmental impacts (over-extraction and water pollution (Wichelns 2010) ).
 
 According to the latest information (see Figure X), 155,912 ha of land is using surface, sprinkler or localized irrigation, which is about 30% of the economical irrigation potential [@FAO_IFC2014]. Nearly all area is owned or cultivated by large-scale commercial farmers, mainly producing sugar cane, soybeans and wheat. In addition, 100,000 ha is equipped with small drains, furrows and wells and mainly owned by small farmers. 
 
@@ -454,7 +451,7 @@ This section presents the sensitivity analysis that is proposed to take into acc
 ### Climate change uncertainty
 To analyse the impact of climate change We will conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change on crop yields. We combine the outputs of five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5A-LR, GFDL-ESM2M, MIROC-ESM_CHEM and NorESM1-M with two crop models: EPIC and LPJmL to obtain a bandwidth of the yield shock that is caused by climate change in comparison to a no climate change scenario. Note that the yield shocks simulated by the crop models only account for the effect of long-run changes in precipitation and temperature. They do not capture extreme climate effects nor the potential increase in pests and diseases that affect plant growth. We only use the yield simulations for rcp 8.5, which is the most extreme climate scenario [@Riahi2011].
 
-Figure @x shows the average (2 crop models x 4 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
+Figure X shows the average (2 crop models x 4 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
 
 _Figure 6: Yield change under climate change: 2000-2050_
 
@@ -498,13 +495,13 @@ Quantifying impacts of technologies with global models provides additional insig
 ##Indicators of impacts 
 We have compared the impacts of the Business as Usual future with the scenarios that include the CSA technolgoies and options under a range of indicators related to:
 
-  -	economic development: crop production, livestock production and numbers, and net trade 
+  --	economic development: crop production, livestock production and numbers, and net trade 
 
-  -	food security: average daily per capita calorie availability
+  --	food security: average daily per capita calorie availability
 
-  -	climate change mitigation: AFOLU (Agriculture, Forestry, and Other Land Uses) greenhouse gas (GHG) emissions 
+  --  climate change mitigation: AFOLU (Agriculture, Forestry, and Other Land Uses) greenhouse gas (GHG) emissions 
 
-  -	terrestrial biodiversity: crop yields, cropland area, and area of forests and other natural vegetation
+  --	terrestrial biodiversity: crop yields, cropland area, and area of forests and other natural vegetation
 
  
 
@@ -542,16 +539,25 @@ Examining emissions from the AFOLU (Agriculture, Forestry, and Other Land Use) s
 
 
 
+
 ## Business as usual
+
+
+
+
 
 
 ## What if scenarios
 
 
+
+
 ## Sensitivity analysis
 
 
+
 # Conclusions
+
 
 
 
