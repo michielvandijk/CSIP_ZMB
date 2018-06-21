@@ -51,8 +51,7 @@ In 2010, maize accounted for nearly half of the total production of crop product
 
 In terms of cropland area, in 2010 more than half of cropland produced mazie, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. 
 
-Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  By 2050, maize is still the most produced crop in the region (production increases 221%), sugar cane increases 215% by 2050 and cassava production increases by 140%.  
-
+Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  By 2050, maize is still the most produced crop in the region (production increases 221%), sugar cane increases 215% by 2050 and cassava production increases by 140% (Figure X).
 
 
 _Figure X: BAU crop production_
@@ -66,9 +65,7 @@ fig_bau_crop_prod
 
 GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014, @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions on the and adjusted the exogenous yield assumptions.
 
-In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050. 
-
-
+In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050 (Figure X). 
 
 
 _Figure X: BAU yield_
@@ -80,32 +77,35 @@ fig_bau_yld
 
 
 
-- Cropland and Land use change
+- Land use change
+
+GLOBIOM endogenously models the global demand for land by considering the main users of land, cropland, grassand, short rotation plantation, managed forests and unmanaged forests and other natural land. Conversion from other natural and and unmanaged forests will take place based on the economic profitability of the alternative land uses which include the costs to convert the land. To expand cropland comes  An increases in the demand for food in Zambia is met by the region’s agricultural supply through productivity increases or though expansion of crop and grassland or by increasing the region's imports. 
+
+
+In 2010, agricultural land accounts for less than 30% of the total land cover and cropland only 2%. 60% of the total land cover of Zambia in 2010 was forest area. Under the BAU, cropland area expands by a little more than 1 Mha by 2050, with total agricultural land (cropland and grassland) expanding by more than 3.2 Mha. Most of the new agricultural land comes from forest (2.4 Mha), reducing the total forest area by 5%. 
+
+
+
+_Figure X: Cropland change_
+
+```{r fig_bau_lc}
+fig_bau_lc
+```
+
 
 
 
 - Livestock production and Livestock heads
 
+Under the BAU, although the number of ruminant cattle increases only 22% from 2010 to 2050, the production of ruminant meat increases by more than 120% from 2010-2050 (Figure X). This comes from an increase in the feeding efficiencies of ruminant livestock. @Herrero2014 estimated that the feed conversion efficiencies in SSA would increase by 50% over the next 40 years under the middle of the road SSP2.  
 
 
-_Figure X: BAU lvst_
 
-```{r fig_bau_lvst}
-fig_bau_lvst
+
+_Figure X: BAU Ruminant Meat Production_
+```{r fig_bau_meat}
+fig_bau_meat
 ```
-
-
-
-
-- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
-
-_Figure X: BAU Emissions_
-
-```{r fig_bau_emis}
-fig_bau_emis
-```
-
-
 
 - Food Consumption
 
@@ -124,21 +124,48 @@ fig_bau_cal
 
 
 
+
+
+- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
+
+In 2010, livestock accounted for nearly 60% of the total GHG emissions from the AFOLU sector. GHG emissions over the period continue to grow and by 2050, the emissions from the conversion of forest to cropland and grassland become to the largest share of of emissions for Zambia. There is relatively little conversion of other natural land to cropland and grassland over the time period. N2O emissions from crop production also contiue to increase due to the expansion of cropland as well as the existing cropland shifting toward more intensive production systems that make use of chemical fertilizers. 
+
+
+
+_Figure X: BAU Emissions_
+
+```{r fig_bau_emis}
+fig_bau_emis
+```
+
+
+
+
+
 # Comparison of technology options
+
+Crop yields take into account the underlying assumption of the productivity of the CSA technologies as well as the assumed adoption rates of the technologies. 
+In figure X we compare the average maize yield in 2050 under the different CSA scenario with the BAU average maize yield. For all of the CSA strategies except irrigation, the maize yields are higher, though residue retention has the largest yield impact. The error bar lines represent the impacts of the technologies under climate change. Residue retention, although the yields are highest, has the most sensitivity to climate change. 
+
 
 _Figure X: Yield_
 
 ```{r fig_opt_yld}
-fig_opt_yld
+#fig_opt_yld
 fig_opt_yld_dif
-fig_opt_yld_abs
+#fig_opt_yld_abs
 ```
+
+
+In figure x, we compare the difference in total emissions in 2050 under the BAU with the total emissions in 2050 under the different technologies. In almost all cases the adoption of the CSA technologies/practices result slightly less GHG emissions. Residue retention results in slightly more GHG emissions although this GHG accounting methodology does not account for the residue burning and therefore underestimates the potential GHG savings from residue retention. The impacts of GHG savings compared to the BAU are quite small because many of the proposed strategies were only applied to maize production (agroforestry, drought tolerant maize). Drought tolerant maize was also assumed to have no mitigation potential, however GHG mitigation is due to land sparing due to more higher yielding maize. 
+
+
 
 
 _Figure X: Emissions_
 
 ```{r fig_opt_emis}
-fig_opt_emis
+#fig_opt_emis
 fig_opt_emis_dif
 ```
 
