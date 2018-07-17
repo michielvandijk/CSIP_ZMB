@@ -12,7 +12,7 @@
 # the {} brackets
 
 # GLOBIOM File
-globiom_file <- "output_CSIP_ZMB_all_20jun18"
+globiom_file <- "output_CSIP_ZMB_all_2July18"
 
 # Michiel IIASA
 if(Sys.info()["user"] == "vandijkm") {
