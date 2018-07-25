@@ -408,6 +408,9 @@ The following parameters have been used to model the reduction in PHL.
 We propose the following s-shaped diffusion pattern for PHL between 2010 and 2050.
 [Still have to decide? Gradual improvement or immediate?]
 
+_Figure 20: Post harvest loss diffusion scenario: 2010-2050_
+
+
 
 ### Expansion of irrigated area
 
@@ -430,6 +433,7 @@ We implement an irrigation scenario that assumes that transforming traditional r
 
 
 ##	Sensitivity analysis
+
 At the stakeholder workshop three clusters of drivers of uncertainty were identified:
 
 - Climate change (e.g. rainfall, temperature and, pests and diseases)
@@ -440,11 +444,12 @@ This section presents the sensitivity analysis that is proposed to take into acc
 
 
 ### Climate change uncertainty
+
 To analyse the impact of climate change We will conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change on crop yields. We combine the outputs of five general circulation models (GCMs): HadGEM2-ES, IPSL-CM5A-LR, GFDL-ESM2M, MIROC-ESM_CHEM and NorESM1-M with two crop models: EPIC and LPJmL to obtain a bandwidth of the yield shock that is caused by climate change in comparison to a no climate change scenario. Note that the yield shocks simulated by the crop models only account for the effect of long-run changes in precipitation and temperature. They do not capture extreme climate effects nor the potential increase in pests and diseases that affect plant growth. We use the yield simulations for rcp 8.5, which is the most extreme climate scenario [@Riahi2011], as well as the yield simulations for the HADGEM model with no CO2 fertilization. The scientific community has yet to reach an agreement on the whether the potential benefits from increases in CO2 can be taken up and used by crops, especially if temperature and precipitation reduce crop yields, but when taken together with RCP 8.5 under CO2 fertilization, we can show the potential range of the biophysical and economic impacts on crop yields from climate change. 
 
 Figure X shows the average (2 crop models x 5 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
 
-_Figure X: Yield change under climate change: 2000-2050_
+_Figure 21: Yield change under climate change: 2000-2050_
 
 ```{r fig_yecc_ag}
 fig_yecc_ag
@@ -457,7 +462,7 @@ As both crop production and climate change are location specific, it is importan
 
 We assume climate change has no affect on livestock 'yield'. Feed efficiency projections in the climate scenarios are therefore the same as in the BAU scenario.
 
-_Figure X: Crop yield change due to climate change by 2050 (%): Selected crops_
+_Figure 22: Crop yield change due to climate change by 2050 (%): Selected crops_
 
 ```{r, fig_yecc_crop}
 fig_yecc_crop
@@ -494,8 +499,6 @@ _Food Consumption._ One of the aims of CSA is to improve food security. We use k
 _Trade._ Examining a region's imports or exports as a share of the domestic consumption allows us to assess the agricultural self-sufficiency or dependence on the outside world. 
 
 _Agriculture, Forestry, and Other Land Use GHG emissions._ Examining emissions from the Agriculture, Forestry, and Other Land Use (AFOLU) sector allows us to contextualize climate stabilization through the impacts of expanded afforestation and biomass production for energy use, land use change such as deforestation and conversion of natural land to grassland and cropland, and the impacts of production of crop and livestock product. 
-
-
 
 
 
