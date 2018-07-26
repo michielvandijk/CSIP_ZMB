@@ -35,15 +35,11 @@ source(file.path(root, "Scripts/report_input/results_bau.R"))
 source(file.path(root, "Scripts/report_input/results_options.R"))
 ```
 
-# BAU scenario
-
+# Business as usual
 
 In the following section, the business as usual future for Zambia, quantified using the GLOBIOM, is summarized to create a complete picture of the changes over time in terms of socio-economic and agricultural development. 
 
-
-
-
-- Crop Production 
+## Crop production 
 
 The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. 
 
@@ -63,7 +59,7 @@ fig_bau_crop_prod
 
 - Crop Yields
 
-GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014, @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions and then adjusted them to be more in line with what the stakeholders envisioned.
+GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014; @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions and then adjusted them to be more in line with what the stakeholders envisioned.
 
 
 In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050 (Figure X). 
@@ -219,7 +215,7 @@ fig_opt_emis_dif
 #Sensitivity analysis
 To evaluate the uncertainty of the impacts of CSA strategies within our modeling framework we conducted a sensitivity analysis around various modeling assumptions and drivers. 
 
-The assumptions of the BAU and the CSA policy scenarios are varied across different sensitivity analyses. We first test the sensitivity to i) socioeconomic conditions  and ii)climate change impact magnitude.
+The assumptions of the BAU and the CSA policy scenarios are varied across different sensitivity analyses. We first test the sensitivity to (i) socioeconomic conditions  and (ii) climate change impact magnitude.
 
 
 In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
