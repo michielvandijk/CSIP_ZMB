@@ -77,7 +77,7 @@ zmb <- zmb %>%
 # Add scenario definition
 zmb <- zmb %>% 
   left_join(., scen_def) %>%
-  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir")))
+  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl")))
 
 
 ### PLOT FUNCTIONS

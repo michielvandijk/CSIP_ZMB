@@ -12,7 +12,7 @@
 # the {} brackets
 
 # GLOBIOM File
-globiom_file <- "output_CSIP_ZMB_all_2July18"
+globiom_file <- "output_CSIP_ZMB_all_4aug18"
 
 # Michiel IIASA
 if(Sys.info()["user"] == "vandijkm") {
@@ -32,7 +32,7 @@ if(Sys.info()["user"] == "vandijkm") {
 if(Sys.info()["user"] == "palazzo") {
   projectPath <- "P:/Globiom/Projects/CSIP_ZMB"}
 
-if(Sys.info()["user"] == "vandijkm") {
+if(Sys.info()["user"] == "palazzo") {
   dataPath <- "P:/Globiom/crop_map"}
 
 if(Sys.info()["user"] == "palazzo") {
