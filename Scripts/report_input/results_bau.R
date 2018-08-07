@@ -37,9 +37,11 @@ igdx(GAMSPath)
 ### LOAD DATA
 # Zambia GLOBIOM OUTPUT Data
 zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT_ZMB") %>%
-  setNames(c("scenario", "variable", "unit", "ANYREGION", "item", "ssp", "bioscen", "enscen", "year", "value")) %>%
+  setNames(c("scenario2", "variable", "unit", "ANYREGION", "item", "ssp", "scenario", "enscen", "year", "value")) %>%
   mutate(year = as.integer(as.character(year))) %>%
-  filter(ANYREGION == "ZambiaReg")
+  filter(ANYREGION == "ZambiaReg") %>%
+  droplevels
+
 
 # Historical FAO data
 fao_hist_globiom_raw <- read_csv(file.path(projectPath, "/Data/ZMB/Processed/Agricultural_statistics/faostat_hist_globiom_ZMB.csv"))
@@ -47,7 +49,7 @@ fao_hist_globiom_raw <- read_csv(file.path(projectPath, "/Data/ZMB/Processed/Agr
 #account_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "Account")
 
 # Scenario definitions
-scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v2.xlsx"))
+scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v3.xlsx")) 
 
 # Historical lvst statistics
 lvst_hist_raw <- read_csv(file.path(projectPath, "Data/ZMB/Processed/Agricultural_statistics/faostat_lvst_ZMB.csv")) 
@@ -80,27 +82,28 @@ zmb <- zmb_raw %>%
 
 # Check for missing 2010 values
 check2010 <- zmb %>%
-  arrange(variable, scenario, item, unit, ssp, bioscen, year) %>%
-  group_by(variable, scenario, item, unit, ssp, bioscen) %>%
+  arrange(variable, scenario, item, unit, ssp, scenario2, year) %>%
+  group_by(variable, scenario, item, unit, ssp, scenario2) %>%
   filter(!any(year==2010))
 
 # # Remove series with missing values in 2010
 zmb <- zmb %>%
-  arrange(variable, scenario, item, unit, ssp, bioscen, year) %>%
-  group_by(variable, scenario, item, unit, ssp, bioscen) %>%
+  arrange(variable, scenario, item, unit, ssp, scenario2, year) %>%
+  group_by(variable, scenario, item, unit, ssp, scenario2) %>%
   filter(any(year==2010))
 xtabs(~item + variable, data = zmb)
 
-# Add growth
+# Add growth and index
 zmb <- zmb %>%
-  group_by(variable, scenario, item, unit, ssp, bioscen) %>%
+  group_by(variable, scenario, item, unit, ssp, scenario2) %>%
   mutate(
     index = value/value[year == 2010],
     growth = (index-1)*100)
 
 # Add scenario definition
 zmb <- zmb %>% 
-  left_join(., scen_def)
+  left_join(., scen_def) %>%
+  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl")))
 
 # clean up
 rm(zmb_raw, check2010)
@@ -127,7 +130,7 @@ prod_proj <- zmb %>%
          #unit == '1000 t', 
          unit == '1000 t dm', 
          item %in% crop_globiom,  
-  scenario == "output_CSIP_ZMB-1")
+  ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC")
 
 fig_bau_crop_prod <- ggplot() +
   geom_col(data = prod_hist, aes(x = year, y = value, fill = crop), colour = "black") +
@@ -150,6 +153,12 @@ fig_bau_crop_prod <- ggplot() +
 rm(prod_hist, prod_proj, dm_conv)
 
 
+### IRRIGATION
+# Projections
+# ir_proj <- zmb %>% 
+#   filter(variable == "ASYS2")
+
+
 ### YIELD
 # Set crops
 yld_crops_sel <- c("Corn", "Cass", "Gnut", "Mill")
@@ -163,7 +172,8 @@ yld_hist <- fao_hist_globiom_raw %>%
 
 # projections
 yld_proj <- zmb %>%
-  filter(item %in% yld_crops_sel, variable %in% c("YILM"), unit == "fm t/ha",  scenario == "output_CSIP_ZMB-1") %>%
+  filter(item %in% yld_crops_sel, variable %in% c("YILM"), unit == "fm t/ha",  
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC") %>%
   ungroup() %>%
   dplyr::select(year, item, value, variable, scenario) %>%
   group_by(item, variable) %>%
@@ -199,7 +209,7 @@ yld_vis <- yld_hist %>%
 
 # Plot
 fig_bau_yld <- ggplot() +
-  geom_line(data = filter(yld_hist, year <= 2000), aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
+  geom_line(data = filter(yld_hist, year <= 2020), aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
   geom_line(data = yld_proj, aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
   geom_point(data = yld_vis, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
   geom_text(data = yld_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
@@ -234,11 +244,13 @@ lvst_hist <- lvst_hist_raw %>%
 # Projections
 lvst_proj <- zmb %>% 
   filter(item %in% lvst_globiom,  
-         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
+         year %in% c(2000:2050)) %>%
   group_by(scenario, scenario, year) %>%
   summarize(value = sum(value)*2) %>%
   mutate(item = "catt",
          legend = "GLOBIOM")
+
 # vision
 catt_fact <- vision$number[vision$variable == "catt"]
 smru_fact <- vision$parameter[vision$variable == "smru"]
@@ -288,7 +300,8 @@ meat_globiom <- c("BVMEAT")
 # Projections
 meat_proj <- zmb %>% 
   filter(item %in% meat_globiom, variable == "Prod",
-         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
+         year %in% c(2000:2050)) %>%
   mutate(legend = "GLOBIOM")
 
 col_bau <- c("blue")
@@ -327,7 +340,8 @@ ghg_hist <- fao_hist_globiom_raw %>%
 
 ghg_proj <- zmb %>%
   mutate(year = as.integer(as.character(year))) %>%
-  filter(variable == "EMIS", scenario == "output_CSIP_ZMB-1") %>%
+  filter(variable == "EMIS", 
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC") %>%
   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) 
   #filter(item %in% emis_sel)
 
@@ -364,7 +378,8 @@ rm(ghg_proj)
 # Projected data
 calo_proj <- zmb %>% 
   filter(variable == "CALO",
-         scenario == "output_CSIP_ZMB-1",item == "TOT") %>%
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
+         item == "TOT") %>%
   mutate(legend = "GLOBIOM")
 
 calo_df <- bind_rows(calo_proj, calo_hist) %>%
@@ -438,7 +453,8 @@ crp_area_hist <- fao_hist_globiom_raw %>%
 
 crp_area_proj <- zmb %>%
   filter(variable == "Area", 
-         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050),
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", 
+         year %in% c(2000:2050),
          item %in% crop_globiom) %>%
   group_by(year) %>%
   mutate(share = value/sum(value)*100)
@@ -447,9 +463,9 @@ fig_bau_luc <- ggplot() +
   geom_col(data = crp_area_hist, aes(x = year, y = value, fill = crop)) +
   geom_col(data = crp_area_proj, aes(x = year, y = value, fill = item)) +
   scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 2100))  +
-  annotate("text", x = 1980, y = 2000, label = "Historical (FAOSTAT)") +
-  annotate("text", x = 2030, y = 2000, label = "GLOBIOM") +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 3000))  +
+  annotate("text", x = 1980, y = 2500, label = "Historical (FAOSTAT)") +
+  annotate("text", x = 2030, y = 2500, label = "GLOBIOM") +
   theme_bw() +
   labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
   geom_vline(xintercept = 2010, linetype = "dashed") +
@@ -490,7 +506,8 @@ crplnd_hist <- fao_hist_globiom_raw %>%
 # Projected data
 land_proj <- zmb %>%
   filter(variable == "LAND",
-         scenario == "output_CSIP_ZMB-1", year %in% c(2000:2050)) %>%
+         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", 
+         year %in% c(2000:2050)) %>%
   filter(item == "CrpLnd") %>%
   rename(lc_class = item) %>%
   mutate(legend = "GLOBIOM")
@@ -518,7 +535,7 @@ land_target <- data.frame(year = 2050, value = 1900, label = "Normative scenario
 
 fig_bau_lc <- ggplot() +
   #geom_line(data = filter(land_hist, lc_class == "CrpLnd"), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
-  geom_line(data = filter(crplnd_hist, lc_class == "CrpLnd", year <= 2000), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
+  geom_line(data = filter(crplnd_hist, lc_class == "CrpLnd", year <= 2020), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
   geom_line(data = filter(land_proj, lc_class == "CrpLnd"), aes(x = year, y = value, colour = legend, linetype = legend), size = 1) +
   geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
   geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +

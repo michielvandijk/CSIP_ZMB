@@ -186,13 +186,14 @@ plot_abs <- function(df, ssp_sel){
 cc_options <- zmb  %>%
   ungroup() %>%
   filter(scen_type %in% c("none", "CSA")) %>%
-  filter(option != "msd", year == 2050) 
+  filter(year == 2050) 
 
 
 ### YIELD
 # Selected crops
 crop_sel <- c("Corn", "Cass", "Gnut", "Mill")
 crop_sel <- c("Corn")
+
 
 # projections
 yld_opt <- cc_options %>%
@@ -205,9 +206,6 @@ fig_opt_yld <- plot_growth(yld_opt, "SSP2")
 fig_opt_yld_dif <- plot_dif(yld_opt, "SSP2")
 
 fig_opt_yld_abs <- plot_abs(yld_opt, "SSP2")
-
-check <- yld_opt %>%
-  filter(gcm == "HadGem", rcp == "CC8p5", crop_model == "LPJmL", ssp == "SSP2")
 
 
 ### EMISSIONS
@@ -256,13 +254,13 @@ fig_opt_price_abs <- plot_abs(price_opt, "SSP2")
 
 
 ### TRADE
-trade_opt <- cc_options %>%
-  filter(variable == "NTMS2", item %in% crop_sel) %>%
-  ungroup() %>%
-  group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
-  mutate(dif = ((value-value[scen_type == "none"]))*100)
-
-fig_opt_trade_dif <- plot_dif(trade_opt, "SSP2")
+# trade_opt <- cc_options %>%
+#   filter(variable == "NTMS2", item %in% crop_sel) %>%
+#   ungroup() %>%
+#   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
+#   mutate(dif = ((value-value[scen_type == "none"]))*100)
+# 
+# fig_opt_trade_dif <- plot_dif(trade_opt, "SSP2")
 
 
 ### LIVESTOCK

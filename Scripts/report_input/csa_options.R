@@ -220,8 +220,6 @@ dtm_adop <- read_excel(file.path(projectPath, "Data/ZMB/Processed/Options/option
   gather(option, value, -year, -source) %>%
   filter(option != "non-dtm")
 
-
-
 dtm_proj <- bind_rows(
   data.frame(year = c(1997:2050), value = sigmoid(g = 0.3, 0.23, xmid = 2005, k = 1, x = 1997:2050), option = "impr"),
   data.frame(year = c(1997:2050), value = sigmoid(g = 0.2, 0, xmid = 2020, k = 0.7, x = 1997:2050), option = "dtm")
@@ -236,7 +234,6 @@ fig_dtm_proj <- ggplot() +
   labs( x = "", y = "maize area/maize farmers (%)", 
           shape = "Type of seeds", linetype = "Type of seeds", colour = "Type of seeds") +
   geom_text(data = dtm_adop, aes(x = year, y = value, label = value), vjust = 0, nudge_y = 5)
-
 
 
 ### POST-HARVEST LOSSES
@@ -254,9 +251,10 @@ fig_phl <- ggplot(data = phl, aes(x = min, xend = max, y= crop, group=crop)) +
   geom_point(data = filter(phl, is.na(min)), aes(x = max, y = crop), size = 4, col = "blue") +
   theme_bw()
   
-# dtm parameters
-# We assumem based on literature:
-dtm_param <- phl %>%
+# phl parameters
+# We assume based on literature that phl can be gradually be reduced from max to min
+# phl potential in 2050
+phl_param <- phl %>%
   mutate(min = ifelse(is.na(min), 0, min),
          value = (max-min)/100,
          unit = "potential decrease in phl (%)",
@@ -266,14 +264,36 @@ dtm_param <- phl %>%
   dplyr::select(-crop, -min, -max) %>%
   na.omit()
 
-write_csv(dtm_param, file.path(projectPath, "Data/ZMB/Processed/Options/dtm_param.csv"))
+# Gradual reduction in phl
+phl_diff_f <- function(crop){
+  df <- data.frame(year = c(2010:2050), 
+                         globiom_crop = crop,
+                         value = sigmoid(g = .3,
+                                         a = 0, xmid = 2030, 
+                                         k = phl_param$value[phl_param$globiom_crop == crop], 
+                                         x = 2010:2050), option = "phl")
+  return(df)
+}
+
+phl_proj <- bind_rows(lapply(phl_param$globiom_crop, phl_diff_f))
+
+# Plot
+fig_dtm_proj <- ggplot(data = phl_proj, aes(x = year, y = value*100, colour = globiom_crop)) +
+  geom_line(size = 1) +
+  geom_point(aes(shape = globiom_crop)) +
+  scale_y_continuous(limits = c(0, 40)) +
+  scale_shape_manual(values = c(0:15)) +
+  #geom_point(data = dtm_adop, aes(x = year, y = value, shape = option, colour = option), size = 4) +
+  theme_bw() +
+  labs( x = "", y = "Post harvest loss reduction (%)", shape = "", colour = "") +
+  theme(legend.position = "bottom")
 
 
 ### DATABASE WITH PROJECTIONS
 # Combine projections
-proj <- bind_rows(ca_proj, msd_proj, cr_proj, rr_proj, af_proj, dtm_proj)
+proj <- bind_rows(ca_proj, msd_proj, cr_proj, rr_proj, af_proj, dtm_proj, phl_proj)
 
 # Save
-#write_csv(proj, file.path(projectPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
+write_csv(proj, file.path(projectPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
 
 
