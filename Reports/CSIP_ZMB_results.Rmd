@@ -11,6 +11,8 @@ bibliography: ../Bib/CSIP_ZMB.bib
 ```{r setup, include=FALSE}
 library(pacman)
 library(readxl)
+library(RColorBrewer)
+
 p_load(rprojroot)
 root <- find_root(is_rstudio_project)
 
@@ -37,18 +39,12 @@ source(file.path(root, "Scripts/report_input/results_options.R"))
 
 # Business as usual
 
-In the following section, the business as usual future for Zambia, quantified using the GLOBIOM, is summarized to create a complete picture of the changes over time in terms of socio-economic and agricultural development. 
+The following section presents projections for a number of key agricultural variables up to the year 2050. The figures show the changes over time in terms of socio-economic and agricultural development for the coming three decades asssuming a Business as Usual (BAU) scenario for Zambia. As the impact of climate change is highly uncertain, which can have negative but also sometimes positive effects, the BAU represents a scenario of zero climate change. In the following section, we take a closer look at the impact of using various CSA technology options, the effect of climate change is taken into account. In the next section we will conduct a sensitivity analysis in which we vary the projections for population and economic growth. 
+
 
 ## Crop production 
 
-The production of crops in Zambia is driven by changes in crop demand and changes in crop prices in Zambia but to also from changes in the global crop demand. 
-
-In 2010, maize accounted for nearly half of the total production of crop products in Zambia (46% of the total dry matter production), sugar cane accounted for 30% of the production, cassava accounted for 11%, and millet and groundnut together accounted for about 5% of the total production. 
-
-In terms of cropland area, in 2010 more than half of cropland produced maize, 15% produced cotton, 10% produced groundnut, 7% produced millet, and 4% produced cotton. Irrigated area (area under full-control irrigation) accounted for only about 4% of the total cropland area and primarily produced sugarcane and wheat. by 2050 the share of area producing each crop remains relatively unchanged. Under the BAU, acheiving the vision of acheiving the diversified agricultural sector not achieved under the current market conditions which favor maize production. 
-
-Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  By 2050, maize is still the most produced crop in the region (production increases 221%), sugar cane increases 215% by 2050 and cassava production increases by 140% (Figure X).
-
+The production of crops in Zambia is driven by changes in crop demand (also including foreign demand through trade) and supply side factors, in particular expected changes in yields. In 2010, maize accounted for nearly half of the total production of crop products in Zambia (46% of the total dry matter production) followed by sugar cane accounted (30%), cassava (11%) and millet and groundnut (total 5%). Under the BAU scenario, total crop production doubles by 2050 reaching nearly 6.6 Mt dm.  By 2050, maize is still the most produced crop in the region (production increases 221%), sugar cane increases 215% by 2050 and cassava production increases by 140% (Figure X).
 
 _Figure X: BAU crop production_
 
@@ -56,14 +52,14 @@ _Figure X: BAU crop production_
 fig_bau_crop_prod
 ```
 
-
-- Crop Yields
-
-GLOBIOM considers the technological improvement in crop productivity described in section 5.1 (Fig 2: Yield Projections) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014; @Hillocks2002].In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions and then adjusted them to be more in line with what the stakeholders envisioned.
+##### Source: FAOSTAT (historical) and IIASA (projections)
 
 
-In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050 (Figure X). 
+## Crop yields
 
+GLOBIOM considers the technological improvement in crop productivity described in section 5 (Figure 4) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014; @Hillocks2002]. In the second stakeholder workshop the modeling team recieved feedback that the initial projections of yield growth were unrealistic. We reexamined our assumptions and then adjusted them to be more in line with what the stakeholders envisioned.
+
+In the BAU, maize yields increase by more than 65% from 2010 to 2050 reaching about 3.3 fm t/ha. This is comparable to results of @Kanyanga2013, who presents maize yield projections in the range of 2.8 fm t/ha for 2050. Cassava yields increase 45%, groundnut yields increase almost 50% and millet yields increase 61% from 2010 to 2050 (Figure X). Yield projections produced by GLOBIOM for the period 2000-2011 are very similar to the historical trend from FAOSTAT. Only in case of cassave, the yield projections might be too optimistic. For none of the crops, the target of doubling productivity (in compared to the period 2009-2011) the as stated in the vision is achieved. The gap is smallest for maize, followed by Cassava, while it is still very large for groundnuts and millet. 
 
 _Figure X: BAU yield_
 
@@ -71,43 +67,45 @@ _Figure X: BAU yield_
 fig_bau_yld
 ```
 
+##### Source: FAOSTAT (historical) and IIASA (projections)
 
 
-
-- Land use change
+## Land use change
 
 GLOBIOM endogenously models the global demand for land by considering the main users of land, cropland, grassland, short rotation plantation, managed forests and unmanaged forests and other natural land. Conversion from other natural and unmanaged forests will take place based on the economic profitability of the alternative land uses which include the costs to convert the land. An increase in the demand for food in Zambia is met by the region’s agricultural supply through productivity increases or though expansion of crop and grassland or by increasing the region's imports. 
 
+In 2010, agricultural land accounts for less than 30% of the total land cover and cropland only 2%. 60% of the total land cover of Zambia in 2010 was forest area. Under the BAU, cropland area expands by a little more than 1 Mha by 2050, with total agricultural land (cropland and grassland) expanding by more than 3.2 Mha (Figure Xa). Most of the new agricultural land comes from forest (2.4 Mha), reducing the total forest area by 5%.
 
-In 2010, agricultural land accounts for less than 30% of the total land cover and cropland only 2%. 60% of the total land cover of Zambia in 2010 was forest area. Under the BAU, cropland area expands by a little more than 1 Mha by 2050, with total agricultural land (cropland and grassland) expanding by more than 3.2 Mha. Most of the new agricultural land comes from forest (2.4 Mha), reducing the total forest area by 5%. 
+Figure Xb zooms in on the historical trend and BAU projection for cropland also adding the vision. According to vision, cropland should expand no more than 0.9 Mha thousand ha. FAOSTAT data indicates that the cropland area strongly increased from around 1.1 Mha in 2008 to almost 2 Mha in 2013, which diverges from the BAU trend of the previous two decaded. For this reason we use the average cropland for the period 2000-2013 as a baselined to calculate the vision target.  
 
-
-
-_Figure X: Cropland change_
+_Figure X: Land use change_
 
 ```{r fig_bau_lc}
 fig_bau_lc
+fig_bau_crplnd
 ```
 
+##### Source: FAOSTAT (historical) and IIASA (projections)
+##### Note: Historical data for forest and natural land are not available.
 
 
+## Livestock production and Livestock heads
 
-- Livestock production and Livestock heads
-
-Under the BAU, although the number of ruminant cattle increases only 22% from 2010 to 2050, the production of ruminant meat increases by more than 120% from 2010-2050 (Figure X). This comes from an increase in the feeding efficiencies of ruminant livestock. @Herrero2014 estimated that the feed conversion efficiencies in SSA would increase by 50% over the next 40 years under the middle of the road SSP2.  
-
-
-
+Under the BAU, the number of ruminant cattle increased with 22% from 2,7 million to 3.7 million heads for the period 2010-2050, which is still wel below the vision of 6 million heads in 2050 (Figure X). Measuring the development of the livestock sector in heads, however, presents only a partial picture. In reality, the increase in feed conversion efficiency over time will result in livestock units that produce more output over time (e.g. milk, eggs and meat). @Herrero2014 estimated that the feed conversion efficiencies in SSA would increase by 50% over the next 40 years under the middle of the road SSP2. The results in presented in Figure X, which shows an increase in ruminant meat production by more than 120% from 2010-2050. (Figure X). This comes from an increase in the feeding efficiencies of ruminant livestock.  
 
 _Figure X: BAU Ruminant Meat Production_
+
 ```{r fig_bau_meat}
-fig_bau_meat
+library(gridExtra)
+grid.arrange(fig_bau_lvst, fig_bau_meat, ncol=2)
 ```
 
-- Food Consumption
+##### Source: IIASA
 
-According to the FAO, calorie availability in Zambia has hovered at or below 2000 kilocalories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 [@FAO2017]. In the BAU scenario, calorie availability increases over the time period by about due to the increase in the GDP per capita. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day).
 
+## Food Consumption
+
+According to the FAO, calorie availability in Zambia has hovered at or below 2000 kilocalories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 [@FAO2017]. In the BAU scenario, calorie availability increases over the time by about @X due to the increase in the GDP per capita. By 2050, calories are about 50% higher than in 2010 (an increase of more than 930 kilocalories per day). This is well over the average caloric norm of 2,100 kcal/cap/day that is considered adequate to meet the energy needs for maintaining a healthy life and carrying out a light physical activity [@Haughton2009].
 
 
 _Figure X: BAU Calorie availability_
@@ -116,19 +114,27 @@ _Figure X: BAU Calorie availability_
 fig_bau_cal
 ```
 
-
-- Trade
-
-Although production of maize in Zambia increases, the demand for maize increases more significantly. In 2010, about imports represented about 9% of the market share of maize. By 2050, however, that share decreases to only 7%. 
+##### Source: FAOSTAT (historical) and IIASA (projections)
 
 
+## Agricultural trade
 
 
-- Agriculture, Forestry, and Other Land Use (AFOLU) GHG emissions
-
-In 2010, livestock accounted for nearly 60% of the total GHG emissions from the AFOLU sector. GHG emissions over the period continue to grow and by 2050, the emissions from the conversion of forest to cropland and grassland become to the largest share of emissions for Zambia. There is relatively little conversion of other natural land to cropland and grassland over the time period. N2O emissions from crop production also continue to increase due to the expansion of cropland as well as the existing cropland shifting toward more intensive production systems that make use of chemical fertilizers. 
 
 
+_Figure X: Crop exports_
+
+```{r fig_bau_trade}
+fig_bau_trade
+```
+
+## Agricultural and Land use, land-use change, and forestry (LULUCF) GHG emissions 
+
+The greatest contributor to total GHG emissions in Zambia is the land use, land-use change, and forestry (LULUCF) sector, accounting for 86.6% of total emissions @CIAT2017]. Agriculture and energy are responsible for 6% and and 6.5% of total emissions, respectively. Within LULUCF, 93% of the emissions are caused by the burning of biomass, while only 7% is due to the convsion of forest into cropland or any other type of land use coversion. GHG emissions in the agricultural sector or equally concentrated as the burning of Savanna is responsible for 59% of total emissions, followed by emissions from enteric fermentation (12%), manure left on pasture (10%), cultivation of organic soils (10%), the use of synthetic fertilizers (5%) and other sectors (i.e. other use of manure, rice cultivation and crop residues).
+
+Figure X shows the GHG emissions from LULUCF and agriculture for the BAU scenario. GLOBIOM is only able to estimate the GHG emissions as a consequence of land use conversion and crop and livestock production. The burning of biomass and the burning of savanna, the largest contributors to GHG emissions, cannot be modelled.  Hence, the figure depicts only a very small share of total GHG emissions in Zambia. Also due to differences in methodologies it is not possible to directly compare the historical series (in particular GHG caused by land use change) with the GLOBIOM projections. For this reason only the model results are shown.  
+
+In 2010, livestock accounted for nearly 60% of the total GHG emissions from agriculture and LULUCF as modelled with GLOBIOM. GHG emissions over the period continue to grow and by 2050, the emissions from the conversion of forest to cropland and grassland become to the largest share of emissions for Zambia. There is relatively little conversion of other natural land to cropland and grassland over the time period. N2O emissions from crop production also continue to increase due to the expansion of cropland as well as the existing cropland shifting toward more intensive production systems that make use of chemical fertilizers.
 
 _Figure X: BAU Emissions_
 
@@ -136,16 +142,12 @@ _Figure X: BAU Emissions_
 fig_bau_emis
 ```
 
+##### Source: IIASA
 
 
+# Impact of adopting CSA strategies on future agricultural development
 
-
-# Comparison of technology options
-
-
-In the figures below we present the BAU as "none" and then each column represents the scenario with the adoption of the CSA practices. The error bars represent the maximum and minimum impacts from climate change as modeled by the biophysical crop models EPIC and and LPJmL. In the figures the adoption of agroforestry will appear as "af", conservation agriculture as "ca", residue retention as "rr", drought tolerant maize as "dtm" and expansion of irrigation as "ir".
-
-
+In this section discuss the impact of adopting the various CSA strategies discussed above on a number of key agricultural variables. In the figures below we present the BAU as "none" and then each bar represents a scenario in which one of the CSA with the adoption of the CSA practices. The error bars represent the maximum and minimum impacts from climate change as modeled by the biophysical crop models EPIC and and LPJmL. In the figures the adoption of agroforestry will appear as "af", conservation agriculture as "ca", residue retention as "rr", drought tolerant maize as "dtm" and expansion of irrigation as "ir".
 
 Crop yields take into account the underlying assumption of the productivity of the CSA technologies as well as the assumed adoption rates of the technologies.In figure X we compare the average maize yield in 2050 under the different CSA scenario with the BAU average maize yield. For all of the CSA strategies except irrigation, the maize yields are higher, though residue retention has the largest yield impact. The error bar lines represent the impacts of the technologies under climate change. Residue retention, although the yields are highest, has the most sensitivity to climate change. 
 
@@ -153,9 +155,8 @@ Crop yields take into account the underlying assumption of the productivity of t
 _Figure X: Yield_
 
 ```{r fig_opt_yld}
-#fig_opt_yld
+fig_opt_yld_abs
 fig_opt_yld_dif
-#fig_opt_yld_abs
 ```
 
 maize production under the residue retention is 4% higher than the BAU, 2% higher under agroforestry and 1% higher under the conservation agriculture strategy. 
@@ -163,11 +164,11 @@ maize production under the residue retention is 4% higher than the BAU, 2% highe
 _Figure X: Production_
 
 ```{r fig_opt_prod}
-#fig_opt_prod
+fig_opt_prod_abs
 fig_opt_prod_dif
 ```
 
-
+##### Source: IIASA
 
 
 _Figure X: Land_
@@ -175,51 +176,106 @@ _Figure X: Land_
 In 2050, cropland area is lower than the BAU under the CSA strategy scenarios with agroforestry, conservation agriculture, residue retention and drought tolerant maize (Figure X). Irrigation infrastructure investments increase the cropland area expansion in 2050 by about 3%.  Residue retention saves the most land sparing appox. 64,000 ha of natural land in 2050 from conversion to cropland and grassland. Under BAU, irrigated area expands by 130% (reaching 120,000 ha of full control irrigation) and under a strategy where irrigation costs are partially subsidized, irrigated area expands 230% (an increase of an additional 52,000 ha). 
 
 ```{r fig_opt_land}
-#fig_opt_land
+fig_opt_land_abs
 fig_opt_land_dif
 ```
 
+##### Source: IIASA
 
 The increase in maize production from the adoption of the residue retention reduces the imports of maize dropping to only 5% of the domestic market share by 2050. The impacts on imports in the other CSA scenarios are limited since the relative increase in production compared to BAU is also about 1%. 
 
 [Insert trade figure manually]
+
 _Figure X: Trade_
 ```{r fig_opt_trade}
-#fig_opt_trade
+#fig_opt_trade_abs
 #fig_opt_trade_dif
 ```
 
-
-
+##### Source: IIASA
 
 
 In figure x, we compare the difference in total emissions in 2050 under the BAU with the total emissions in 2050 under the different technologies. In almost all cases the adoption of the CSA technologies/practices result slightly less GHG emissions. Residue retention results in slightly more GHG emissions although this GHG accounting methodology does not account for the residue burning and therefore underestimates the potential GHG savings from residue retention. The impacts of GHG savings compared to the BAU are quite small because many of the proposed strategies were only applied to maize production (agroforestry, drought tolerant maize). Drought tolerant maize was also assumed to have no mitigation potential, however GHG mitigation is due to land sparing (less cropland area expansion) as a result of the more productive yielding maize. 
 
-
-
-
 _Figure X: Emissions_
 
 ```{r fig_opt_emis}
-#fig_opt_emis
+fig_opt_emis_abs2
 fig_opt_emis_dif
 ```
 
+##### Source: IIASA
 
 
 ```{r fig_opt_cons}
-#fig_opt_cons
-#fig_opt_cons_dif
+fig_opt_cons_abs
+fig_opt_cons_dif
 ```
 
-#Sensitivity analysis
+
+# Sensitivity analysis
 To evaluate the uncertainty of the impacts of CSA strategies within our modeling framework we conducted a sensitivity analysis around various modeling assumptions and drivers. 
 
 The assumptions of the BAU and the CSA policy scenarios are varied across different sensitivity analyses. We first test the sensitivity to (i) socioeconomic conditions  and (ii) climate change impact magnitude.
-
 
 In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
 
 The biophysical impacts of climate change modeled by EPIC and LPJmL move in opposite directions. Maize yields from LPJmL are on average 21% lower than with no climate change assumptions. Maize yields from EPIC are on average about 1 percent higher than yields with no climate change assumptions. Drought tolerant maize performs better under climate change than the other CSA strategies, in part because of the design of the strategy where impacts from climate are dampened. Residue retention has slightly more negative impacts on maize yields, however, this could be due to the spillover productivity impacts from other crops which see less maize cultivated (which could lower the overall yield).  
 
 
+
+# Results
+This section presents the results of our modelling effort. Quantifying the adoption of CSA practices with a global model, such as GLOBIOM, provides additional insights to the regional assumptions and offers context for the impact of global developments on the region. Additionally, a model represents a structured set of assumptions that can be used to challenge the ideas proposed by the visions and to check the visions for internal consistentency. The first part of shows the model projections for the BAU scenario up to 2050 and compares those with the stakeholder vision, while the second part presents the results for the policy scenarios and illustrates the impact of adopting CSA technologies on a number of key agro-economic indicators:
+
+_Crop Yield._ Crop yield provides us with measure of the overall productivity of cropland. It is a key variable to assess and compare the impact of the selected CSA technologies. Increasing productivity is one of the pillars of CSA.
+
+_Crop Production._ The supply of crop products, as an indicator does not enough provide context for achieving food security, as historically in many regions, increases in production have come from the expansion of cropland area rather than through intensification or yield improvements [@Alcott2005; @Byerlee2014; @Hertel2014]. 
+
+_Livestock production and Livestock heads._ Livestock is an important component of the agricultural sector. It is modeled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014, @Herrero2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
+
+_Cropland and Land use change._  While productivity gains can increase profitability and may incentivize expanding cropland and grassland, in what is known as Jevon’s paradox [@Alcott2005; @Byerlee2014; @Hertel2014], we also examine the change in irrigated and rainfed cropland, grassland, forest, and other natural lands to determine to what extent productivity gains from irrigation is sparing land for protection of terrestrial ecosystems and climate stabilization. 
+
+_Food Consumption._ One of the aims of CSA is to improve food security. We use kilocalorie availability per capita per day as an indicator to measure food security. This indicator considers the total amount of food products demanded in a region and translates the quantity into calories. 
+
+_Trade._ Examining a region's imports or exports as a share of the domestic consumption allows us to assess the agricultural self-sufficiency or dependence on the outside world. 
+
+_Agriculture, Forestry, and Other Land Use GHG emissions._ Examining emissions from the Agriculture, Forestry, and Other Land Use (AFOLU) sector allows us to contextualize climate stabilization through the impacts of expanded afforestation and biomass production for energy use, land use change such as deforestation and conversion of natural land to grassland and cropland, and the impacts of production of crop and livestock product. 
+
+
+
+
+# Discussion and limitations
+
+In some literature, the CSA strategy of residue retention is defined as crop resides left on the field can either be incorporated into the soil or be eaten by livestock contrasting the widespread practice of burning crop residues, while other studies have defined residue retention as only crop residues left on field. The implications for livestock sector due to this conflicting definition of residue retention on the field may impact on the economic profitability. At the moment we do not model the demand for residues for livestock. While the adoption of CSA strategies that have higher yields than traditional production methods will increase crop production, the types of that can be targeted by each strategy is important to consider especially in the context of a vision of Zambia that has a diversified economy.
+
+Limitations and future research
+- Very limited information on impact of CSA technologies. Not Africa level and Zambia. Most impact factors are based on Africanm literature review. Often only for maize. Do not adddress CC impact. We assume same impact as under standard practices but might differ completely. Only for DTM, clear that productive. 
+
+- Not spatially explicit analysis for same reasons.
+
+- CC does not take into account climate volatility
+
+- Impact of CSA is limited. Depends on Adoption, not profitible, coverage of crops and impact on yield and Emissions itself. Most emissions are because of luc (X%) not agric (cite data from FAO.)
+
+- Not all issues captured: e.g. soil burning emissions with CA. 
+
+- Impact of some technology option is unclear or takes a long time. Difficult to model.
+
+Compared to conventional tillage, which often requires four to eight tractor passes in a typical growing season, no-tillage or zero tillage is significantly reducing the use of tractors and other heavy farm machinery and thus alleviating pollution through tractors and machinery. Furthermore, the increased levels of soil organic matter (SOM) and plant-available nitrogen typically found in CA soils greatly reduce the need for applying large amounts of chemical fertilizers, which causes pollution through N2 emission in the environment (Fig. 1.9). Thus, overall fossil fuel use and greenhouse gas emissions are greatly reduced under the CA (Niggli et al. 2009). https://link-springer-com.ezproxy.library.wur.nl/chapter/10.1007/978-981-10-2558-7_1
+
+- Very basic approach. 
+
+
+# Conclusions
+
+Under a business as usual future, the agriculture sector in Zambia grows significantly, which could mean doubling the agricultural output over the next 40 years. However, maize is currently and could remain the dominate crop in the region despite the vision for a diversified economy. The adoption of CSA strategies increase crop production but are limited to some extent by which crops can be targeted for CSA interventions and the realistic rate of adoption. 
+
+With an improvement in the feed conversion efficiency of ruminant livestock production could increase significantly over the next 40 years with very little expansion of the cattle stocks. The development of the livestock sector will depend to some extent on the production of feed crops such as cassava and maize as well adopting the CSA strategy of retaining crop residues. 
+
+Calorie availability improves in the region due an increase in per capita GDP growth and although the adoption of the CSA strategies have a limited impact on the calories consumption. Food demand in Zambia is also driven by the regional prices of crop products which depends the regional supply as well as the comparative advantage of supply of Zambia’s trading partners. Demand that cannot be met by production within Zambia will be imported, and if the region does not increase the productivity of its agriculture sector the share of imports may increase. CSA strategies that can increase the productivity and be adopted widely will help to reduce the share of food demand met by imports. 
+
+GHG emissions will continue to rise in Zambia due to conversion of land for use by crop production and livestock grazing, which could be responsible for the deforestation of about 2% of Zambia’s forest reserves. CSA strategies that increase crop productivity reduce the land burden and may spare additional land from development. 
+
+
+
+# References

@@ -38,7 +38,8 @@ igdx(GAMSPath)
 # Zambia GLOBIOM OUTPUT Data
 zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT_ZMB") %>%
   setNames(c("scenario2", "variable", "unit", "ANYREGION", "item", "ssp", "scenario", "enscen", "year", "value")) %>%
-  mutate(year = as.integer(as.character(year))) %>%
+  mutate(year = as.integer(as.character(year)),
+         item = as.character(item)) %>%
   filter(ANYREGION == "ZambiaReg") %>%
   droplevels
 
@@ -52,7 +53,9 @@ scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v3.
 ### PROCESS RAW DATA
 # Add scenario definitions
 zmb <- zmb_raw %>%
-  mutate(year = as.integer(as.character(year))) 
+  mutate(year = as.integer(as.character(year)),
+         variable = toupper(variable)) %>%
+  dplyr::filter(variable %in% c("YILM", "EMIS", "LAND", "XPRP", "ANIM", "CONS", "PROD"))
 
 # Check for missing 2010 values
 check2010 <- zmb %>%
@@ -81,33 +84,9 @@ zmb <- zmb %>%
 
 
 ### PLOT FUNCTIONS
-
-# # Growth 2000-2050 
-# plot_growth <- function(df){
-#   p = ggplot(data = df) +
-#     geom_col(aes(x = option, y = growth, fill = scenario, colour = scenario)) +
-#     #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
-#     guides(fill=F, colour = F) +
-#     labs(x = "", y = "growth (2000-2050)", title = unique(df$variable)) + 
-#     theme_bw() +
-#     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-#     facet_wrap(~item, scales = "free")
-#   p
-# }
-# 
-# # Difference in 2050 (%)
-# plot_dif <- function(df){
-#   p = ggplot(data = df) +
-#     geom_col(aes(x = option, y = dif, fill = scenario, colour = scenario)) +
-#     #geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val)) +
-#     guides(fill=F, colour = F) +
-#     labs(x = "", y = "dif BAU-option in 2050 (%)", title = unique(df$variable)) + 
-#     theme_bw() +
-#     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-#     facet_wrap(~item, scales = "free")
-#   p
-# }
-
+# Colours
+col_options <- brewer.pal(n = 8, name = "Set1")
+names(col_options) = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl")
 
 # Growth 2000-2050 with cc
 plot_growth <- function(df, ssp_sel){
@@ -118,15 +97,18 @@ plot_growth <- function(df, ssp_sel){
     mutate(max_val = max(growth, na.rm = T),
            min_val = min(growth, na.rm = T)) %>%
     filter(rcp == "noCC", year == 2050)
-
+    
     p = ggplot(data = df) +
-    geom_col(aes(x = option, y = growth, fill = scenario, colour = scenario)) +
+    geom_col(aes(x = option, y = growth, fill = option), colour = "black") +
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
+    scale_fill_manual(values = col_options) +
     labs(x = "", y = "growth (2010-2050)", title = unique(df$variable)) + 
     theme_bw() +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~item, scales = "free")
+    facet_wrap(~item, scales = "free") +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+            panel.background = element_blank())
   p
 }
 
@@ -144,17 +126,22 @@ plot_dif <- function(df, ssp_sel){
     filter(rcp == "noCC", year == 2050)
   
   p = ggplot(data = df) +
-    geom_col(aes(x = option, y = dif, fill = scenario, colour = scenario)) +
+    geom_col(aes(x = option, y = dif, fill = option), colour = "black") +
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
-    #geom_errorbar(aes(x = option, ymin = l_qtl, ymax = u_qtl), width = 0.5, colour = "green") +
     guides(fill=F, colour = F) +
+    scale_fill_manual(values = col_options) +
     labs(x = "", y = "dif BAU-option in 2050 (%)", title = unique(df$variable)) + 
     theme_bw() +
+    scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~item, scales = "free")
+    facet_wrap(~item, scales = "free") +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank()) +
+    geom_text(aes(x = option, y = dif, label = round(dif, 2)), hjust = 0, vjust = 0) +
+    geom_text(aes(x = option, y = min_val, label = round(min_val, 2)), hjust = 0, vjust = 1) +
+    geom_text(aes(x = option, y = max_val, label = round(max_val, 2)), hjust = 0, vjust = -1) 
   p
 }
-
 
 # Plot absolute values in 2010 and 2050
 plot_abs <- function(df, ssp_sel){
@@ -165,17 +152,23 @@ plot_abs <- function(df, ssp_sel){
     mutate(max_val = max(value, na.rm = T),
            min_val = min(value, na.rm = T)) %>%
     filter(rcp == "noCC", year %in% c(2050))
-  
+
   p = ggplot(data = df) +
-    geom_col(aes(x = option, y = value, fill = scenario, colour = scenario)) +
+    geom_col(aes(x = option, y = value, fill = option), colour = "black") +
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
+    scale_fill_manual(values = col_options) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, .1))) +
     labs(x = "", y = unique(df$unit), title = unique(df$variable)) + 
     theme_bw() +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~ item, scales = "free")
+    facet_wrap(~ item, scales = "free") +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank())
   p
 }
+
+
 
 # Baseline selection
 # base_options <- zmb %>% 
@@ -192,7 +185,7 @@ cc_options <- zmb  %>%
 ### YIELD
 # Selected crops
 crop_sel <- c("Corn", "Cass", "Gnut", "Mill")
-crop_sel <- c("Corn")
+#crop_sel <- c("Corn")
 
 
 # projections
@@ -209,9 +202,9 @@ fig_opt_yld_abs <- plot_abs(yld_opt, "SSP2")
 
 
 ### EMISSIONS
+# Aggregated
 emis_opt <- cc_options %>%
   filter(variable == "EMIS") %>%
-  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) %>%
   filter(item %in% "TOT") %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
@@ -223,10 +216,41 @@ fig_opt_emis_dif <- plot_dif(emis_opt, "SSP2")
 
 fig_opt_emis_abs <- plot_abs(emis_opt, "SSP2")
 
+# Disaggregated
+emis_opt2 <- cc_options %>%
+  filter(variable == "EMIS") %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O")) %>%
+  mutate(item = ifelse(item %in% c("ManmgtTot_N2O", "ManaplTot_N2O", "ManprpTot_N2O", "ManmgtTot_CH4"), "Manure", item)) %>%
+  group_by(year, item, variable, unit, gcm, crop_model, rcp, ssp, scen_type, option) %>%
+  summarize(value = sum(value)) %>%
+  ungroup() %>%
+  group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value*100) %>%
+  filter(ssp == "SSP2") %>%
+  ungroup %>%
+  group_by(option, item, year) %>%
+  mutate(max_val = max(value, na.rm = T),
+         min_val = min(value, na.rm = T)) %>%
+  filter(rcp == "noCC", year %in% c(2050))
+
+# Plot
+fig_opt_emis_abs2 <- ggplot(data = emis_opt2) +
+    geom_col(data = filter(emis_opt2, item != "TOT"), aes(x = option, y = value, fill = option, alpha = item), colour = "black") +
+    geom_errorbar(data = filter(emis_opt2, item == "TOT"), aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
+    #scale_fill_manual("Subject", values=colours, guide = "none")
+    guides(fill=F, colour = F) +
+    scale_fill_manual(values = col_options) +
+    scale_y_continuous(expand = expand_scale(mult = c(0, .1))) +
+    labs(x = "", y = unique(emis_opt2$unit), title = unique(emis_opt2$variable)) + 
+    theme_bw() +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank())
+
+
 
 ### LAND
 land_opt <- cc_options %>%
-  filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd")) %>%
+  filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
   mutate(dif = (value-value[scen_type == "none"])/value*100)
@@ -265,7 +289,7 @@ fig_opt_price_abs <- plot_abs(price_opt, "SSP2")
 
 ### LIVESTOCK
 lvst_opt1 <- cc_options %>%
-  filter(variable == "Anim", item %in% c("BVMEAT","SGMEAT", "PGMEAT", "PTMEAT","ALMILK")) %>%
+  filter(variable == "ANIM", item %in% c("BVMEAT","SGMEAT", "PGMEAT", "PTMEAT","ALMILK")) %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
   mutate(dif = (value-value[scen_type == "none"])/value*100)
@@ -278,7 +302,7 @@ fig_opt_lvst_dif1 <- plot_dif(lvst_opt1, "SSP2")
 fig_opt_lvst_abs1 <- plot_abs(lvst_opt1, "SSP2")
 
 lvst_opt2 <- cc_options %>%
-  filter(variable == "Anim", item %in% c("PIGS","BOVD", "BOVO", "BOVF","SGTO", "PTRB","PTRH")) %>%
+  filter(variable == "ANIM", item %in% c("PIGS","BOVD", "BOVO", "BOVF","SGTO", "PTRB","PTRH")) %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
   mutate(dif = (value-value[scen_type == "none"])/value*100)
@@ -306,7 +330,7 @@ fig_opt_cons_abs <- plot_abs(cons_opt, "SSP2")
 
 ### PRODUCTION
 prod_opt <- cc_options %>%
-  filter(variable == "Prod", item %in% crop_sel, unit == "1000 t dm") %>%
+  filter(variable == "PROD", item %in% crop_sel, unit == "1000 t dm") %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
   mutate(dif = (value-value[scen_type == "none"])/value*100)
