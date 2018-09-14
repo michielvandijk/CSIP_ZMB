@@ -89,7 +89,7 @@ zmb <- zmb_raw %>%
 zmb <- zmb %>% 
   left_join(., scen_def) %>%
   mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl"))) %>%
-  dplyr::filter(ssp == "SSP2", scen_type == "none") #, gcm == "noCC", rcp == "noCC")
+  dplyr::filter(scen_type == "none") #, gcm == "noCC", rcp == "noCC")
 
 # Check for missing 2010 values
 check2010 <- zmb %>%
@@ -113,13 +113,16 @@ zmb <- zmb %>%
     growth = (index-1)*100) %>%
   ungroup()
 
-# # Constrain to most extreme cc scenario
-# zmb <- zmb %>%
-#   filter(gcm %in% c("noCC", "IPSL"), crop_model %in% c("LPJmL", "noCC"))
+# Add order of ssps
+zmb <- zmb %>%
+  mutate(ssp = factor(ssp, levels = c("SSP1", "SSP2", "SSP3")))
 
 # clean up
 rm(zmb_raw, check2010)
 
+### SET COLORS SSPs
+col_ssp <- c("green", "blue", "red")
+names(col_ssp) <- c("SSP1", "SSP2", "SSP3")
 
 ### CROP PRODUCTION
 crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill", "Pota", "Rape", 
@@ -127,15 +130,6 @@ crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill"
 
 
 # Historical
-prod_hist <- fao_hist_globiom_raw %>%
-  filter(variable == "PROD", crop %in% crop_globiom, year %in% c(1961:1999)) %>%
-  #group_by(year) %>%
-  #summarize(value = sum(value, na.rm = T)) %>%
-  left_join(dm_conv) %>%
-  mutate(scenario = "Historical",
-         value = value * dm_conv,
-         unit = "1000 t dm") 
-
 prod_hist_tot <- fao_hist_globiom_raw %>%
   filter(variable == "PROD", crop %in% crop_globiom) %>%
   left_join(dm_conv) %>%
@@ -151,33 +145,39 @@ prod_proj <- zmb %>%
          unit == '1000 t dm', 
          item %in% crop_globiom,  
          gcm == "noCC", rcp == "noCC") %>%
-  filter(year >=2000)
+  filter(year >=2000) %>%
+  group_by(year, ssp) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  mutate(scenario = "GLOBIOM",
+         unit = "1000 t dm") 
 
 # Errorbar
 prod_eb <- zmb %>% 
   filter(variable == "PROD", 
          unit == '1000 t dm', 
-         item %in% crop_globiom,
-         year > 2010) %>%
+         item %in% crop_globiom) %>%
   group_by(variable, year, scenario, unit, ssp, rcp, gcm) %>%
   summarize(value = sum(value)) %>%
   ungroup() %>%
   group_by(variable, year, unit, ssp) %>%
   summarize(max_val = max(value, na.rm = T),
-         min_val = min(value, na.rm = T)) %>%
-           ungroup()
-         
+            min_val = min(value, na.rm = T)) %>%
+  ungroup()
+
 # Plot
-fig_bau_crop_prod <- ggplot() +
-  geom_area(data = prod_hist, aes(x = year, y = value, fill = crop), colour = "black") +
-  geom_area(data = prod_proj, aes(x = year, y = value, fill = item), colour = "black") +
+pd <- position_dodge(width = 2)
+
+fig_bau_crop_prod <- 
+  ggplot() +
+  #geom_ribbon(data = prod_eb, aes(x = year, ymin = min_val, ymax = max_val, fill = ssp), alpha = 0.1) +
+  geom_line(data = prod_proj, aes(x = year, y = value, linetype = scenario, colour = ssp), size = 1.5) +
   geom_line(data = prod_hist_tot, aes(x = year, y = value, linetype = scenario), colour = "black", size = 1.5) +
-  scale_linetype_manual(values = "solid") +
-    #geom_col(data = prod_hist, aes(x = year, y = value, fill = crop), colour = "black") +
-  #geom_col(data = prod_proj, aes(x = year, y = value, fill = item), colour = "black") +
-  geom_errorbar(data = prod_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 2, size = 1) +
+  #scale_linetype_manual(values = "solid") +
+  geom_errorbar(data = filter(prod_eb, year == 2050), aes(x = year, ymin = min_val, ymax = max_val,colour = ssp), width = 2, size = 1, position = pd) +
   scale_x_continuous(limits = c(1958, 2053), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 8000))  +
+  scale_colour_manual(values = col_ssp) +
+  scale_fill_manual(values = col_ssp) +
   annotate("text", x = 1980, y = 7000, label = "Historical (FAOSTAT)") +
   annotate("text", x = 2030, y = 7000, label = "GLOBIOM") +
   theme_bw() +
@@ -191,9 +191,6 @@ fig_bau_crop_prod <- ggplot() +
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
   theme(legend.position = "bottom") +
   guides(fill = guide_legend(""))
-
-# clean up
-rm(prod_hist, prod_proj, dm_conv)
 
 
 ### IRRIGATION
@@ -265,8 +262,8 @@ yld_vis <- yld_hist %>%
 fig_bau_yld <- ggplot() +
   geom_line(data = filter(yld_hist, year <= 2020), aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
   geom_line(data = yld_proj, aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
-  geom_point(data = yld_vis, aes(x = year, y = value), colour = "gold", shape = 8, size = 5) +
-  geom_errorbar(data = yld_eb, aes(x = year, ymin = min_val, ymax = max_val, colour = item), width = 2, size = 1) +
+  geom_point(data = yld_vis, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
+  geom_errorbar(data = yld_eb, aes(x = year, ymin = min_val, ymax = max_val, colour = item), width = 3) +
   geom_text(data = yld_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
   scale_x_continuous(limits = c(1960, 2055), breaks = seq(1960, 2050, 10)) +
   #scale_y_continuous(limits = c(0, 7.5))  +
@@ -345,7 +342,7 @@ names(col_bau) <- c("Historical (FAOSTAT)", "GLOBIOM")
 fig_bau_lvst <- ggplot() +
   geom_col(data = lvst_hist, aes(x = year, y = value, fill = legend)) +
   geom_col(data = lvst_proj, aes(x = year, y = value, fill = legend)) +
-  geom_point(data = lvst_vis, aes(x = year, y = value), colour = "gold", shape = 8, size = 5) +
+  geom_point(data = lvst_vis, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
   geom_text(data = lvst_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
   scale_fill_manual(values = col_bau) +
   scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
@@ -380,7 +377,7 @@ meat_proj <- zmb %>%
 fig_bau_meat <- ggplot() +
   geom_col(data = meat_proj, aes(x = year, y = value, fill = legend), colour = "black") +
   scale_fill_manual(values = col_bau) +
-  scale_x_continuous(limits = c(1995, 2055), breaks = c(2000, seq(2000, 2050, 10)), expand = c(0.0,0.0))  +
+  scale_x_continuous(limits = c(2005, 2055), breaks = c(2000, seq(2000, 2050, 10)), expand = c(0.0,0.0))  +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 150))  +
   theme_bw() +
   labs(x = "", y = "1000 t", colour = "", linetype = "") +
@@ -465,7 +462,7 @@ fig_bau_emis <- ghg_proj %>%
   ggplot() +
   #geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
   geom_col(data = ghg_proj, aes(x = year, y = value, fill = item), colour = "black") +
-  geom_errorbar(data = ghg_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 2, size = 1) +
+  geom_errorbar(data = ghg_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 3) +
   scale_x_continuous(expand = c(0.0,0.0), breaks = seq(2010, 2050, 10), limits = c(2005, 2055))  +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 13))  +
   #annotate("text", x = 1980, y = 9000, label = "Historical (FAOSTAT)") +
@@ -518,8 +515,8 @@ calo_eb <- zmb %>%
 # Plot
 fig_bau_cal <- ggplot() +
   geom_line(data = calo_df, aes(x = year, y = value, colour = legend, linetype = legend), size = 2) +
-  geom_errorbar(data = calo_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 2, size = 1) +
-  geom_point(data = calo_target, aes(x = year, y = value), colour = "gold", shape = 8, size = 5) +
+  geom_errorbar(data = calo_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 3) +
+  geom_point(data = calo_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
   geom_text(data = calo_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
   scale_x_continuous(limits = c(1985, 2055), breaks = seq(1960, 2050, 10))  +
   scale_colour_manual(values = c("blue", "black")) +
@@ -578,21 +575,13 @@ rm(calo_df, calo_hist, calo_proj, calo_target)
 # Historical crop land per crop
 crp_area_hist <- fao_hist_globiom_raw %>%
   filter(variable == "AREA", crop %in% crop_globiom) %>%
-  filter(year <= 1999)
-  #filter(year %in% c(1961, 1970, 1980, 1990, 2000))
-
-# Total historical cropland
-crplnd_hist <- fao_hist_globiom_raw %>%
-  filter(variable == "AREA", crop %in% crop_globiom) %>%
-  group_by(year) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
-  mutate(item = "CrpLnd", scenario = "Total cropland (FAOSTAT)")
+  filter(year %in% c(1961, 1970, 1980, 1990, 2000))
 
 # Projection
 crp_area_proj <- zmb %>%
   filter(variable == "AREA", 
          ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", 
-         year %in% c(2000:2050),
+         year %in% c(2010:2050),
          item %in% crop_globiom) %>%
   group_by(year) %>%
   mutate(share = value/sum(value)*100)
@@ -601,7 +590,7 @@ crp_area_proj <- zmb %>%
 land_fact <- vision$number[vision$variable == "land"]/1000
 
 land_vis <- crplnd_hist %>%
-  filter(year %in% c(2000:2013)) %>%
+  filter(year %in% c(2000: 2013)) %>%
   summarize(value = mean(value, na.rm = T)) %>%
   ungroup() %>%
   mutate(label = "Vision",
@@ -626,22 +615,18 @@ crp_area_eb <- zmb %>%
 
 # Plot
 fig_bau_luc <- ggplot() +
-  #geom_col(data = crp_area_hist, aes(x = year, y = value, fill = crop), colour = "black") +
-  geom_area(data = crp_area_hist, aes(x = year, y = value, fill = crop), colour = "black") +
-  #geom_col(data = crp_area_proj, aes(x = year, y = value, fill = item), colour = "black") +
-  geom_area(data = crp_area_proj, aes(x = year, y = value, fill = item), colour = "black") +
-  geom_line(data = crplnd_hist, aes(x = year, y = value, linetype = scenario), colour = "black", size = 1.5) +
-  scale_linetype_manual(values = "solid") +
-  geom_errorbar(data = crp_area_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 2, size = 1) +
-  geom_point(data = land_target, aes(x = year, y = value), colour = "gold", shape = 8, size = 5) +
+  geom_col(data = crp_area_hist, aes(x = year, y = value, fill = crop), colour = "black") +
+  geom_col(data = crp_area_proj, aes(x = year, y = value, fill = item), colour = "black") +
+  geom_errorbar(data = crp_area_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 3) +
+  geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
   geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -3) +
-  scale_x_continuous(limits = c(1958, 2052), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
+  scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 3000))  +
   annotate("text", x = 1980, y = 2500, label = "Historical (FAOSTAT)") +
   annotate("text", x = 2030, y = 2500, label = "GLOBIOM") +
   theme_bw() +
   labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
+  geom_vline(xintercept = 2010, linetype = "dashed") +
   #theme(legend.position = c(.15,.8)) +
   #theme(legend.background = element_rect(colour = "black")) +
   #theme(panel.grid.minor = element_blank()) +
@@ -652,20 +637,29 @@ fig_bau_luc <- ggplot() +
   guides(fill = guide_legend(""))
 
 # Clean up
+rm(crp_area_hist, crp_area_proj)
 
-
+ 
 ### LAND COVER
+# Cropland historical
+crplnd_hist<- fao_hist_globiom_raw %>%
+  filter(variable == "AREA", crop %in% crop_globiom) %>%
+  group_by(year) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  mutate(lc_class = "CrpLnd", scenario = "Historical")
+
 # Combine CrpLnd, Grsland and forest data (only GLOBIOM CROPS)
 land_hist <- bind_rows(
+  crplnd_hist,
   fao_hist_globiom_raw %>%
     filter(variable == "AREA", crop %in% crop_globiom) %>%
     group_by(year) %>%
     summarize(value = sum(value, na.rm = T)) %>%
-    mutate(item = "CrpLnd", scenario = "Historical"),
+    mutate(lc_class = "Cropland", scenario = "Historical"),
   fao_hist_globiom_raw %>%
     filter(crop %in% c("LVS")) %>%
     mutate(scenario = "Historical", 
-         item = "GrsLnd"))
+         lc_class = "GrsLnd"))
 
 # Projected data
 land_proj <- bind_rows(
@@ -673,11 +667,12 @@ land_proj <- bind_rows(
     filter(variable == "LAND",
          ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", 
          year %in% c(2000:2050)) %>%
-    filter(item %in% c("GrsLnd", "NatLnd", "Forest")),
+    filter(item %in% c("GrsLnd", "NatLnd", "Forest")) %>%
+    rename(lc_class = item),
   crp_area_proj %>%
     group_by(year) %>%
     summarize(value = sum(value)) %>%
-    mutate(item = "CrpLnd")) %>%
+    mutate(lc_class = "CrpLnd")) %>%
   ungroup() %>%
   mutate(scenario = "GLOBIOM")
 
@@ -691,14 +686,15 @@ lc_eb <- zmb %>%
   group_by(variable, year, unit, ssp, item) %>%
   summarize(max_val = max(value, na.rm = T),
             min_val = min(value, na.rm = T)) %>%
-  ungroup() 
+  ungroup() %>%
+  rename(lc_class = item)
 
 # Plot No error bar because they are very small
 fig_bau_lc <- bind_rows(land_hist, land_proj) %>%
   ggplot() +
-  geom_line(aes(x = year, y = value, colour = item, linetype = scenario), size = 1) +
+  geom_line(aes(x = year, y = value, colour = lc_class, linetype = scenario), size = 1) +
   #geom_errorbar(data = lc_eb, aes(x = year, ymin = min_val, ymax = max_val, colour = lc_class), width = 3) +
-  #scale_linetype_manual(values = c("dashed", "solid")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
   theme_bw() +
   scale_x_continuous(limits = c(1960, 2050), breaks = c(1960, seq(1960, 2050, 10)))  +
   scale_y_continuous(labels = comma) +
@@ -710,44 +706,49 @@ fig_bau_lc <- bind_rows(land_hist, land_proj) %>%
         panel.background = element_blank()) +
   theme(legend.position = "bottom")
 
+fig_bau_crplnd <- bind_rows(land_hist, land_proj) %>%
+  filter(lc_class == "CrpLnd") %>%
+  ggplot() +
+  geom_line(aes(x = year, y = value, linetype = scenario), colour = "#CD9600", size = 1) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
+  geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
+  theme_bw() +
+  scale_x_continuous(limits = c(1960, 2050), breaks = c(1960, seq(1960, 2050, 10)))  +
+  scale_y_continuous(labels = comma) +
+  theme_bw() +
+  labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
+  geom_vline(xintercept = 2000, linetype = "dashed") +
+  theme(panel.grid.minor = element_blank()) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank()) +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  guides(colour = "none", linetype = "none") 
 
-### TRADE
+
+### EXPO
 #expo vision
 expo_fact <- vision$parameter[vision$variable == "expo"]
 
-# By crop
-# Selected crops
-crop_trade <- c("Corn", "Cass", "Mill", "Gnut", "Cott", "Rice", "Soya", "BVMEAT", "PGMEAT", "SugC", "SwPo", "Whea")
-  
 # Projected exports
 trade_proj <- zmb %>%
   filter(variable %in% c("NETT"), 
          ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", unit == "1000 t",
-         year %in% c(2010, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) 
+         year %in% c(2010, 2050)) %>%
+  filter(item %in% c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott",
+                      "Gnut", "Mill", "Pota", "Rape", "Rice", "Soya",
+                      "Srgh", "SugC", "sunf", "SwPo", "Whea")) 
 
-# Vision
 expo_vis <- trade_proj %>%
   filter(year == 2010, variable == "NETT") %>%
-  mutate(expo_vis = ifelse(value >0, expo_fact * value, NA)) %>%
-  mutate(year = 2050)
-
-# Errorbar
-trade_eb <- zmb %>% 
-  filter(variable %in% c("NETT"), unit == "1000 t",
-         year %in% c(2010, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
-  ungroup() %>%
-  group_by(variable, item, year, unit, ssp) %>%
-  summarize(max_val = max(value, na.rm = T),
-            min_val = min(value, na.rm = T)) %>%
-  ungroup()
-
+  mutate(expo_vis = ifelse(value >= 0, value * expo_fact, NA),
+         year = 2050)
 
 # Plot
-fig_bau_trade <- ggplot(trade_proj) +
-  geom_col(aes(x = factor(year), y = value, fill = item), position = "dodge", colour = "black") +
-  geom_errorbar(data = trade_eb, aes(x = factor(year), ymin = min_val, ymax = max_val), width = 0.3, size = 1) +
+fig_bau_trade <- ggplot(data = trade_proj) +
+  geom_col(aes(x = factor(year), y = value, fill = factor(year)), position = "dodge", colour = "black") +
   facet_wrap(~item, scales = "free") +
-  geom_point(data = expo_vis, aes(x = factor(year), y = expo_vis), colour = "gold", shape = 8, size = 5) +
+  geom_point(data = expo_vis, aes(x = factor(year), y = expo_vis), colour = "yellow", shape = 8, size = 5) +
   theme_bw() +
   scale_y_continuous(labels = comma, expand = expand_scale(mult = c(.1, .1))) +
   theme_bw() +
@@ -758,4 +759,4 @@ fig_bau_trade <- ggplot(trade_proj) +
         panel.background = element_blank()) +
   theme(legend.position = "bottom") +
   guides(fill = F) 
-
+  
