@@ -120,9 +120,13 @@ zmb <- zmb %>%
 # clean up
 rm(zmb_raw, check2010)
 
-### SET COLORS SSPs
-col_ssp <- c("green", "blue", "red")
-names(col_ssp) <- c("SSP1", "SSP2", "SSP3")
+
+### SET AESS SSPs
+col_ssp <- c("green", "blue", "red", "black")
+names(col_ssp) <- c("SSP1", "SSP2", "SSP3", "Historical")
+type_ssp <- c("solid", "solid", "solid", "solid")
+names(type_ssp) <- c("SSP1", "SSP2", "SSP3", "Historical")
+
 
 ### CROP PRODUCTION
 crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill", "Pota", "Rape", 
@@ -136,7 +140,7 @@ prod_hist_tot <- fao_hist_globiom_raw %>%
   mutate(value = value * dm_conv) %>%
   group_by(year) %>%
   summarize(value = sum(value, na.rm = T)) %>%
-  mutate(scenario = "Total production (FAOSTAT)",
+  mutate(ssp = "Historical",
          unit = "1000 t dm") 
 
 # Projections
@@ -167,17 +171,14 @@ prod_eb <- zmb %>%
 # Plot
 pd <- position_dodge(width = 2)
 
-fig_bau_crop_prod <- 
-  ggplot() +
-  #geom_ribbon(data = prod_eb, aes(x = year, ymin = min_val, ymax = max_val, fill = ssp), alpha = 0.1) +
-  geom_line(data = prod_proj, aes(x = year, y = value, linetype = scenario, colour = ssp), size = 1.5) +
-  geom_line(data = prod_hist_tot, aes(x = year, y = value, linetype = scenario), colour = "black", size = 1.5) +
-  #scale_linetype_manual(values = "solid") +
+fig_bau_crop_prod <- ggplot() +
+  geom_line(data = prod_proj, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
+  geom_line(data = prod_hist_tot, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
   geom_errorbar(data = filter(prod_eb, year == 2050), aes(x = year, ymin = min_val, ymax = max_val,colour = ssp), width = 2, size = 1, position = pd) +
   scale_x_continuous(limits = c(1958, 2053), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 8000))  +
   scale_colour_manual(values = col_ssp) +
-  scale_fill_manual(values = col_ssp) +
+  scale_linetype_manual(values = type_ssp) +
   annotate("text", x = 1980, y = 7000, label = "Historical (FAOSTAT)") +
   annotate("text", x = 2030, y = 7000, label = "GLOBIOM") +
   theme_bw() +
@@ -193,12 +194,6 @@ fig_bau_crop_prod <-
   guides(fill = guide_legend(""))
 
 
-### IRRIGATION
-# Projections
-# ir_proj <- zmb %>% 
-#   filter(variable == "ASYS2")
-
-
 ### YIELD
 # Set crops
 yld_crops_sel <- c("Corn", "Cass", "Gnut", "Mill")
@@ -207,7 +202,7 @@ yld_crops_sel <- c("Corn", "Cass", "Gnut", "Mill")
 yld_hist <- fao_hist_globiom_raw %>%
   filter(variable == "YILD",
          crop %in% yld_crops_sel) %>%
-  mutate(legend = "Historical (FAOSTAT)") %>%
+  mutate(ssp = "Historical") %>%
   rename(item = crop)
 
 # projections
@@ -215,10 +210,9 @@ yld_proj <- zmb %>%
   filter(item %in% yld_crops_sel, variable %in% c("YILM"), unit == "fm t/ha",  
          gcm == "noCC", rcp == "noCC") %>%
   ungroup() %>%
-  dplyr::select(year, item, value, variable, scenario) %>%
-  group_by(item, variable) %>%
-  mutate(index = value/value[year == 2000],
-         legend = "GLOBIOM")
+  dplyr::select(year, item, value, variable, scenario, ssp) %>%
+  group_by(item, variable, ssp) %>%
+  mutate(index = value/value[year == 2000])
 
 # # base year
 # yld_base_2000 <- yld_hist %>%
@@ -260,15 +254,15 @@ yld_vis <- yld_hist %>%
 
 # Plot
 fig_bau_yld <- ggplot() +
-  geom_line(data = filter(yld_hist, year <= 2020), aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
-  geom_line(data = yld_proj, aes(x = year, y = value, colour = item, linetype = legend), size = 1) +
-  geom_point(data = yld_vis, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
-  geom_errorbar(data = yld_eb, aes(x = year, ymin = min_val, ymax = max_val, colour = item), width = 3) +
+  geom_line(data = filter(yld_hist, year <= 2020), aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1) +
+  geom_line(data = yld_proj, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1) +
+  geom_point(data = yld_vis, aes(x = year, y = value), colour = "gold", shape = 8, size = 5) +
+  geom_errorbar(data = filter(yld_eb, year == 2050), aes(x = year, ymin = min_val, ymax = max_val, colour = ssp), width = 2, size = 1, position = pd) +
   geom_text(data = yld_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
   scale_x_continuous(limits = c(1960, 2055), breaks = seq(1960, 2050, 10)) +
   #scale_y_continuous(limits = c(0, 7.5))  +
-  scale_colour_discrete(breaks = yld_crops_sel) +
-  scale_linetype_manual(values = c("dashed", "solid")) + 
+  scale_colour_manual(values = col_ssp) +
+  scale_linetype_manual(values = type_ssp) + 
   theme_bw() +
   labs(x = "", y = "tons/ha", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
@@ -278,136 +272,16 @@ fig_bau_yld <- ggplot() +
   #guides(linetype = "none") +
   theme(legend.position="bottom") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  facet_wrap(~item, scales = "free") +
-  guides(colour = F)
+  facet_wrap(~item, scales = "free")
 
 # Clean up
-rm(yld_base_2000, yld_hist, yld_proj, yld_vis)
+rm(yld_hist, yld_proj, yld_vis)
 
 
-### LIVESTOCK PRODUCTION
-lvst_globiom <- c("BOVO", "BOVD", "BOVF")
-
-lvst_hist <- lvst_hist_raw %>%
-  mutate(legend = "Historical (FAOSTAT)",
-         value = value/1000) %>%
-  rename(item = lvst) %>%
-  filter(item == "catt",
-         year %in% c(1961, 1970, 1980, 1990))
-
-# Projections
-lvst_proj <- zmb %>% 
-  filter(item %in% lvst_globiom,  
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
-         year %in% c(2000:2050)) %>%
-  group_by(scenario, scenario, year) %>%
-  summarize(value = sum(value)*2) %>%
-  mutate(item = "catt",
-         legend = "GLOBIOM")
-
-# Errorbar (no cc impact as shocks are same for cc scenarios)
-# lvst_eb <- zmb %>% 
-#   filter(item %in% lvst_globiom,
-#          year > 2010) %>%
-#   group_by(variable, year, scenario, unit, ssp, rcp, gcm) %>%
-#   summarize(value = sum(value)) %>%
-#   ungroup() %>%
-#   group_by(variable, year, unit, ssp) %>%
-#   summarize(max_val = max(value, na.rm = T),
-#             min_val = min(value, na.rm = T)) %>%
-#   ungroup()
-
-# vision
-catt_fact <- vision$number[vision$variable == "catt"]
-smru_fact <- vision$parameter[vision$variable == "smru"]
-
-lvst_vis <- bind_rows(
-  lvst_hist_raw %>%
-    filter(year %in% c(2012:2014), lvst == "smru") %>%
-    group_by(lvst) %>%
-    summarize(value = mean(value, na.rm = T)) %>%
-    ungroup() %>%
-    mutate(label = "Vision",
-           year = 2050,
-           value = value * smru_fact),
-  data.frame(value = catt_fact, lvst = "catt", year = 2050, label = "Vision")) %>%
-  mutate(value = value/1000) %>%
-  filter(year == 2050, lvst == "catt")
-
-lvst_target <- data.frame(year = 2050, value = 6000, label = "Normative scenario")
-
-col_bau <- c("black", "blue")
-names(col_bau) <- c("Historical (FAOSTAT)", "GLOBIOM")
-
-fig_bau_lvst <- ggplot() +
-  geom_col(data = lvst_hist, aes(x = year, y = value, fill = legend)) +
-  geom_col(data = lvst_proj, aes(x = year, y = value, fill = legend)) +
-  geom_point(data = lvst_vis, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
-  geom_text(data = lvst_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
-  scale_fill_manual(values = col_bau) +
-  scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 6500))  +
-  theme_bw() +
-  labs(x = "", y = "1000 Heads", colour = "", linetype = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
-  #theme(panel.grid.minor = element_blank()) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) +
-  theme(legend.position = "bottom") +
-  guides(fill = guide_legend(""))
-
-# Clean up
-rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
-
-
-### BVMEAT
-meat_globiom <- c("BVMEAT")
-
-
-# Projections
-meat_proj <- zmb %>% 
-  filter(item %in% meat_globiom, variable == "PROD",
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
-         year %in% c(2000:2050)) %>%
-  mutate(legend = "GLOBIOM")
-
-#col_bau <- c("blue")
-#names(col_bau) <- c("GLOBIOM")
-
-fig_bau_meat <- ggplot() +
-  geom_col(data = meat_proj, aes(x = year, y = value, fill = legend), colour = "black") +
-  scale_fill_manual(values = col_bau) +
-  scale_x_continuous(limits = c(2005, 2055), breaks = c(2000, seq(2000, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 150))  +
-  theme_bw() +
-  labs(x = "", y = "1000 t", colour = "", linetype = "") +
-  #geom_vline(xintercept = 2000, linetype = "dashed") +
-  #theme(panel.grid.minor = element_blank()) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) +
-  theme(legend.position = "bottom") +
-  guides(fill = guide_legend(""))
-
-# Clean up
 
 
 
 ### GHG
-# Historical GHG information is only available for a few items.
-# ghg_hist <- fao_hist_globiom_raw %>%
-#   filter(variable == "EMIS") %>%
-#   rename(item = crop) %>%
-#   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "Burn_Savanna_N2O",
-#                       "Burn_Biomass_N2O", "Burn_CropRes_CH4", "Burn_Savanna_CH4", "Soil_Organic_N2O",
-#                       "Burn_CropRes_CH4", "Burn_CropRes_N2O", "CropRes_N2O")) %>%
-#   mutate(item = ifelse(item %in% c("ManmgtTot_N2O", "ManaplTot_N2O", "ManprpTot_N2O", "ManmgtTot_CH4"), "Manure", item)) %>%
-#   group_by(year, item) %>%
-#   summarize(value = sum(value)) %>%
-#   filter(year <= 2000) %>%
-#   #group_by(year, unit) %>%
-#   #summarize(value = sum(value, na.rm = T)) %>%
-#   mutate(scenario = "Historical")
-
 # Proj
 ghg_proj <- zmb %>%
   filter(variable == "EMIS", 

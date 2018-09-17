@@ -168,16 +168,26 @@ fig_bau_trade
 
 The greatest contributor to total GHG emissions in Zambia is the land use, land-use change, and forestry (LULUCF) sector, accounting for 86.6% of total emissions [@CIAT2017]. Agriculture and energy are responsible for 6% and and 6.5% of total emissions, respectively. Within LULUCF, 93% of the emissions are caused by the burning of biomass, while only 7% is due to the conversion of forest into cropland or any other type of land use coversion. GHG emissions in the agricultural sector or equally concentrated as the burning of savanna is responsible for 59% of total emissions, followed by emissions from enteric fermentation (12%), manure left on pasture (10%), cultivation of organic soils (10%), the use of synthetic fertilizers (5%) and other sectors (i.e. other use of manure, rice cultivation and crop residues).
 
-Figure X shows the GHG emissions from LULUCF and agriculture for the BAU scenario. GLOBIOM is only able to estimate the GHG emissions as a consequence of land use conversion and crop and livestock production. The burning of biomass and the burning of savanna, the largest contributors to GHG emissions, are not modelled. This implies that the figure only shows a very small share of total future GHG emissions in Zambia. Also due to differences in methodology it is not possible to directly compare the historical series (in particular GHG caused by land use change) with the GLOBIOM projections. For this reason only the model results are shown.  
+Figure X and Figure X show the GHG emissions from the agriculture and LULUCF sector, respectively under a BAU scenario. GLOBIOM is only able to estimate the GHG emissions as a consequence of land use conversion and crop and livestock production. The burning of biomass and the burning of savanna, the largest contributors to GHG emissions, are not modelled. This implies that the figure only shows a very small share of total future GHG emissions in Zambia. For agriculture it is not possible to estimate emissions from the cultivation of organic soils and crop residue. Also due to differences in methodology it is not possible to directly compare the historical series for the LULUCF emissions with the GLOBIOM projections.   
 
-In 2010, livestock accounted for nearly 60% of the total GHG emissions from agriculture and LULUCF as modelled with GLOBIOM. GHG emissions over the period continue to grow and by 2050, the emissions from the conversion of forest to cropland and grassland become to the largest share of emissions for Zambia. There is relatively little conversion of other natural land to cropland and grassland over the time period. N2O emissions from crop production also continue to increase due to the expansion of cropland as well as the existing cropland shifting toward more intensive production systems that make use of chemical fertilizers.
+In 2010, livestock accounted for more than 93% of the total GHG emissions from agriculture (not taking into account emssions from cultivatoon of organic soils and crop residue), while the remainder was caused by the crop sector, in particular the use of synthetic fertilizers (5.5%) and the production of rice (1.3%). In 2050 the share of emissions from synthetic fertilizer has increased to 14% of total emissions. The main cause for this is the shift toward more intensive production systems that make use of chemical fertilizers. The historical trend shows a much larger increase in total GHG emissions than our projections. A closer look at the data shows that according to FAOSTAT, the growth in emissions from synthetic fertilizers is much higher than the BAU projection. The reason for this is the recent and rapid growth in the application rate of fertilizers on maize, triggered by the national maize subsidy program.
 
-[@ADD CC impact and link with vision]
+LULUCF GHG emissions are projected to almost triple from around 2 MtCO2eq in 2010 to 5.5 MtCO2eq in 2050 caused by the conversion of forest to cropland and grassland. There is relatively little conversion of other natural land to cropland and grassland over the time period. 
 
-_Figure X: BAU Emissions_
 
-```{r fig_bau_emis}
-fig_bau_emis
+
+_Figure X: BAU agricultural GHG Emissions_
+
+```{r fig_bau_ag_emis}
+fig_bau_ag_emis
+```
+
+##### Source: IIASA
+
+_Figure X: BAU LULUCF GHG Emissions_
+
+```{r fig_bau_lulucf_emis}
+fig_bau_lulucf_emis
 ```
 
 ##### Source: IIASA
@@ -190,12 +200,21 @@ This section reviews the impact of adopting the various CSA strategies discussed
 Crop yields take into account the underlying assumption of the productivity of the CSA technologies as well as the assumed adoption rates of the technologies.In figure X we compare the average maize yield in 2050 under the different CSA scenario with the BAU average maize yield. For all of the CSA strategies except irrigation, the maize yields are higher, though residue retention has the largest yield impact. The error bar lines represent the impacts of the technologies under climate change. Residue retention, although the yields are highest, has the most sensitivity to climate change. 
 
 
+### Crop yields
+
+The biophysical impacts of climate change modeled by EPIC and LPJmL move in opposite directions. Maize yields from LPJmL are on average 21% lower than with no climate change assumptions. Maize yields from EPIC are on average about 1 percent higher than yields with no climate change assumptions. Drought tolerant maize performs better under climate change than the other CSA strategies, in part because of the design of the strategy where impacts from climate are dampened. Residue retention has slightly more negative impacts on maize yields, however, this could be due to the spillover productivity impacts from other crops which see less maize cultivated (which could lower the overall yield).  
+
+
+
 _Figure X: Yield_
 
 ```{r fig_opt_yld}
 fig_opt_yld_abs
 fig_opt_yld_dif
 ```
+
+
+### Crop production
 
 maize production under the residue retention is 4% higher than the BAU, 2% higher under agroforestry and 1% higher under the conservation agriculture strategy. 
 
@@ -209,9 +228,12 @@ fig_opt_prod_dif
 ##### Source: IIASA
 
 
-_Figure X: Land use change_
+### Land use change
+
 
 In 2050, cropland area is lower than the BAU under the CSA strategy scenarios with agroforestry, conservation agriculture, residue retention and drought tolerant maize (Figure X). Irrigation infrastructure investments increase the cropland area expansion in 2050 by about 3%.  Residue retention saves the most land sparing appox. 64,000 ha of natural land in 2050 from conversion to cropland and grassland. Under BAU, irrigated area expands by 130% (reaching 120,000 ha of full control irrigation) and under a strategy where irrigation costs are partially subsidized, irrigated area expands 230% (an increase of an additional 52,000 ha). 
+
+_Figure X: Land use change_
 
 ```{r fig_opt_land}
 fig_opt_land_abs
@@ -221,6 +243,8 @@ fig_opt_land_dif
 ##### Source: IIASA
 
 
+### Food availability
+
 _Figure X: Food availability_
 
 ```{r fig_opt_calo}
@@ -229,6 +253,8 @@ fig_opt_calo_dif
 
 ##### Source: IIASA
 
+
+### Trade
 
 The increase in maize production from the adoption of the residue retention reduces the imports of maize dropping to only 5% of the domestic market share by 2050. The impacts on imports in the other CSA scenarios are limited since the relative increase in production compared to BAU is also about 1%. 
 
@@ -242,6 +268,7 @@ _Figure X: Trade_
 ##### Source: IIASA
 
 
+### GHG emissions
 
 In figure x, we compare the difference in total emissions in 2050 under the BAU with the total emissions in 2050 under the different technologies. In almost all cases the adoption of the CSA technologies/practices result slightly less GHG emissions. Residue retention results in slightly more GHG emissions although this GHG accounting methodology does not account for the residue burning and therefore underestimates the potential GHG savings from residue retention. The impacts of GHG savings compared to the BAU are quite small because many of the proposed strategies were only applied to maize production (agroforestry, drought tolerant maize). Drought tolerant maize was also assumed to have no mitigation potential, however GHG mitigation is due to land sparing (less cropland area expansion) as a result of the more productive yielding maize. 
 
@@ -255,16 +282,13 @@ fig_opt_emis_dif
 ##### Source: IIASA
 
 
-# Sensitivity analysis
-To evaluate the uncertainty of the impacts of CSA strategies within our modeling framework we conducted a sensitivity analysis around various modeling assumptions and drivers. 
+# Sensitivity analysis 
 
-The assumptions of the BAU and the CSA policy scenarios are varied across different sensitivity analyses. We first test the sensitivity to (i) socioeconomic conditions  and (ii) climate change impact magnitude.
-
-In the BAU scenario, calorie availability increases from 2010 to 2050 by almost 50%, but under SSP1 which has a higher growth in the GDP per capita calories increase nearly 60% over the period (an increase of nearly 1000 kilocalories per day). Calorie availability in SSP3 only increases by 511 calories (27% increase from 2010). 
-
-The biophysical impacts of climate change modeled by EPIC and LPJmL move in opposite directions. Maize yields from LPJmL are on average 21% lower than with no climate change assumptions. Maize yields from EPIC are on average about 1 percent higher than yields with no climate change assumptions. Drought tolerant maize performs better under climate change than the other CSA strategies, in part because of the design of the strategy where impacts from climate are dampened. Residue retention has slightly more negative impacts on maize yields, however, this could be due to the spillover productivity impacts from other crops which see less maize cultivated (which could lower the overall yield).  
+This section presents a sensitivity analysis to assess the uncertainty in socio-economic development and climate change on future development of the agricultural sector in Zambia. Instead of using the BAU scenario, which is based on SSP2, we now assume GDP, population and technical change are described by two opposing scenarios: SSP1, which assumes a sustainable and globalized world and SSP3, which assumes an unsustainable and fragmented world. The results for these two more extreme scenarios will provide insight into the 'bandwith' of plausible projections. For simplicity, we only present results for a selection of indicators, in particular crop production, crop yield and GHG emissions.
 
 
+
+#######
 
 
 [ SUMMARY table with which vision targer is met?]
@@ -278,7 +302,7 @@ First, to model and compare the future impact of CSA practices, we need indicato
 
 Second, we are not able to fully take into account all spatially explicit factors that determine the impact of CSA strategies on agricultural production. As mentioned in the previous point, we have only very crude proxy indicators to differentiate the impact of CSA options in terms of crop yield and GHG emissions. In practice, the impact of adopting conservation agriculture, agro-forestry or drought tolerant maize varieties will be different across Zambia, depending among others on soil quality, climate and learning effects. Similarly, due to lack of high-resolution data on the location of small-farmers, spatial distribution of crops and costs of inputs, the model is run at a relatively coarse resolution (200 x 200 km), which limited spatial representation.
 
-Third, the key source of GHG emissions in Zambia is the burning of biomass, which makes up around 80% of total GHG emissions in the country. The main cause for these emissions is the burning of forests for the production of Charcoal, which is an important source of household energy supply in Zambia [@Dlamini2016]. Another important source of GHG emissions (3.5%) is the burning of savanna. At the moment GLOBIOM is not able to project the change in these two types of emission due to lack of information. For example, modelling the burning of biomass requires projections for the demand for charcoal, which, in turn, depends on the future supply of household energy in Zambia (e.g. hydropower, solar and wind energy). An interesting avenue for future research would be the creation and modelling of such scenarios.
+Third, the key source of GHG emissions in Zambia is the burning of biomass, which makes up around 80% of total GHG emissions in the country. The main cause for these emissions is the burning of forests for the production of charcoal, which is an important source of household energy supply in Zambia [@Dlamini2016]. Another important source of GHG emissions (3.5%) is the burning of savanna. At the moment GLOBIOM is not able to project the change in these two types of emission due to lack of information. For example, modelling the burning of biomass requires projections for the demand for charcoal, which, in turn, depends on the future supply of household energy in Zambia (e.g. hydropower, solar and wind energy). An interesting avenue for future research would be the design and modelling of such scenarios.
 
 Finally, the crop models output we use to prepare our climate change crop yield shocks only capture the impact of anthro-pogenic climate change, i.e. the long-run changes in climate caused by human activity. This is different from strong variability in the climate (e.g. extreme weather events such as floods, droughts and hurricanes) that are also expected have considerable and negative impact on economic and agricultural development in Sub-Saharan Africa [@Ahmed2011; @Thurlow2012]. Modelling the effects of year-by-year variatons in climate requires the use of a stochastic modelling approach, which is currently under development.
 
@@ -293,6 +317,7 @@ Calorie availability improves in the region due an increase in per capita GDP gr
 
 GHG emissions will continue to rise in Zambia due to conversion of land for use by crop production and livestock grazing, which could be responsible for the deforestation of about 2% of Zambia’s forest reserves. CSA strategies that increase crop productivity reduce the land burden and may spare additional land from development. 
 
+[ADD, recent increase in prod and fert use because of subsidied program? BAU may understimate prod and emis if the growth is increase. However, based on subsidies, question if they will be continued for decades. unlikely. ]
 
 
 While the adoption of CSA strategies that have higher yields than traditional production methods will increase crop production, the types of that can be targeted by each strategy is important to consider especially in the context of a vision of Zambia that has a diversified economy.
