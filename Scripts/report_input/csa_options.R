@@ -294,6 +294,6 @@ fig_dtm_proj <- ggplot(data = phl_proj, aes(x = year, y = value*100, colour = gl
 proj <- bind_rows(ca_proj, msd_proj, cr_proj, rr_proj, af_proj, dtm_proj, phl_proj)
 
 # Save
-write_csv(proj, file.path(projectPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
+#write_csv(proj, file.path(projectPath, "Data/ZMB/Processed/Options/options_adoption.csv"))
 
 

@@ -88,7 +88,7 @@ zmb <- zmb_raw %>%
 # Add scenario definition
 zmb <- zmb %>% 
   left_join(., scen_def) %>%
-  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl"))) %>%
+  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl", "div", "def"))) %>%
   dplyr::filter(scen_type == "none") #, gcm == "noCC", rcp == "noCC")
 
 # Check for missing 2010 values
@@ -171,7 +171,7 @@ prod_eb <- zmb %>%
 # Plot
 pd <- position_dodge(width = 2)
 
-fig_bau_crop_prod <- ggplot() +
+fig_ssp_crop_prod <- ggplot() +
   geom_line(data = prod_proj, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
   geom_line(data = prod_hist_tot, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
   geom_errorbar(data = filter(prod_eb, year == 2050), aes(x = year, ymin = min_val, ymax = max_val,colour = ssp), width = 2, size = 1, position = pd) +
@@ -179,14 +179,11 @@ fig_bau_crop_prod <- ggplot() +
   scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 8000))  +
   scale_colour_manual(values = col_ssp) +
   scale_linetype_manual(values = type_ssp) +
-  annotate("text", x = 1980, y = 7000, label = "Historical (FAOSTAT)") +
+  annotate("text", x = 1980, y = 7000, label = "Historical") +
   annotate("text", x = 2030, y = 7000, label = "GLOBIOM") +
   theme_bw() +
   labs(x = "", y = "Production (1000 tons dry matter)", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
-  #theme(legend.position = c(.15,.8)) +
-  #theme(legend.background = element_rect(colour = "black")) +
-  #theme(panel.grid.minor = element_blank()) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank()) +
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
@@ -214,20 +211,6 @@ yld_proj <- zmb %>%
   group_by(item, variable, ssp) %>%
   mutate(index = value/value[year == 2000])
 
-# # base year
-# yld_base_2000 <- yld_hist %>%
-#   filter(year %in% c(1998:2001)) %>%
-#   group_by(item) %>%
-#   summarize(base2000 = mean(value, na.rm = T)) %>%
-#   dplyr::select(base2000, item)
-# 
-# # Create t/ha series
-# yld_proj <- yld_proj %>%
-#   left_join(yld_base_2000) %>%
-#   mutate(value = base2000*index) %>%
-#   dplyr::select(-base2000)
-
-
 # Errorbar
 yld_eb <- zmb %>% 
   filter(item %in% yld_crops_sel, variable %in% c("YILM"), unit == "fm t/ha",
@@ -253,7 +236,7 @@ yld_vis <- yld_hist %>%
   filter(year == 2050)
 
 # Plot
-fig_bau_yld <- ggplot() +
+fig_ssp_yld <- ggplot() +
   geom_line(data = filter(yld_hist, year <= 2020), aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1) +
   geom_line(data = yld_proj, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1) +
   geom_point(data = yld_vis, aes(x = year, y = value), colour = "gold", shape = 8, size = 5) +
@@ -280,13 +263,53 @@ rm(yld_hist, yld_proj, yld_vis)
 
 
 
-
 ### GHG
+# Historical GHG information is only available for a few items.
+ghg_hist <- fao_hist_globiom_raw %>%
+  filter(variable == "EMIS") %>%
+  rename(item = crop) %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "Burn_Savanna_N2O",
+                      "Burn_Biomass_N2O", "Burn_Biomass_CH4", "Burn_CropRes_CH4", "Burn_Savanna_CH4", "Soil_Organic_N2O",
+                      "Burn_CropRes_CH4", "Burn_CropRes_N2O", "CropRes_N2O")) %>%
+  mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
+                       "ManmgtTot_N2O" = "Manure Management",
+                       "ManmgtTot_CH4" = "Manure Management",
+                       "Rice_CH4" = "Rice Cultivation",
+                       "CropSoil_N2O" = "Synthetic Fertilizers",
+                       "ManaplTot_N2O" = "Manure applied to Soils",
+                       "ManprpTot_N2O"= "Manure left on Pasture",
+                       "CropRes_N2O" = "Crop Residues",
+                       "LUC" = "Land use change")) %>%
+  filter(year < 2000) %>%
+  group_by(year, item) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  mutate(scenario = "Historical")
+
+ghg_hist_tot <- fao_hist_globiom_raw %>%
+  filter(variable == "EMIS") %>%
+  rename(item = crop) %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "Burn_Savanna_N2O",
+                      "Burn_Biomass_N2O", "Burn_Biomass_CH4", "Burn_CropRes_CH4", "Burn_Savanna_CH4", "Soil_Organic_N2O",
+                      "Burn_CropRes_CH4", "Burn_CropRes_N2O", "CropRes_N2O")) %>%
+  mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
+                       "ManmgtTot_N2O" = "Manure Management",
+                       "ManmgtTot_CH4" = "Manure Management",
+                       "Rice_CH4" = "Rice Cultivation",
+                       "CropSoil_N2O" = "Synthetic Fertilizers",
+                       "ManaplTot_N2O" = "Manure applied to Soils",
+                       "ManprpTot_N2O"= "Manure left on Pasture",
+                       "CropRes_N2O" = "Crop Residues",
+                       "LUC" = "Land use change")) %>%
+  group_by(year) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  mutate(ssp = "Historical") %>%
+  filter(year <= 2012) 
+
 # Proj
-ghg_proj <- zmb %>%
+ghg_ag_proj <- zmb %>%
   filter(variable == "EMIS", 
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
-         year > 2000) %>%
+         scen_type == "none", gcm == "noCC", rcp == "noCC",
+         year >= 2000) %>%
   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) %>%
   mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
                        "ManmgtTot_N2O" = "Manure Management",
@@ -297,12 +320,13 @@ ghg_proj <- zmb %>%
                        "ManprpTot_N2O"= "Manure left on Pasture",
                        "CropRes_N2O" = "Crop Residues",
                        "LUC" = "Land use change")) %>%
-  group_by(year, item) %>%
+  filter(item != "Land use change") %>%
+  group_by(year, ssp) %>%
   summarize(value = sum(value)) %>%
   mutate(scenario = "GLOBIOM")
 
 # Errorbar
-ghg_eb <- zmb %>% 
+ghg_ag_eb <- zmb %>% 
   filter(variable == "EMIS", 
          year > 2010) %>%
   filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) %>%
@@ -315,10 +339,8 @@ ghg_eb <- zmb %>%
                        "ManprpTot_N2O"= "Manure left on pasture",
                        "CropRes_N2O" = "Crop residues",
                        "LUC" = "Land use change")) %>%
+  filter(item != "Land use change") %>%
   group_by(year, variable, scenario, unit, ssp, rcp, gcm) %>%
-  summarize(value = sum(value)) %>%
-  ungroup() %>%
-  group_by(variable, year, scenario, unit, ssp, rcp, gcm) %>%
   summarize(value = sum(value)) %>%
   ungroup() %>%
   group_by(variable, year, unit, ssp) %>%
@@ -326,27 +348,105 @@ ghg_eb <- zmb %>%
             min_val = min(value, na.rm = T)) %>%
   ungroup()
 
-# Checking outlier - to remove
-# filter(scenario %in% c("1_CC8p5_IPSL_EPIC", "0_Ref")) %>%
-#   dplyr::select(item, scenario, value, year) %>%
-#   spread(scenario, value)
+# LULUCF emis
+ghg_lulucf_proj <- zmb %>%
+  filter(variable == "EMIS", 
+         scen_type == "none", gcm == "noCC", rcp == "noCC",
+         year >= 2000) %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) %>%
+  mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
+                       "ManmgtTot_N2O" = "Manure Management",
+                       "ManmgtTot_CH4" = "Manure Management",
+                       "Rice_CH4" = "Rice Cultivation",
+                       "CropSoil_N2O" = "Synthetic Fertilizers",
+                       "ManaplTot_N2O" = "Manure applied to Soils",
+                       "ManprpTot_N2O"= "Manure left on Pasture",
+                       "CropRes_N2O" = "Crop Residues",
+                       "LUC" = "Land use change")) %>%
+  filter(item == "Land use change") %>%
+  group_by(year, ssp) %>%
+  summarize(value = sum(value)) %>%
+  mutate(scenario = "GLOBIOM")
 
-# Plot
-fig_bau_emis <- ghg_proj %>%
-  ggplot() +
-  #geom_col(data = prod_hist, aes(x = year, y = value, fill = crop)) +
-  geom_col(data = ghg_proj, aes(x = year, y = value, fill = item), colour = "black") +
-  geom_errorbar(data = ghg_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 3) +
-  scale_x_continuous(expand = c(0.0,0.0), breaks = seq(2010, 2050, 10), limits = c(2005, 2055))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 13))  +
-  #annotate("text", x = 1980, y = 9000, label = "Historical (FAOSTAT)") +
-  #annotate("text", x = 2030, y = 25, label = "GLOBIOM") +
+# Errorbar
+ghg_lulucf_eb <- zmb %>% 
+  filter(variable == "EMIS", 
+         year > 2010) %>%
+  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) %>%
+  mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
+                       "ManmgtTot_N2O" = "Manure management",
+                       "ManmgtTot_CH4" = "Manure management",
+                       "Rice_CH4" = "Rice cultivation",
+                       "CropSoil_N2O" = "Synthetic fertilizers",
+                       "ManaplTot_N2O" = "Manure applied to soils",
+                       "ManprpTot_N2O"= "Manure left on pasture",
+                       "CropRes_N2O" = "Crop residues",
+                       "LUC" = "Land use change")) %>%
+  filter(item == "Land use change") %>%
+  group_by(year, variable, scenario, unit, ssp, rcp, gcm) %>%
+  summarize(value = sum(value)) %>%
+  ungroup() %>%
+  group_by(variable, year, unit, ssp) %>%
+  summarize(max_val = max(value, na.rm = T),
+            min_val = min(value, na.rm = T)) %>%
+  ungroup()
+
+# vision
+emis_low_fact <- vision$parameter[vision$variable == "emis1"]
+emis_high_fact <- vision$parameter[vision$variable == "emis2"]
+
+ghg_ag_proj_2050 <- ghg_ag_proj %>%
+  filter(year %in% c(2050)) %>%
+  group_by(year, ssp) %>%
+  summarize(value = sum(value))
+
+ghg_lulucf_proj_2050 <- ghg_lulucf_proj %>%
+  filter(year %in% c(2050))
+
+ghg_ag_vis <- data.frame(year = c(2050, 2050), label = c("limited support", "substantial support"),                        
+                         value = c(ghg_ag_proj_2050$value[ghg_ag_proj_2050$ssp == "SSP2"] *(1-emis_low_fact/100), 
+                                   ghg_ag_proj_2050$value[ghg_ag_proj_2050$ssp == "SSP2"] *(1-emis_high_fact/100)))
+
+ghg_lulucf_vis <- data.frame(year = c(2050, 2050), label = c("limited support", "substantial support"),                       
+                             value = c(ghg_lulucf_proj_2050$value *(1-emis_low_fact/100), ghg_lulucf_proj_2050$value *(1-emis_high_fact/100)))
+
+# Plot ghg_ag
+fig_ssp_ag_emis <- ggplot() +
+  geom_line(data = ghg_ag_proj, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
+  geom_line(data = ghg_hist_tot, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
+  geom_errorbar(data = filter(ghg_ag_eb, year == 2050), aes(x = year, ymin = min_val, ymax = max_val,colour = ssp), width = 2, size = 1, position = pd) +
+  geom_point(data = ghg_ag_vis, aes(x = year-1, y = value), colour = "gold", shape = 8, size = 5) +
+  geom_text(data = ghg_ag_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
+  scale_x_continuous(limits = c(1958, 2053), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
+  geom_point(data = ghg_ag_vis, aes(x = year-1, y = value), colour = "gold", shape = 8, size = 5) +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 6))  +
+  scale_colour_manual(values = col_ssp) +
+  scale_linetype_manual(values = type_ssp) +
+  annotate("text", x = 1980, y = 5.5, label = "Historical") +
+  annotate("text", x = 2030, y = 5.5, label = "BAU") +
   theme_bw() +
   labs(x = "", y = "Mt CO2eq/yr", colour = "", linetype = "") +
-  #geom_vline(xintercept = 2000, linetype = "dashed") +
-  #theme(legend.position = c(.15,.8)) +
-  #theme(legend.background = element_rect(colour = "black")) +
-  #theme(panel.grid.minor = element_blank()) +
+  geom_vline(xintercept = 2000, linetype = "dashed") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank()) +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
+  theme(legend.position = "bottom") +
+  guides(fill = guide_legend(""))
+
+
+# Clean up
+rm(ghg_proj)
+
+
+# Plot ghg_emis
+fig_ssp_lulucf_emis <- ggplot() +
+  geom_line(data = ghg_lulucf_proj, aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1.5) +
+  geom_errorbar(data = filter(ghg_lulucf_eb, year == 2050), aes(x = year, ymin = min_val, ymax = max_val,colour = ssp), width = 2, size = 1, position = pd) +
+  geom_point(data = ghg_lulucf_vis, aes(x = year-1, y = value), colour = "gold", shape = 8, size = 5) +
+  scale_colour_manual(values = col_ssp) +
+  scale_linetype_manual(values = type_ssp) +
+  theme_bw() +
+  labs(x = "", y = "Mt CO2eq/yr", colour = "", linetype = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank()) +
   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
@@ -363,108 +463,27 @@ rm(ghg_proj)
 #   ungroup() %>%
 #   dplyr::select(-year)
 
-# Projected data
-calo_proj <- zmb %>% 
-  filter(variable == "CALO",
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
-         item == "TOT") %>%
-  mutate(legend = "GLOBIOM")
-
-calo_df <- bind_rows(calo_proj, calo_hist) %>%
-  filter(year >= 1985)
-
-# Target
-calo_fact <- vision$number[vision$variable == "calo"]
-calo_target <- data.frame(year = 2050, value = calo_fact, label = "Caloric norm")
-
-# Errorbar
-calo_eb <- zmb %>% 
-  filter(variable == "CALO", item == "TOT", year > 2010) %>%
-  ungroup() %>%
-  group_by(variable, item, year, unit, ssp) %>%
-  summarize(max_val = max(value, na.rm = T),
-            min_val = min(value, na.rm = T)) %>%
-  ungroup()
-
-# Plot
-fig_bau_cal <- ggplot() +
-  geom_line(data = calo_df, aes(x = year, y = value, colour = legend, linetype = legend), size = 2) +
-  geom_errorbar(data = calo_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 3) +
-  geom_point(data = calo_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
-  geom_text(data = calo_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
-  scale_x_continuous(limits = c(1985, 2055), breaks = seq(1960, 2050, 10))  +
-  scale_colour_manual(values = c("blue", "black")) +
-  scale_linetype_manual(values = c("dashed", "solid")) +
-  theme_bw() +
-  labs(x = "", y = "kcal/cap/day", linetype = "", colour = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
-  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
-  #guides(linetype = "none", colour = "none") +
-  theme(legend.position = "bottom") +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank())
-
-# Clean up
-rm(calo_df, calo_hist, calo_proj, calo_target)
-
-# 
-# ### Prices
-# # Load historical data
-# price_hist_raw <- read.csv(file.path(projectPath, "Data/Historical/Prices_E_All_Data_(Normalized).csv"))
-# 
-# # Mean national food price [Probably still need to deflate]
-# price_hist <- price_hist_raw %>%
-#   ungroup() %>%
-#   rename(value = Value, year = Year) %>%
-#   mutate(iso3c = countrycode(Area.Code, "fao", "iso3c")) %>%
-#   filter(iso3c %in% "ZMB", Unit == "USD", Item %in% c("Cassava", "Maize")) %>%
-#   mutate(item = ifelse(Item == "Maize", "Corn", "Cass"))
-# 
-# 
-# Projected data
-# crop_price_sel <- c("Corn", "Cass")
-# price_proj <- zmb %>%
-#   filter(variable == "XPRP",
-#          ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC",
-#          year %in% c(2000:2050), item %in% crop_globiom)
-# 
-# fig_bau_price <- ggplot() +
-#   #geom_line(data = price_hist, aes(x = year, y = value), colour = "blue") +
-#   geom_line(data = price_proj, aes(x = year, y = value, colour = item)) +
-#   #scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10), expand = c(0.0,0.0))  +
-#   #scale_colour_manual(values = scen_col, name = "SSPs") +
-#   theme_bw() +
-#   labs(x = "", y = "USD/ton", colour = "", linetype = "") +
-#   geom_vline(xintercept = 2000, linetype = "dashed") +
-#   theme(panel.grid.minor = element_blank()) +
-#   #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-#   guides(linetype = "none") +
-#   facet_wrap(~item, scales = "free")
-# 
-# # Clean up
-# rm(price_hist_raw, price_hist, price_proj)
 
 
-### CROP LAND USE
+### LAND USE
 # Historical crop land per crop
 crp_area_hist <- fao_hist_globiom_raw %>%
   filter(variable == "AREA", crop %in% crop_globiom) %>%
-  filter(year %in% c(1961, 1970, 1980, 1990, 2000))
+  filter(year <= 1999)
+#filter(year %in% c(1961, 1970, 1980, 1990, 2000))
 
-# Projection
-crp_area_proj <- zmb %>%
-  filter(variable == "AREA", 
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", 
-         year %in% c(2010:2050),
-         item %in% crop_globiom) %>%
+# Total historical cropland
+crplnd_hist <- fao_hist_globiom_raw %>%
+  filter(variable == "AREA", crop %in% crop_globiom) %>%
   group_by(year) %>%
-  mutate(share = value/sum(value)*100)
+  summarize(value = sum(value, na.rm = T)) %>%
+  mutate(item = "CrpLnd", ssp = "Historical")
 
 # Vision
 land_fact <- vision$number[vision$variable == "land"]/1000
 
 land_vis <- crplnd_hist %>%
-  filter(year %in% c(2000: 2013)) %>%
+  filter(year %in% c(2000:2013)) %>%
   summarize(value = mean(value, na.rm = T)) %>%
   ungroup() %>%
   mutate(label = "Vision",
@@ -472,7 +491,7 @@ land_vis <- crplnd_hist %>%
          value = value + land_fact,
          variable = "AREA") %>%
   filter(year == 2050)
-land_target <- data.frame(year = 2050, value = land_vis$value, label = "Vision")
+land_target <- data.frame(year = 2050, value = land_vis$value, label = "Vision", item = "CrpLnd")
 
 # Errorbar
 crp_area_eb <- zmb %>% 
@@ -487,66 +506,42 @@ crp_area_eb <- zmb %>%
             min_val = min(value, na.rm = T)) %>%
   ungroup()
 
-# Plot
-fig_bau_luc <- ggplot() +
-  geom_col(data = crp_area_hist, aes(x = year, y = value, fill = crop), colour = "black") +
-  geom_col(data = crp_area_proj, aes(x = year, y = value, fill = item), colour = "black") +
-  geom_errorbar(data = crp_area_eb, aes(x = year, ymin = min_val, ymax = max_val), width = 3) +
-  geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
-  geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -3) +
-  scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 3000))  +
-  annotate("text", x = 1980, y = 2500, label = "Historical (FAOSTAT)") +
-  annotate("text", x = 2030, y = 2500, label = "GLOBIOM") +
-  theme_bw() +
-  labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
-  geom_vline(xintercept = 2010, linetype = "dashed") +
-  #theme(legend.position = c(.15,.8)) +
-  #theme(legend.background = element_rect(colour = "black")) +
-  #theme(panel.grid.minor = element_blank()) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) +
-  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))  
-  theme(legend.position = "bottom") +
-  guides(fill = guide_legend(""))
 
-# Clean up
-rm(crp_area_hist, crp_area_proj)
-
- 
 ### LAND COVER
-# Cropland historical
-crplnd_hist<- fao_hist_globiom_raw %>%
-  filter(variable == "AREA", crop %in% crop_globiom) %>%
-  group_by(year) %>%
-  summarize(value = sum(value, na.rm = T)) %>%
-  mutate(lc_class = "CrpLnd", scenario = "Historical")
+# Projection
+crp_area_proj <- zmb %>%
+  filter(variable == "AREA", 
+         scen_type == "none", gcm == "noCC", rcp == "noCC", 
+         year %in% c(2000:2050),
+         item %in% crop_globiom) %>%
+  group_by(year, ssp) %>%
+  mutate(share = value/sum(value)*100,
+         tot = sum(value = sum(value)))
+
 
 # Combine CrpLnd, Grsland and forest data (only GLOBIOM CROPS)
 land_hist <- bind_rows(
-  crplnd_hist,
   fao_hist_globiom_raw %>%
     filter(variable == "AREA", crop %in% crop_globiom) %>%
     group_by(year) %>%
     summarize(value = sum(value, na.rm = T)) %>%
-    mutate(lc_class = "Cropland", scenario = "Historical"),
+    mutate(item = "CrpLnd", ssp = "Historical"),
   fao_hist_globiom_raw %>%
     filter(crop %in% c("LVS")) %>%
-    mutate(scenario = "Historical", 
-         lc_class = "GrsLnd"))
+    mutate(ssp = "Historical", 
+           item = "GrsLnd"))
 
 # Projected data
 land_proj <- bind_rows(
   zmb %>%
     filter(variable == "LAND",
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", 
-         year %in% c(2000:2050)) %>%
-    filter(item %in% c("GrsLnd", "NatLnd", "Forest")) %>%
-    rename(lc_class = item),
+           scen_type == "none", gcm == "noCC", rcp == "noCC", 
+           year %in% c(2000:2050)) %>%
+    filter(item %in% c("GrsLnd", "NatLnd", "Forest")),
   crp_area_proj %>%
-    group_by(year) %>%
+    group_by(year, ssp) %>%
     summarize(value = sum(value)) %>%
-    mutate(lc_class = "CrpLnd")) %>%
+    mutate(item = "CrpLnd")) %>%
   ungroup() %>%
   mutate(scenario = "GLOBIOM")
 
@@ -560,77 +555,25 @@ lc_eb <- zmb %>%
   group_by(variable, year, unit, ssp, item) %>%
   summarize(max_val = max(value, na.rm = T),
             min_val = min(value, na.rm = T)) %>%
-  ungroup() %>%
-  rename(lc_class = item)
+  ungroup() 
 
 # Plot No error bar because they are very small
-fig_bau_lc <- bind_rows(land_hist, land_proj) %>%
+fig_ssp_lc <- bind_rows(land_hist, land_proj) %>%
   ggplot() +
-  geom_line(aes(x = year, y = value, colour = lc_class, linetype = scenario), size = 1) +
-  #geom_errorbar(data = lc_eb, aes(x = year, ymin = min_val, ymax = max_val, colour = lc_class), width = 3) +
-  scale_linetype_manual(values = c("dashed", "solid")) +
+  geom_line(aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1) +
+  geom_point(data = land_vis, aes(x = year, y = value), colour = "gold", shape = 8) +
+  geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -3) +
+  scale_colour_manual(values = col_ssp) +
+  scale_linetype_manual(values = type_ssp) +
   theme_bw() +
   scale_x_continuous(limits = c(1960, 2050), breaks = c(1960, seq(1960, 2050, 10)))  +
   scale_y_continuous(labels = comma) +
   theme_bw() +
   labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(panel.grid.minor = element_blank()) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) +
-  theme(legend.position = "bottom")
-
-fig_bau_crplnd <- bind_rows(land_hist, land_proj) %>%
-  filter(lc_class == "CrpLnd") %>%
-  ggplot() +
-  geom_line(aes(x = year, y = value, linetype = scenario), colour = "#CD9600", size = 1) +
-  scale_linetype_manual(values = c("dashed", "solid")) +
-  geom_point(data = land_target, aes(x = year, y = value), colour = "yellow", shape = 8, size = 5) +
-  geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
-  theme_bw() +
-  scale_x_continuous(limits = c(1960, 2050), breaks = c(1960, seq(1960, 2050, 10)))  +
-  scale_y_continuous(labels = comma) +
-  theme_bw() +
-  labs(x = "", y = "Area (1000 ha)", colour = "", linetype = "") +
-  geom_vline(xintercept = 2000, linetype = "dashed") +
-  theme(panel.grid.minor = element_blank()) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) +
-  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  guides(colour = "none", linetype = "none") 
-
-
-### EXPO
-#expo vision
-expo_fact <- vision$parameter[vision$variable == "expo"]
-
-# Projected exports
-trade_proj <- zmb %>%
-  filter(variable %in% c("NETT"), 
-         ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", unit == "1000 t",
-         year %in% c(2010, 2050)) %>%
-  filter(item %in% c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott",
-                      "Gnut", "Mill", "Pota", "Rape", "Rice", "Soya",
-                      "Srgh", "SugC", "sunf", "SwPo", "Whea")) 
-
-expo_vis <- trade_proj %>%
-  filter(year == 2010, variable == "NETT") %>%
-  mutate(expo_vis = ifelse(value >= 0, value * expo_fact, NA),
-         year = 2050)
-
-# Plot
-fig_bau_trade <- ggplot(data = trade_proj) +
-  geom_col(aes(x = factor(year), y = value, fill = factor(year)), position = "dodge", colour = "black") +
-  facet_wrap(~item, scales = "free") +
-  geom_point(data = expo_vis, aes(x = factor(year), y = expo_vis), colour = "yellow", shape = 8, size = 5) +
-  theme_bw() +
-  scale_y_continuous(labels = comma, expand = expand_scale(mult = c(.1, .1))) +
-  theme_bw() +
-  labs(x = "", y = "Nett trade (1000 t)", colour = "", fill = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
   theme(panel.grid.minor = element_blank()) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank()) +
   theme(legend.position = "bottom") +
-  guides(fill = F) 
-  
+  facet_wrap(~item, scales = "free")
+
