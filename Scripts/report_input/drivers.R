@@ -46,10 +46,12 @@ names(scen_col) <- c("SSP1", "SSP2","SSP3")
 
 ### LOAD DATA
 # Zambia GLOBIOM OUTPUT Data
-zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT") %>%
-  setNames(c("scenario", "variable", "unit", "ANYREGION", "item", "ssp", "bioscen", "enscen", "year", "value")) %>%
-  mutate(year = as.integer(as.character(year))) %>%
-  filter(ANYREGION == "ZambiaReg")
+zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_file)), "OUTPUT_ZMB") %>%
+  setNames(c("scenario2", "variable", "unit", "ANYREGION", "item", "ssp", "scenario", "enscen", "year", "value")) %>%
+  mutate(year = as.integer(as.character(year)),
+         item = as.character(item)) %>%
+  filter(ANYREGION == "ZambiaReg") %>%
+  droplevels
 
 # Historical FAO data
 fao_hist_raw <- rgdx.param(file.path(GLOBIOMPath, "/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
@@ -63,7 +65,24 @@ pop_hist <- read_csv(file.path(GLOBIOMPath, "Data/Historical/Processed/SSPs/ssp_
 # ssp gdp historical
 gdp_hist <- read_csv(file.path(GLOBIOMPath, "Data/Historical/Processed/SSPs/ssp_gdp_hist.csv")) 
 
- 
+# Scenario definitions
+scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v3.xlsx")) 
+
+
+### PROCESS RAW DATA
+# Add scenario definitions
+zmb <- zmb_raw %>%
+  mutate(year = as.integer(as.character(year)),
+         variable = toupper(variable)) %>%
+  dplyr::filter(variable %in% c("YEXO", "EMIS", "LAND", "XPRP", "ANIM", "CONS", "PROD", "CALO", "AREA", "YILD",
+                                "NTMS", "NTMS2", "NETT", "IMPO", "EXPO", "XPRP")) %>%
+  dplyr::filter(!item %in% c("W_Elect", "W_Heat")) # Items with NAN values that give problems
+
+# Add scenario definition
+zmb <- zmb %>% 
+  left_join(., scen_def) %>%
+  dplyr::filter(scen_type == "none", ssp %in% c("SSP1", "SSP2", "SSP3"), gcm == "noCC", rcp == "noCC")
+
 # # cc shocks
 # #cc_proj_raw <- rgdx.param(file.path(modelPath, globiom_file), "ISIMIP_CC_IMPACT_LUId2")
 # #cc_proj_ZMB_raw <- filter(cc_proj_raw, ANYREGION == "Zambia")
@@ -196,10 +215,9 @@ yld_reg_hist <- fao_hist_raw %>%
   
 
 # projections
-yld_reg_proj <- zmb_raw %>%
+yld_reg_proj <- zmb %>%
   filter(variable == "YEXO",
          item %in% crops_sel,
-         scenario %in% scen,
          unit == "fm t/ha") %>%
   group_by(variable, item, ssp) %>%
   mutate(growth = value/value[year == 2000])
@@ -233,10 +251,6 @@ fig_reg_yld <- ggplot() +
   #guides(linetype = "none") +
   theme(legend.position="bottom") +
   theme(plot.title = element_text(hjust = 0.5))
-
-
-
-
 
 
 
