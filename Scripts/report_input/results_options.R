@@ -84,7 +84,7 @@ zmb <- zmb %>%
 
 # Remove additonal scenarios for now
 zmb <- zmb %>%
-  filter(!option %in% c("div", "def"))
+  filter(!option %in% c("div", "def", "ir"))
 
 
 ### PLOT FUNCTIONS
@@ -138,12 +138,12 @@ plot_dif <- function(df, ssp_sel){
     theme_bw() +
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~item, scales = "free") +
+    facet_wrap(~item, scales = "free")
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) +
-    geom_text(aes(x = option, y = dif, label = round(dif, 0)), hjust = 0, vjust = 0) +
-    geom_text(aes(x = option, y = min_val, label = round(min_val, 0)), hjust = 0, vjust = 1) +
-    geom_text(aes(x = option, y = max_val, label = round(max_val, 0)), hjust = 0, vjust = -1) 
+          panel.background = element_blank()) 
+    #geom_text(aes(x = option, y = dif, label = round(dif, 0)), hjust = 0, vjust = 0) +
+    #geom_text(aes(x = option, y = min_val, label = round(min_val, 0)), hjust = 0, vjust = 1) +
+    #geom_text(aes(x = option, y = max_val, label = round(max_val, 0)), hjust = 0, vjust = -1) 
   p
 }
 
@@ -171,10 +171,10 @@ plot_dif2 <- function(df, ssp_sel){
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) +
-    geom_text(aes(x = option, y = dif, label = round(dif, 2)), hjust = 0, vjust = 0) +
-    geom_text(aes(x = option, y = min_val, label = round(min_val, 2)), hjust = 0, vjust = 1) +
-    geom_text(aes(x = option, y = max_val, label = round(max_val, 2)), hjust = 0, vjust = -1) 
+          panel.background = element_blank()) 
+    #geom_text(aes(x = option, y = dif, label = round(dif, 2)), hjust = 0, vjust = 0) +
+    #geom_text(aes(x = option, y = min_val, label = round(min_val, 2)), hjust = 0, vjust = 1) +
+    #geom_text(aes(x = option, y = max_val, label = round(max_val, 2)), hjust = 0, vjust = -1) 
   p
 }
 
@@ -222,7 +222,7 @@ cc_options <- zmb  %>%
 # Selected crops
 crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill", "Pota", "Rape", 
                   "Rice", "Soya", "Srgh", "SugC", "sunf", "SwPo", "Whea")
-crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC", "ChkP")
+crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC", "ChkP", "Cott")
 
 
 # projections
