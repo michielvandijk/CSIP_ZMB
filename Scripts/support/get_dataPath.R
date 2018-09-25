@@ -25,7 +25,7 @@ if(Sys.info()["user"] == "vandijkm") {
   GLOBIOMPath <- "P:/Globiom"}
 
 if(Sys.info()["user"] == "vandijkm") {
-  GAMSPath <- "C:\\GAMS\\win64\\24.9"}
+  GAMSPath <- "C:\\GAMS\\win64\\25.0"}
 
 
 # Amanda IIASA:
