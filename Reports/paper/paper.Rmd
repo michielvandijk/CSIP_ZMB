@@ -48,6 +48,9 @@ source(file.path(root, "Scripts/report_input/results_ssp_options.R"))
 
 # Introduction
 
+- Refer to de pinto study and fact that there are only very few model studies on CSA impact
+
+
 The government of Zambia has highlighted the linkages and interdependencies between climate change and agricultural development in most recent development and policy plans. As the the majority of people are living in rural areas and land use change contribute the largest part to greenhouse gas emissions, is essential to develop an effective and coherent approach to deal with the impact of climate change on the agricultural production and vice versa. 
 
 At present the agriculture sector development strategies do not provide a coherent future roadmap to deal with climate risk. With support of the World Bank, the government of Zambia will draft the first Zambia Climate Smart Investment Plan (CSIP) that will inform a structured approach. The aim of this study is to contribute to the design of the CSIP by means of quantitative scenario modelling exercise using the GLOBIOM model developed by the International Institute for Applied Systems Analysis (IIASA). GLOBIOM is a spatially-explicit partial-equilibrium agricultural sector model that can assess future agricultural and land use change under climate change impacts. For this study the model will be modified and updated with country specific input information in order to better represent the agricultural sector in Zambia. The quantitative scenario analysis will help to identify and prioritise key policy interventions and investments to inform agricultural sector and climate change policy planning in Zambia for the medium to long term. 
@@ -57,7 +60,38 @@ The GLOBIOM model will be modified and updated to simulate a selective number of
 The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organisations that was held in Lusaka on October 16th and 17th, 2017. At the workshop, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050.The output of the stakeholder workshop as well as a selection of recent policy sector and planning documents are used to design the scenarios for the modelling, which are described below.
 
 
-# Literature review
+# Climate smart agriculture in Zambia
+## summary of csa practices in Zambia
+
+- Potential climate change impact
+- Adoption rates
+
+## Impact of CSA on productivity
+- Productivity studies
+- GHG
+
+# Study design
+
+
+## Model
+
+## Scenarios
+
+### BAU
+
+### RCP x GCM x crop model
+
+## CSA practices
+- table with definition, source, yield, GHG etc.
+- Should we consider livestock CSA practices? => Stefan
+
+
+
+
+
+
+
+## Previous studies
 
 A few papers assess the impact of climate change on agriculture in Zambia. @Jain2007 focuses on the economic impact of climate change using the Ricardian method. In this method, a regression model is estimated with net farm revenue as independent variables and a set of climate, hydrological, soil and socio-economic variables as explanatory variables. The analysis is conducted on a sample of 1015 households, including small-, medium- and large-scale households from 30 out of the 72 districts. The results point out that farm revenue is negatively affected by an increase in the November-December mean temperature and a decrease in the January-February mean rainfall, while a positive effect is found for an increase in the January-February mean temperature. This suggests that agriculture in Zambia will be affected by expected future change in rainfall and temperature induced by climate change. A major drawback of the Ricardian approach is that is fully relies on historical cross-section data and therefore is not able to assess the impact of future changes in the agricultural development related to economic growth and technical change.
 

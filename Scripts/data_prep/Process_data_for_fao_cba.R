@@ -90,7 +90,7 @@ zmb <- zmb %>%
 
 # Only select msd
 zmb <- zmb %>%
-  filter(option %in% c("msd"))
+  filter(option %in% c("msd", "none", "af", "ca", "rr"))
 
 
 
