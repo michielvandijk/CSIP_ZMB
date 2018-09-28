@@ -278,7 +278,7 @@ phl_diff_f <- function(crop){
 phl_proj <- bind_rows(lapply(phl_param$globiom_crop, phl_diff_f))
 
 # Plot
-fig_dtm_proj <- ggplot(data = phl_proj, aes(x = year, y = value*100, colour = globiom_crop)) +
+fig_phl_proj <- ggplot(data = phl_proj, aes(x = year, y = value*100, colour = globiom_crop)) +
   geom_line(size = 1) +
   geom_point(aes(shape = globiom_crop)) +
   scale_y_continuous(limits = c(0, 40)) +

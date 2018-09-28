@@ -12,7 +12,7 @@
 # the {} brackets
 
 # GLOBIOM File
-globiom_file <- "output_CSIP_ZMB_all_21sept_SSP2"
+globiom_file <- "output_CSIP_ZMB_all_23sept"
 
 # Michiel IIASA
 if(Sys.info()["user"] == "vandijkm") {
@@ -25,7 +25,7 @@ if(Sys.info()["user"] == "vandijkm") {
   GLOBIOMPath <- "P:/Globiom"}
 
 if(Sys.info()["user"] == "vandijkm") {
-  GAMSPath <- "C:\\GAMS\\win64\\24.9"}
+  GAMSPath <- "C:\\GAMS\\win64\\25.0"}
 
 
 # Amanda IIASA:

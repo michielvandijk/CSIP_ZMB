@@ -86,7 +86,7 @@ zmb <- zmb %>%
 
 # Remove additonal scenarios for now
 zmb <- zmb %>%
-   filter(!option %in% c("div", "def"))
+   filter(!option %in% c("div", "def", "ir"))
 
 
 ### PLOT FUNCTIONS
@@ -223,7 +223,7 @@ cc_options <- zmb  %>%
 
 ### YIELD
 # Selected crops
-crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC")
+crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC", "Cott")
 crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill", "Pota", "Rape", 
                   "Rice", "Soya", "Srgh", "SugC", "sunf", "SwPo", "Whea")
 

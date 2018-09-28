@@ -1,0 +1,39 @@
+---
+title: "draft conclusions"
+author: "Michiel van Dijk"
+date: "21 September 2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Conclusions
+
+Under a business as usual future, the agriculture sector in Zambia grows significantly, which could mean doubling the agricultural output over the next 40 years. However, maize is currently and could remain the dominate crop in the region despite the vision for a diversified economy. The adoption of CSA strategies increase crop production but are limited to some extent by which crops can be targeted for CSA interventions and the realistic rate of adoption. 
+
+With an improvement in the feed conversion efficiency of ruminant livestock production could increase significantly over the next 40 years with very little expansion of the cattle stocks. The development of the livestock sector will depend to some extent on the production of feed crops such as cassava and maize as well adopting the CSA strategy of retaining crop residues. 
+
+Calorie availability improves in the region due an increase in per capita GDP growth and although the adoption of the CSA strategies have a limited impact on the calories consumption. Food demand in Zambia is also driven by the regional prices of crop products which depends the regional supply as well as the comparative advantage of supply of Zambia’s trading partners. Demand that cannot be met by production within Zambia will be imported, and if the region does not increase the productivity of its agriculture sector the share of imports may increase. CSA strategies that can increase the productivity and be adopted widely will help to reduce the share of food demand met by imports. 
+
+GHG emissions will continue to rise in Zambia due to conversion of land for use by crop production and livestock grazing, which could be responsible for the deforestation of about 2% of Zambia’s forest reserves. CSA strategies that increase crop productivity reduce the land burden and may spare additional land from development. 
+
+[ADD, recent increase in prod and fert use because of subsidied program? BAU may understimate prod and emis if the growth is increase. However, based on subsidies, question if they will be continued for decades. unlikely. ]
+
+
+While the adoption of CSA strategies that have higher yields than traditional production methods will increase crop production, the types of that can be targeted by each strategy is important to consider especially in the context of a vision of Zambia that has a diversified economy.
+
+Compared to conventional tillage, which often requires four to eight tractor passes in a typical growing season, no-tillage or zero tillage is significantly reducing the use of tractors and other heavy farm machinery and thus alleviating pollution through tractors and machinery. Furthermore, the increased levels of soil organic matter (SOM) and plant-available nitrogen typically found in CA soils greatly reduce the need for applying large amounts of chemical fertilizers, which causes pollution through N2 emission in the environment (Fig. 1.9). Thus, overall fossil fuel use and greenhouse gas emissions are greatly reduced under the CA (Niggli et al. 2009). https://link-springer-com.ezproxy.library.wur.nl/chapter/10.1007/978-981-10-2558-7_1
+
+
+
+technologies to mitigate phl [@Affognon2015]
+(e.g. containment of insect pests, and include variety selection, biological control, improved storage structures, modified atmosphere facilities, and treatment with chemical insecticides. There)
+
+Trade offs rr: Higher adoption rates.
+Carbon sequestration not taking into account. More effects no tillage. 
+
+If we also take into account the other sources of GHG emissions, in particular the emissions from burning biomass, which are not modelled with GLOBIOM, the reduction in GHG emissions that can be attributed to the adoption of CSA practices will be very small. 
+
+Combining strategies (phl and ca/af/rr) will have more impact, for instance on GHG
