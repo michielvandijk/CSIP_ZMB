@@ -82,9 +82,9 @@ zmb <- zmb %>%
   left_join(., scen_def) %>%
   mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl", "div", "def")))
 
-# Remove additonal scenarios for now
-zmb <- zmb %>%
-  filter(!option %in% c("div", "def", "ir"))
+# # Remove additonal scenarios for now
+# zmb <- zmb %>%
+#   filter(!option %in% c("div", "def", "ir"))
 
 
 ### PLOT FUNCTIONS
@@ -463,11 +463,14 @@ rank <- rank_df %>%
          total = min_rank(total)) %>%
   gather(variable, value, -option)
   
+# Figure
+# Set number of colors
+n_col <- length(unique(rank$option))
 
 fig_rank <- ggplot(data = rank, aes(x = variable, y = reorder(option, desc(value)), fill = factor(value))) +
   geom_tile(colour = "black") +
   labs(x = "Indicator", y = "CSA option", fill = "rank") +
-  scale_fill_manual(values = brewer.pal(n = 7, name = "YlOrRd")) +
+  scale_fill_manual(values = brewer.pal(n = n_col, name = "YlOrRd")) +
   #scale_fill_manual(values = rev(heat.colors(7))) +
   scale_y_discrete(expand = c(0,0)) +
   scale_x_discrete(expand = c(0,0))   # theme_bw() +
