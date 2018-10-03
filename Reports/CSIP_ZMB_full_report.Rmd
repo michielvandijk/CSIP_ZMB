@@ -1,6 +1,6 @@
 ---
 title: "Zambia CSIP: IIASA Background report"
-author: "Michiel van Dijk, Amanda Palazzo, Petr Havlik and Tamas Krisztin"
+author: "Michiel van Dijk, Amanda Palazzo, Petr Havlik, Tamas Krisztin and Stefan Frank"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   word_document:
@@ -185,25 +185,6 @@ fig_yld_vis
 ##### Source: FAOSTAT and table 2.
 
 
-_Figure 6: Irrigation vision_
-
-```{r fig_ir_vis}
-library(gridExtra)
-grid.arrange(fig_ir_type_vis, fig_ir_crop_vis, ncol=2)
-```
-
-##### Source: AQUASTAT and table 2.
-##### Note: Full control irrigation is the sum of (i) surface irrigation, (ii) sprinkler irrigation and (iii) localized irrigation. Lowland irrigation includes (i) cultivated wetland and inland valley bottoms that have been equipped with water control structures for irrigation and drainage; (ii) areas along rivers where cultivation occurs making use of structures built to retain receding flood water; (iii) developed mangroves and equipped delta areas; (iv)	Spate irrigation, an irrigation practice that uses the floodwaters of ephemeral streams (wadi) and channels it through short steep canals to bunded basins where cropping takes place. 
-
-_Figure 7: Crop export vision_
-
-```{r fig_expo_vis}
-#fig_expo_vis
-```
-
-##### Source: FAOSTAT and table 2.
-
-
 _Figure 8: Cropland vision_
 
 ```{r fig_land_vis}
@@ -255,16 +236,10 @@ A large number of studies have investigated the low adoption rate of CA in Zambi
 
 #### CSA benefits and costs
 
-CA can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption. @Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to plots on which conventional tilled is applied but only  after six cropping seasons. They also find an average carbon increase of 12% at the on-station plots, in comparison to a decrease of 15% for conventional control. This effect was not measured on the farm plots. @Erenstein2012 discuss on-farm trails in Zimbabwe and report a yield increase of 14%-81 of CA in comparison to conventional maize cropping.
+CA can serve to mitigate greenhouse gas (GHG) emissions from agriculture by means of (1) enhancing soil C sequestration, (2) improving soil quality, N-use efficiency and water use efficiencies, and (3) reducing fuel consumption. @Thierfelder2013 present the results of on-station and farm trials in the Eastern and Southern provinces of Zambia to investigate the impact of CA on soil quality, soil moisture and maize yield. They find an average increase in yield between 75%-91% in comparison to plots on which conventional tilled is applied but only  after six cropping seasons. They also find an average carbon increase of 12% at the on-station plots, in comparison to a decrease of 15% for conventional control. This effect was not measured on the farm plots. @Erenstein2012 discuss on-farm trails in Zimbabwe and report a yield increase of 14%-81 of CA in comparison to conventional maize cropping. @Dendooven2012 compare total GHG emissions between conventional and CA in Mexico. The find a large positive carbon sequestration effect but only very small negative effect on N2O emissions. 
 
 
 #### Scenarios
-
-The following parameters have been used to model the adoption and impact of conservation agriculture.
-
-- Target crop: maize.
-- Yield increase of 50% in comparison to conventional farming systems
-- non-CO2/CO2 reduction of -2.2 % in comparison to conventional farming systems 
 
 We assume the following s-shaped diffusion curve for the adoption of conservation agriculture between 2010 and 2050.
 
@@ -291,7 +266,7 @@ Most common agro-forestry models in Zambia are: Gliricidia-maize intercropping (
 
 Agro-forestry has the potential to: "maintain vegetative soil cover, bolster nutrient supply through nitrogen fixation and nutrient cycling, generate greater quantities of organic matter in soil surface residues, improve soil structure and water infiltration, increase greater direct production of food, fodder, fuel, fibre and income from products produced by the intercropped trees, enhance carbon storage both above-ground and below ground, and induce more effective conservation of above and below-ground biodiversity" [@Garrity2010, p 197].
 
-A number of studies investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia (under) in combination with four different crops in Eastern Zambia and compares the yield with conventional cropping systems (outside) (Figure 14).  The impact is particularly large for maize, where yield doubles. @Sileshi2008 conducted a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents similar improvements in production. @FAO2017 reports that mitigation impacts range between the annual sequestration of 5 to 15 t CO2 per hectare but only reaches potential after 20 years.
+A number of studies investigated some of these benefits in more detail. @Shitumbanuma2012 presents the results of intercropping trials with Faidherbia (under) in combination with four different crops in Eastern Zambia and compares the yield with conventional cropping systems (outside) (Figure 14).  The impact is particularly large for maize, where yield doubles. @Sileshi2008 conducted a meta-analysis to assess the effect of  agro-forestry on soil fertility and maize yield in sub-Saharan Africa and presents similar improvements in production. @FAO2017 reports that mitigation impacts range between the annual sequestration of 5 to 15 t CO2 per hectare but only reaches potential after 20 years. There are no non CO2 gains.
 
 _Figure 14: Comparison of crop yield with and with agro-forestry practices_
 
@@ -313,13 +288,6 @@ fig_af_lab
 ##### Source: @Ajayi2009
 
 #### Scenarios
-
-The following parameters have been used to model the adoption and impact of agro-forestry systems.
-
-- Target crop: Maize
-- Yield increase of doubling of maize yields in comparison with conventional farming systems
-- GHG emission (N2O) reduction of 3 % in comparison to conventional farming systems
-
 
 We assume the following s-shaped diffusion curve for the adoption of agro-forestry between 2010 and 2050.
 
@@ -359,13 +327,6 @@ fig_dtm_yld
 
 #### Scenarios
 
-The following parameters have been used to model the adoption and impact of DTMs.
-
-- Target crop: Maize
-- Yields impacted by climate change are buffered by 50% in comparison with conventional (using non-improved traditional seeds) farming systems.
-- CO2 reduction of 0 % in comparison to conventional farming systems
-- non-CO2 reduction of 0 % in comparison to conventional farming systems
-
 We assume the following s-shaped diffusion curve for the adoption of DTMs between 1997 and 2050.
 
 _Figure 18: Drough-tolerant maize variety diffusion scenario: 1997-2050:_
@@ -396,7 +357,7 @@ There is a consensus across sources that most grains and cereals are lost during
 _Figure 19: Post harvest loss estimations for Sub-saharan Africa_
 
 ```{r fig_phl}
-fig_phl_proj
+fig_phl
 ```
 
 ##### Source: @Affognon2015
@@ -404,39 +365,24 @@ fig_phl_proj
 
 #### Scenarios
 
-The following parameters have been used to model the reduction in PHL.
-
-- Target crop: All crops in GLOBIOM
-- Yield increase equal to the highest values in Figure 8 [do we model this by means of a yield shock and do we already take in to account PHL in the baseline?].
-- Costs increase of ? in comparison to conventional farming systems [Maybe we should assume this is a 'free' technology?]
-- CO2 reduction of 0 % in comparison to conventional farming systems [only indirect through land use change, etc)]
-- non-CO2 reduction of 0 % in comparison to conventional farming systems
-
-We propose the following s-shaped diffusion pattern for PHL between 2010 and 2050.
-[Still have to decide? Gradual improvement or immediate?]
+We assume that the phl are equal to the maximum rate and will be gradually be reduced to the minimum rate as depicted in Figure X. This results in the following s-shaped diffusion pattern for PHL between 2010 and 2050.
 
 _Figure 20: Post harvest loss diffusion scenario: 2010-2050_
 
+```{r fig_phl}
+fig_phl_proj
+```
+
+##### Source: based on @Affognon2015
 
 
-### Expansion of irrigated area
+### Diversification in crop production
 
 #### Background
-Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. Intensification of agriculture through irrigation is seen as a way to increase the productivity of land as well as reduce the exposure to the impacts of climate change which are estimated to be significant for rainfed agriculture [@Leclere2014; @Muller2011; @Roudier2011]. Subsidizing the cost of water for irrigation was been common practice in developed regions like Europe and the US as a means to encourage agricultural development, though many of these policies are currently being reformed due to their environmental impacts (over-extraction and water pollution [@Wichelns2010]).
-
-According to the latest information (see Figure 6), 155,912 ha of land is using surface, sprinkler or localized irrigation, which is about 30% of the economical irrigation potential [@FAO_IFC2014]. Nearly all area is owned or cultivated by large-scale commercial farmers, mainly producing sugar cane, soy beans and wheat. In addition, 100,000 ha is equipped with small drains, furrows and wells and mainly owned by small farmers. 
-
-The representation of irrigated cropland production systems within GLOBIOM considers both the biophysical suitability and irrigation water requirements of crops at a monthly level which is simulated by EPIC and harmonized with the country-level FAO AQUASTAT statistics for water withdrawn for irrigation available from AQUASTAT [@FAO2017]. Four irrigation systems are modelled at a high spatial resolution for irrigated cropland – basin, furrow irrigation, localized drip, and sprinkler which consider the biophysical and economic suitability and efficiency of each system in determining the crop/system compatibility for each land unit [@Sauer2010]. The shares of irrigated areas by systems have been harmonized with shares of irrigated area by systems from @Jagermeyr2015. The final irrigation water demand for crops for a given land unit depends on the application efficiency of each system. 
 
 #### CSA benefits and costs
 
-FAO estimates that 35 Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 Mha of cropland were irrigated [@FAO2017; @Frenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability and water availability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
-
-Water withdrawals for irrigation account for more than 76% of the total withdrawals in 2000 according to the FAO's AQUASTAT database [@FAO2017]. 
-
 #### Scenarios
-
-We implement an irrigation scenario that assumes that transforming traditional rainfed systems into productive irrigation systems requires ambitious investments from the public sector to expand the irrigated area in Zambia and increase the accessibility of water. Farmers are responsible for the operations and maintenance costs of the irrigation systems, which have been included in the model as production costs. They are also responsible for paying per unit cost of water used for irrigation. The expansion of irrigation takes into account the biophysical availability of water, the growing competition for water from other sectors (domestic, energy and industry) as well as the impacts upgraded and expanded irrigation systems have on regional crop production, land use change and emissions, food security and water demand.
 
 
 ### Summary
@@ -517,7 +463,7 @@ _Crop Production._ The supply of crop products, as an indicator does not enough 
 
 _Livestock production and Livestock heads._ Livestock is an important component of the agricultural sector. It is modelled using a detailed representation of the global livestock sector where distinctions are made among dairy and other bovines, dairy and other sheep and goats, laying hens and broilers, and pigs [@Havlik2014; @Herrero2014]. Livestock production activities are defined by production systems [@Herrero2013]: for ruminants, grass based (arid, humid, and temperate/highlands), mixed crop-livestock (arid, humid, and temperate/highlands), and other; for monogastrics, smallholders and industrial. For each species, production system, and region, a set of input-output parameters is calculated based on the approach in @Herrero2013.
 
-_Cropland and Land use change._  While productivity gains can increase profitability and may incentivize expanding cropland and grassland, in what is known as Jevon’s paradox [@Alcott2005; @Byerlee2014; @Hertel2014], we also examine the change in irrigated and rainfed cropland, grassland, forest, and other natural lands to determine to what extent productivity gains from irrigation is sparing land for protection of terrestrial ecosystems and climate stabilization. 
+_Cropland and Land use change._  While productivity gains can increase profitability and may incentivize expanding cropland and grassland, in what is known as Jevon’s paradox [@Alcott2005; @Byerlee2014; @Hertel2014], we also examine the change in cropland, grassland, forest, and other natural lands to determine to what extent productivity gains are sparing land for protection of terrestrial ecosystems and climate stabilization. 
 
 _Food Consumption._ One of the aims of CSA is to improve food security. We use kilo calorie availability per capita per day as an indicator to measure food security. This indicator considers the total amount of food products demanded in a region and translates the quantity into calories. 
 
@@ -689,7 +635,7 @@ fig_bau_lulucf_emis
 
 ## CSA impact scenarios
 
-This section reviews the impact of adopting the various CSA strategies discussed above on a number of key agricultural variables. In the figures below we present the BAU as "none" and then each bar represents a scenario in which one of the CSA practices is adopted using the assumptions described in Section X. In the figures the adoption of agroforestry will appear as "af", conservation agriculture as "ca", residue retention as "rr", minimum soil disturbance as "msd", drought tolerant maize as "dtm", expansion of irrigation as "ir" and post-harvest losses as "phl". The figures show _the difference (in %)_ with the BAU projected values as described in the previous section. The error bars represent the maximum and minimum impacts from climate change. The final impact of adopting a CSA option is determined by the combination of three factors: (1) the assumption on (higher) productivity of the CSA option in comparison to conventional agriculture; (2) the projected adoption rates for each of the CSA strategies and (3) the selection of crops on which the practice are applied. Of the CSA options, phl can be applied to all crops. Most other  practices can only be applied to maize farming and a selection of other crops. In the case a CSA option-crop combination is not possible, the impact will show up as zero in the figures.  In most cases results are only presented for the five largest crops in Zambia: maize, cassava, groundnut, millet and sugar cane. We also present the results for cotton because the FAO survey shows that farmers in Zambia are actively applying CSA practices to the production of cotton.
+This section reviews the impact of adopting the various CSA strategies discussed above on a number of key agricultural variables. In the figures below we present the BAU as "none" and then each bar represents a scenario in which one of the CSA practices is adopted using the assumptions described in Section X. In the figures the adoption of agroforestry will appear as "af", conservation agriculture as "ca", residue retention as "rr", minimum soil disturbance as "msd", drought tolerant maize as "dtm", and post-harvest losses as "phl". The figures show _the difference (in %)_ with the BAU projected values as described in the previous section. The error bars represent the maximum and minimum impacts from climate change. The final impact of adopting a CSA option is determined by the combination of three factors: (1) the assumption on (higher) productivity of the CSA option in comparison to conventional agriculture; (2) the projected adoption rates for each of the CSA strategies and (3) the selection of crops on which the practice are applied. Of the CSA options, phl can be applied to all crops. Most other  practices can only be applied to maize farming and a selection of other crops. In the case a CSA option-crop combination is not possible, the impact will show up as zero in the figures.  In most cases results are only presented for the five largest crops in Zambia: maize, cassava, groundnut, millet and sugar cane. We also present the results for cotton because the FAO survey shows that farmers in Zambia are actively applying CSA practices to the production of cotton.
 
 
 ### Crop yields

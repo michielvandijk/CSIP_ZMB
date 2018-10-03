@@ -54,7 +54,7 @@ zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_
   droplevels
 
 # Historical FAO data
-fao_hist_raw <- rgdx.param(file.path(GLOBIOMPath, "/Data/FAOSTAT/Almost_Final_01dec2014\\Outputs_GDX_CSVs\\OUTPUT_FAO_DATA_GLOBIOM_2000.gdx"), "OUTPUT_Country", compress = T) %>%
+fao_hist_raw <- rgdx.param(file.path(projectPath, "Data/Historical/FAOSTAT_GLOBIOM_CTY_since1961.gdx"), "OUTPUT_Country", compress = T) %>% 
   transmute(variable = factor(toupper(VAR_ID)), unit = VAR_UNIT, country = ANYREGION, crop = .i4, 
             year = as.integer(as.character(ALLYEAR)), value = OUTPUT_Country, 
             iso3c = countrycode(country, "country.name", "iso3c"))

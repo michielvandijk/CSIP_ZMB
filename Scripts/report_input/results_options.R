@@ -83,14 +83,14 @@ zmb <- zmb %>%
   mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl", "div", "def")))
 
 # # Remove additonal scenarios for now
-# zmb <- zmb %>%
-#   filter(!option %in% c("div", "def", "ir"))
+ zmb <- zmb %>%
+   filter(!option %in% c("def", "ir"))
 
 
 ### PLOT FUNCTIONS
 # Colours
 col_options <- brewer.pal(n = 9, name = "Set1")
-names(col_options) = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl")
+names(col_options) = c("none", "af", "ca", "rr", "msd", "dtm", "phl", "div")
 
 # Growth 2000-2050 with cc
 plot_growth <- function(df, ssp_sel){
@@ -222,7 +222,7 @@ cc_options <- zmb  %>%
 # Selected crops
 crop_globiom <- c("Barl", "BeaD", "Cass", "ChkP", "Corn", "Cott", "Gnut", "Mill", "Pota", "Rape", 
                   "Rice", "Soya", "Srgh", "SugC", "sunf", "SwPo", "Whea")
-crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC", "ChkP", "Cott")
+crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC", "ChkP", "Cott", "Soya")
 
 
 # projections
