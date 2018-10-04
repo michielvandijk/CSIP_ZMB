@@ -138,12 +138,12 @@ plot_dif <- function(df, ssp_sel){
     theme_bw() +
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~item, scales = "free")
+    facet_wrap(~item, scales = "free") +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) 
-    #geom_text(aes(x = option, y = dif, label = round(dif, 0)), hjust = 0, vjust = 0) +
-    #geom_text(aes(x = option, y = min_val, label = round(min_val, 0)), hjust = 0, vjust = 1) +
-    #geom_text(aes(x = option, y = max_val, label = round(max_val, 0)), hjust = 0, vjust = -1) 
+          panel.background = element_blank()) +
+    geom_text(aes(x = option, y = dif, label = round(dif, 0)), hjust = 0, vjust = 0) +
+    geom_text(aes(x = option, y = min_val, label = round(min_val, 0)), hjust = 0, vjust = 1) +
+    geom_text(aes(x = option, y = max_val, label = round(max_val, 0)), hjust = 0, vjust = -1) 
   p
 }
 
@@ -171,10 +171,10 @@ plot_dif2 <- function(df, ssp_sel){
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) 
-    #geom_text(aes(x = option, y = dif, label = round(dif, 2)), hjust = 0, vjust = 0) +
-    #geom_text(aes(x = option, y = min_val, label = round(min_val, 2)), hjust = 0, vjust = 1) +
-    #geom_text(aes(x = option, y = max_val, label = round(max_val, 2)), hjust = 0, vjust = -1) 
+          panel.background = element_blank()) +
+    geom_text(aes(x = option, y = dif, label = round(dif, 2)), hjust = 0, vjust = 0) +
+    geom_text(aes(x = option, y = min_val, label = round(min_val, 2)), hjust = 0, vjust = 1) +
+    geom_text(aes(x = option, y = max_val, label = round(max_val, 2)), hjust = 0, vjust = -1) 
   p
 }
 
@@ -188,7 +188,7 @@ plot_abs <- function(df, ssp_sel){
     mutate(max_val = max(value, na.rm = T),
            min_val = min(value, na.rm = T)) %>%
     filter(rcp == "noCC", year %in% c(2050))
-
+  
   p = ggplot(data = df) +
     geom_col(aes(x = option, y = value, fill = option), colour = "black") +
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
@@ -204,8 +204,41 @@ plot_abs <- function(df, ssp_sel){
   p
 }
 
+# Plot difference in absolute values with BAU
+plot_dif_abs <- function(df, ssp_sel){
+  df <- df %>% 
+    filter(ssp == ssp_sel, option != "none") %>%
+    ungroup %>%
+    group_by(option, item) %>%
+    mutate(max_val = max(dif_abs, na.rm = T),
+           min_val = min(dif_abs, na.rm = T)
+           #l_qtl = quantile(dif, 1/4),
+           #u_qtl = quantile(dif, 3/4)
+    ) %>%
+    filter(rcp == "noCC", year == 2050)
+  
+  p = ggplot(data = df) +
+    geom_col(aes(x = option, y = dif_abs, fill = option), colour = "black") +
+    geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
+    guides(fill=F, colour = F) +
+    scale_fill_manual(values = col_options) +
+    labs(x = "", y = paste0("dif BAU-option in 2050 ", "(", unique(df$unit), ")")) + 
+    theme_bw() +
+    scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
+    #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    facet_wrap(~item, scales = "free") +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank()) +
+    geom_text(aes(x = option, y = dif_abs, label = round(dif_abs, 0)), hjust = 0, vjust = 0) +
+    geom_text(aes(x = option, y = min_val, label = round(min_val, 0)), hjust = 0, vjust = 1) +
+    geom_text(aes(x = option, y = max_val, label = round(max_val, 0)), hjust = 0, vjust = -1) 
+  p
+}
 
 
+
+
+  
 # Baseline selection
 # base_options <- zmb %>% 
 #   ungroup() %>%
@@ -229,10 +262,11 @@ crop_sel <- c("Corn", "Cass", "Gnut", "Mill", "SugC", "ChkP", "Cott", "Soya")
 yld_opt <- cc_options %>%
   filter(item %in% crop_sel, variable == "YILM", unit == "fm t/ha") %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
-  mutate(dif = (value-value[option == "none"])/value[option == "none"]*100)
+  mutate(dif = (value-value[option == "none"])/value[option == "none"]*100) %>%
+  mutate(dif_abs = (value-value[scen_type == "none"])) 
 
 fig_opt_yld <- plot_growth(yld_opt, "SSP2")
-  
+
 fig_opt_yld_dif <- plot_dif(yld_opt, "SSP2")
 
 fig_opt_yld_abs <- plot_abs(yld_opt, "SSP2")
@@ -265,18 +299,35 @@ fig_opt_prod_abs <- plot_abs(prod_opt, "SSP2")
 
 
 ### LAND
+# Excluding diversification scenario
 land_opt <- cc_options %>%
   filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
+  filter(option != "div") %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
+  mutate(dif_abs = (value-value[scen_type == "none"])) %>%
   mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
 
 fig_opt_land <- plot_growth(land_opt, "SSP2")
 
 fig_opt_land_dif <- plot_dif(land_opt, "SSP2")
 
+fig_opt_land_dif_abs <- plot_dif_abs(land_opt, "SSP2")
+
 fig_opt_land_abs <- plot_abs(land_opt, "SSP2")
 
+# Diversification scenario
+land_opt_div <- cc_options %>%
+  filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
+  filter(option %in% c("none", "div")) %>%
+  ungroup() %>%
+  group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
+  mutate(dif_abs = (value-value[scen_type == "none"])) %>%
+  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
+
+fig_opt_land_dif_div <- plot_dif(land_opt_div, "SSP2")
+
+fig_opt_land_dif_abs_div <- plot_dif_abs(land_opt_div, "SSP2")
 
 ### PRICE
 price_opt <- cc_options %>%
@@ -294,18 +345,40 @@ fig_opt_price_abs <- plot_abs(price_opt, "SSP2")
 
 
 ### TRADE
-# trade_opt <- cc_options %>%
-#   filter(variable %in% c("NETT"), unit %in% c("1000 t", "Percent"),
-#          item %in% crop_sel, ssp == "SSP2") %>%
-#   # filter(variable == "NETT", item %in% crop_sel) %>%
-#    ungroup() %>%
-#    group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
-#    summarize(n = n())
-#    #mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
-#    mutate(dif = ((value-value[scen_type == "none"]))*100)
-# 
-# fig_opt_trade_dif <- plot_dif(trade_opt, "SSP2")
+trade_opt <- cc_options %>%
+  filter(variable %in% c("NETT"), unit %in% c("1000 t"),
+         item %in% crop_sel, ssp == "SSP2") %>%
+  dplyr::select(-scenario, -scenario2) %>%
+  complete(item, variable, nesting(unit, ANYREGION, option, ssp, enscen, year, scen_type, gcm, rcp, crop_model), 
+           fill = list(value = 0)) %>% # set missing EXPO and IMP not reported because zero to zero = no trade %>%
+  filter(ssp == "SSP2", item %in% crop_sel) %>%
+  filter(!item %in% c("ChkP", "SugC")) %>%
+  ungroup %>%
+  group_by(variable, option, item) %>%
+  mutate(max_val = max(value, na.rm = T),
+         min_val = min(value, na.rm = T)
+              #l_qtl = quantile(dif, 1/4),
+              #u_qtl = quantile(dif, 3/4)
+       ) %>%
+   filter(rcp == "noCC", year %in% 2050)
 
+fig_opt_trade <- ggplot(data = trade_opt) +
+       geom_col(aes(x = option, y = value, fill = option), colour = "black", position = "dodge") +
+       geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
+       guides(fill=F, colour = F) +
+       scale_fill_manual(values = col_options) +
+       labs(x = "", y = "Nett trade (1000 t)") + 
+       theme_bw() +
+       scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
+       #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+       facet_wrap(~item, scales = "free") +
+       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+             panel.background = element_blank())
+# +
+#        geom_text(aes(x = option, y = value, label = round(value, 0)), hjust = 0, vjust = 0) +
+#        geom_text(aes(x = option, y = value, label = round(min_val, 0)), hjust = 0, vjust = 1) +
+#        geom_text(aes(x = option, y = value, label = round(max_val, 0)), hjust = 0, vjust = -1) 
+     
 
 ### LIVESTOCK
 lvst_opt1 <- cc_options %>%

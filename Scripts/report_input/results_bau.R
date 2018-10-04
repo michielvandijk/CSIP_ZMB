@@ -600,7 +600,9 @@ calo_df <- bind_rows(calo_proj, calo_hist) %>%
 
 # Target
 calo_fact <- vision$number[vision$variable == "calo"]
-calo_target <- data.frame(year = 2050, value = calo_fact, label = "Caloric norm")
+#calo_target <- data.frame(year = 2050, value = calo_fact, label = "Caloric norm")
+# Change caloric norm to range of 2500-3000 cited in Alexandratos(2012)
+calo_target <- data.frame(year = c(2050, 2050), value = c(2500, 3000),  label = c("Caloric lower norm", "Caloric upper norm"))
 
 # Errorbar
 calo_eb <- zmb %>% 
