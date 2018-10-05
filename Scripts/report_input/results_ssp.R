@@ -561,7 +561,7 @@ lc_eb <- zmb %>%
 fig_ssp_lc <- bind_rows(land_hist, land_proj) %>%
   ggplot() +
   geom_line(aes(x = year, y = value, colour = ssp, linetype = ssp), size = 1) +
-  geom_point(data = land_vis, aes(x = year, y = value), colour = "gold", shape = 8) +
+  geom_point(data = land_target, aes(x = year, y = value), colour = "gold", shape = 8) +
   geom_text(data = land_target, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -3) +
   scale_colour_manual(values = col_ssp) +
   scale_linetype_manual(values = type_ssp) +
