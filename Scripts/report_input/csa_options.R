@@ -84,7 +84,7 @@ ca_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3,
 fig_ca_proj <- ggplot(data = ca_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
   scale_y_continuous(limits = c(0, 40)) +
-  labs( x = "", y = "maize area/maize farmers (%)") +
+  labs( x = "", y = "maize area (%)") +
   theme_bw() +
   geom_point(data = ca_adop, aes(x = year, y = value*100), col = "red", size = 4) +
   geom_text(data = ca_adop, aes(x = year, y = value*100, label = value*100), vjust = 0, nudge_y = 2)
@@ -103,7 +103,7 @@ msd_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3,
 fig_msd_proj <- ggplot(data = msd_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
   scale_y_continuous(limits = c(0, 60)) +
-  labs( x = "", y = "maize area/maize farmers (%)") +
+  labs( x = "", y = "maize area (%)") +
   geom_point(data = msd_adop, aes(x = year, y = value*100), col = "red", size = 4) +
   theme_bw() +
   geom_text(data = msd_adop, aes(x = year, y = value*100, label = value*100), vjust = 0, nudge_y = 2)
@@ -122,7 +122,7 @@ cr_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3,
 fig_cr_proj <- ggplot(data = cr_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
   scale_y_continuous(limits = c(0, 70)) +
-  labs( x = "", y = "maize area/maize farmers (%)") +
+  labs( x = "", y = "maize area (%)") +
   geom_point(data = cr_adop, aes(x = year, y = value*100), col = "red", size = 4) +
   theme_bw() +
   geom_text(data = cr_adop, aes(x = year, y = value*100, label = value*100), vjust = 0, nudge_y = 2)
@@ -141,7 +141,7 @@ rr_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3,
 fig_rr_proj <- ggplot(data = rr_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
   scale_y_continuous(limits = c(0, 90)) +
-  labs( x = "", y = "maize area/maize farmers (%)") +
+  labs( x = "", y = "maize area (%)") +
   geom_point(data = rr_adop, aes(x = year, y = value*100), col = "red", size = 4) +
   theme_bw() +
   geom_text(data = rr_adop, aes(x = year, y = value*100, label = value*100), vjust = 0, nudge_y = 1)
@@ -191,7 +191,7 @@ af_proj <- data.frame(year = c(2010:2050), value = sigmoid(g = .3,
 
 fig_af_proj <-  ggplot(data = af_proj, aes(x = year, y = value*100)) +
   geom_line(size = 2) +
-  labs( x = "", y = "maize area/maize farmers (%)") +
+  labs( x = "", y = "maize area (%)") +
   scale_y_continuous(limits = c(0, 30)) +
   geom_point(data = af_adop, aes(x = year, y = value*100), col = "red", size = 4) +
   theme_bw() +
@@ -231,7 +231,7 @@ fig_dtm_proj <- ggplot() +
   scale_y_continuous(limits = c(0, 100)) +
   geom_point(data = dtm_adop, aes(x = year, y = value, shape = option, colour = option), size = 4) +
   theme_bw() +
-  labs( x = "", y = "maize area/maize farmers (%)", 
+  labs( x = "", y = "maize area (%)", 
           shape = "Type of seeds", linetype = "Type of seeds", colour = "Type of seeds") +
   geom_text(data = dtm_adop, aes(x = year, y = value, label = value), vjust = 0, nudge_y = 5)
 
