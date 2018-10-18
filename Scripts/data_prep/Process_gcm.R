@@ -211,11 +211,15 @@ cc_pr[[10]] <- process_cc2_f("noresm1-m", 2041, 2060, "pr", "rcp8p5/pr", aez)
 toc()
 
 # Save
-saveRDS(cc_tas, file.path(projectPath, "Data/ZMB/Processed/gcm/temperature.rds"))
+saveRDS(cc_pr, file.path(projectPath, "Data/ZMB/Processed/gcm/precipitation.rds"))
+
 
 ### PLOT TAS
 # smooth and stack
 tas <- stack(lapply(cc_tas, function(x) disaggregate(x, 6, method='bilinear')))
+tas <- disaggregate(tas, 10)
+tas <- mask(tas, aez)
+
 plot(tas)
 
 # convert to df and calculate difference
@@ -224,8 +228,9 @@ tas_df <- as.data.frame(rasterToPoints(tas)) %>%
   separate(file, c("gcm", "type", "variable"), sep = "_") %>%
   spread(type, value) %>%
   mutate(value = rcp8p5 - hist,
-         bin = cut(value, seq(1.9, 2.5, 0.1), labels = c(seq(2, 2.5, 0.1))))
-  
+         bin = cut(value, seq(1, 4, 0.5), labels = c(seq(1.5, 4, 0.5))))
+saveRDS(tas_df, file.path(projectPath, "Data/ZMB/Processed/gcm/tas_df.rds"))
+summary(tas_df)
 
 # Prepare AEZ
 aez_df <- aez@data %>%
@@ -237,7 +242,7 @@ aez_for <- fortify(aez) %>%
 # Plot
 # Set number of colors
 n_col <- length(unique(tas_df$bin))
-col <- c(brewer.pal(5,"Reds"))
+col <- c(brewer.pal(6,"Reds"))
 
 p = ggplot() +
   geom_raster(data = tas_df, aes(x = x, y = y, fill = bin)) +
@@ -246,6 +251,53 @@ p = ggplot() +
   facet_wrap(~gcm) +
   scale_fill_manual(values = brewer.pal(n = n_col, name = "Reds")) +
   labs(x="", y="", fill = "Absolute change (K)") +
+  theme_void() +
+  theme(legend.position = "bottom", legend.title.align=0.5) +
+  guides(fill = guide_legend(label.position = "bottom", title.position = "top", nrow = 1, colour = "black")) 
+
+p
+
+
+### PLOT PR
+# smooth and stack
+pr <- stack(cc_pr)
+pr[pr==0] <- NA
+pr <- disaggregate(pr, 6, method='bilinear')
+pr <- disaggregate(pr, 10)
+pr <- mask(pr, aez)
+
+plot(pr)
+
+# convert to df and calculate difference
+pr_df <- as.data.frame(rasterToPoints(pr)) %>%
+  gather(file, value, -x, -y) %>%
+  separate(file, c("gcm", "type", "variable"), sep = "_") %>%
+  spread(type, value) %>%
+  mutate(value = (rcp8p5 - historical)/historical*100,
+                   #bin = cut(value, c(-100, -7.5, -2.5, 2.5, 7.5, 100), labels = c("< 7.5%", "-7.5% to -2.5%", "-2.5% to 2.5%", "2.5% to 7.5%", ">7.5%")))
+                   bin = cut(value, c(-100, -6, -4, -2, 2, 4, 6, 100), labels = c("< -6%", "-6% to -4%", "-4% to -2%", "-2% to 2%", "2% to 4%", "4% to 6%", ">6%")))
+saveRDS(pr_df, file.path(projectPath, "Data/ZMB/Processed/gcm/pr_df.rds"))
+summary(pr_df)
+
+# Prepare AEZ
+aez_df <- aez@data %>%
+  mutate(id = rownames(.))
+
+aez_for <- fortify(aez) %>%
+  left_join(aez_df)
+
+# Plot
+# Set number of colors
+n_col <- length(unique(pr_df$bin))
+col <- c(brewer.pal(7,"RdBu"))
+
+p = ggplot() +
+  geom_raster(data = pr_df, aes(x = x, y = y, fill = bin)) +
+  geom_path(data = aez_for, aes(x = long, y = lat, group = group)) +
+  coord_cartesian() +
+  facet_wrap(~gcm) +
+  scale_fill_manual(values = col) +
+  labs(x="", y="", fill = "% change") +
   theme_void() +
   theme(legend.position = "bottom", legend.title.align=0.5) +
   guides(fill = guide_legend(label.position = "bottom", title.position = "top", nrow = 1, colour = "black")) 
