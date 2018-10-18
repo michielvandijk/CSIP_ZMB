@@ -20,6 +20,8 @@ source(file.path(root, "Scripts/support/get_dataPath.r"))
 
 p_load(knitr)
 knitr::opts_chunk$set(
+  #dev = c("pdf", "png", "postscript"),
+  fig.align = "center",
   fig.width=8, fig.height=6,
   dpi = 300,
   echo=FALSE, warning=FALSE, message=FALSE,

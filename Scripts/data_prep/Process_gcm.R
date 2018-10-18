@@ -13,17 +13,14 @@ p_load("tidyverse", "readxl", "stringr", "scales", "RColorBrewer", "rprojroot","
 # Spatial packages
 p_load("rgdal", "ggmap", "raster", "rasterVis", "rgeos", "sp", "mapproj", "maptools", "proj4", "gdalUtils", "sf", "leaflet", "mapview")
 # Additional packages
-p_load("WDI", "countrycode", "grid", "gridExtra", "ncdf4", "velox")
+p_load("WDI", "countrycode", "grid", "gridExtra", "ncdf4", "velox", "tictoc")
 
 
 ### SET ROOT AND WORKING DIRECTORY
 root <- find_root(is_rstudio_project)
-setwd(root)
-
 
 ### SET DATAPATH
-source(file.path(root, "Scripts/get_dataPath.r"))
-
+source(file.path(root, "Scripts/support/get_dataPath.r"))
 
 ### R SETTINGS
 options(scipen=999) # surpress scientific notation
@@ -32,139 +29,186 @@ options(digits=4)
 
 
 ### LOAD DATA
+# Zambia polygon
+luid_p_zmb <- readRDS(file.path(projectPath, "Data/ZMB/Processed/Maps/luid_p_ZMB.rds"))
+
+zmb_map <- fortify(luid_p_zmb, region = "Field1_1") %>%
+  rename(LUId= id)
+
 # http://neondataskills.org/R/Multi-Band-Rasters-In-R/
 
-isimip_path <- "P:/watxene/ISIMIP/ISIMIP2a_FT/input/HadGEM2-ES/rcp8p5"
+# Set ISIMIP path
+isimip_path <- "P:/watxene/Wat-Data/ISI-MIP1/multi-GCM_input"
 
 
-# Rainfed 
-test2 <- nc_open(file.path(isimip_path, "rhs_hadgem2-es_rcp8p5_2005-2010.nc4"))
-test <- stack(file.path(isimip_path, "rhs_hadgem2-es_rcp8p5_2005-2010.nc4"))
-test
-plot(test[[c(1:3)]])
-nbands(test)
-
-test[[c(1:2)]]@layers
-
-
-, var = "Maize")
-names(lu_rf_mai) <- "lu"
-lu_rf_wht <- raster(file.path(dataPath, "WP10/Data/Raw_data/climate/happi/landuse.rf.nc4"), var = "Wheat")
-names(lu_rf_wht) <- "lu"
-
-# Same result as
-# library(ncdf4)
-# lu_rf_file <- nc_open(file.path(dataPath, "WP10/Data/Raw_data/climate/landuse.rf.nc4"))
-# lu_var_names <- names(lu_rf_file$var)
-# lu_var <- lu_rf_file$var[[which(lu_var_names== "Maize")]]
-# lu_rf <- ncvar_get(lu_rf_file, lu_var)
-# colnames(lu_rf)<-as.character(rev(seq(-89.75, 89.75, 0.5))) # NB REVERSE Y COORD!!
-# rownames(lu_rf)<-seq(-179.75, 179.75, 0.5)
-# lu_rf_m <- reshape2::melt(lu_rf) %>% setNames(c("x", "y", "value"))
-# nc_close(lu_rf_file)
-
-
-# Irrigated
-lu_ir_mai <- raster(file.path(dataPath, "WP10/Data/Raw_data/climate/happi/landuse.ir.nc4"), var = "Maize")
-names(lu_ir_mai) <- "lu"
-lu_ir_wht <- raster(file.path(dataPath, "WP10/Data/Raw_data/climate/happi/landuse.ir.nc4"), var = "Wheat")
-names(lu_ir_wht) <- "lu"
-
-
-### RASTERIZE GLOBAL MAP TO 0.5 degree
-map_wrld_r <- rasterize(wrld_simpl, lu_rf_mai)
-names(map_wrld_r) <- "ID"
-
-
-### CREATE LIST OF ALL FILES
-# Create lookup file for loading data HAPPI_OUTv2
-gcm <- list.files(file.path(happiPath, "HAPPI_OUTv2"))
-variable <- list.files(file.path(happiPath, "HAPPI_OUTv2/CAM4-2degree"))
-clim_scen <- list.files(file.path(happiPath, "HAPPI_OUTv2/CAM4-2degree/yield"))
-
-lookup <- expand.grid(gcm = gcm, variable = variable, clim_scen = clim_scen)
-
-# Load all filenames and split
-filenames_f <- function(i){
-  filenames = data.frame(
-    full_filename = list.files(file.path(happiPath, paste0("HAPPI_OUTv2/", lookup$gcm[i], "/", lookup$variable[i], "/", lookup$clim_scen[i])), full.names = T),
-    filename = list.files(file.path(happiPath, paste0("HAPPI_OUTv2/", lookup$gcm[i], "/", lookup$variable[i], "/", lookup$clim_scen[i])), full.names = F))
-  return(filenames)
+### FUNCTIONS
+## Functions for processing TAS, which are available per year and for which average can be taken
+# Select gcm files
+gcm_files_f <- function(gcm, sy, ey, var, folder){
+  files <- data.frame(full_file_name = list.files(file.path(isimip_path, paste0(gcm, "/", folder)), pattern = "^.*\\.nc$|^.*\\.nc4$", full.names = TRUE),
+                             file_name = list.files(file.path(isimip_path, paste0(gcm, "/", folder)), pattern = "^.*\\.nc$|^.*\\.nc4$", full.names = F)) %>%
+    separate(file_name, into = c("variable", "bced", "ref_sy", "ref_ey", "gcm", "type", "year_ext"), sep = "_", remove = T) %>%
+    separate(year_ext, into = c("year", "extension"), sep = "\\.") %>%
+    filter(year >= sy, year <= ey, variable %in% var)
+  return(files)
 }
 
-filenames <- bind_rows(lapply(c(1:nrow(lookup)), filenames_f)) %>%
-    separate(filename, c("model", "gcm", "clim_scen", "sim_scen", "system", "ens", "variable", "crop", "scale", "time_step", "sy", "ey") , sep = "_", remove = F) %>%
-    separate(ey, c("ey", "ext")) %>%
-  filter(variable %in% c("yield"), gcm != "echam6")
-
-# ### CREATE LIST OF ALL FILES
-# # Create lookup file for loading data HAPPI_CO2_OUTv2
-# gcm_co2 <- list.files(file.path(happiPath, "HAPPI_CO2_OUTv2"))
-# variable_co2 <- list.files(file.path(happiPath, "HAPPI_CO2_OUTv2/CAM4-2degree"))
-# clim_scen_co2 <- list.files(file.path(happiPath, "HAPPI_CO2_OUTv2/CAM4-2degree/yield"))
-# 
-# lookup_co2 <- expand.grid(gcm = gcm_co2, variable = variable_co2, clim_scen = clim_scen_co2)
-# 
-# 
-# # Load all filenames and split
-# filenames2_f <- function(i){
-#   filenames = data.frame(
-#     full_filename = list.files(file.path(happiPath, paste0("HAPPI_CO2_OUTv2/", lookup_co2$gcm[i], "/", lookup_co2$variable[i], "/", lookup_co2$clim_scen[i])), full.names = T),
-#     filename = list.files(file.path(happiPath, paste0("HAPPI_CO2_OUTv2/", lookup_co2$gcm[i], "/", lookup_co2$variable[i], "/", lookup_co2$clim_scen[i])), full.names = F))
-#   return(filenames)
-# }
-# 
-# filenames_co2 <- bind_rows(lapply(c(1:nrow(lookup)), filenames2_f)) %>%
-#   separate(filename, c("model", "gcm", "clim_scen", "sim_scen", "system", "ens", "variable", "crop", "scale", "time_step", "sy", "ey") , sep = "_", remove = F) %>%
-#   separate(ey, c("ey", "ext")) %>%
-#   filter(variable %in% c("yield"), gcm != "echam6")
-# 
-
-
-
-### EXTRACT DATA PER CROP, SYSTEM AND CLIMATE SCENARIO
-# Create lookup table
-lookup2 <- expand.grid(crop = c("wht", "mai"), system = c("firr", "noirr"), clim_scen = tolower(clim_scen))
-
-# function to extract data from nc files for Europe
-get_yld_f <- function(i, mask = map_eu28, lu_cut = 0.0){
-  
-  crop_sel = lookup2$crop[i]
-  system_sel = lookup2$system[i]
-  clim_scen_sel = lookup2$clim_scen[i]
-  
-  print(paste(crop_sel, system_sel, clim_scen_sel, sep = "_"))
-  crp_files <- filenames %>%
-  filter(crop == crop_sel, system == system_sel, clim_scen == clim_scen_sel)
-  
-  if(crop_sel == "wht" & system_sel == "noirr") {lu_map <- lu_rf_wht}
-  if(crop_sel == "wht" & system_sel == "firr") {lu_map <- lu_ir_wht}
-  if(crop_sel == "mai" & system_sel == "noirr") {lu_map <- lu_rf_mai}
-  if(crop_sel == "mai" & system_sel == "firr") {lu_map <- lu_ir_mai}
-
-  stack <- stack(crp_files$full_filename)
-  stack <- stack(lu_map, map_wrld_r, stack)
-  stack <- crop(stack, mask)
-  
-  crop_df <- as.data.frame(rasterToPoints(stack)) %>%
-    gather(variable, value, -x, -y, -lu, -ID) %>%
-    na.omit %>%
-    left_join(.,wrld_simpl_df[,c("ID", "iso3c")]) %>%
-    filter(lu >= lu_cut) %>%
-    mutate(crop = crop_sel, system = system_sel, clim_scen = clim_scen_sel)
-  
-  return(crop_df)  
+# Stack nc files, crop, mask and average
+process_cc_f <- function(gcm, sy, ey, var, folder, poly){
+  files_df <- gcm_files_f(gcm, sy, ey, var, folder)
+  files <- files_df$full_file_name
+  type <- unique(files_df$type)
+  df <- stack(lapply(files, clip_nc_f, poly))
+  mean_var <- mean(df, na.rm = T)
+  names(mean_var) <- paste(gcm, type, var, sep = "_")
+  return(mean_var)
 }
 
-# Extract and save data
-#yld_eu28 <- bind_rows(lapply(c(1:nrow(lookup2)), get_yld_f, map_eu28))
-#saveRDS(yld_eu28, file.path(dataPath, "WP10/Data/Raw_data/climate/happi/yld_eu28_happi_no_lu_mask.rds"))
-yld_eu28 <- readRDS(file.path(dataPath, "WP10/Data/Raw_data/climate/happi/yld_eu28_happi_no_lu_mask.rds"))
+# clip nc file
+clip_nc_f <- function(files_nc, poly){
+  print(basename(files_nc))
+  r <- stack(files_nc)
+  r <- crop(r, poly)
+  r <- mask(r, poly)
+  return(r)
+}
 
-#yld_ssa <- bind_rows(lapply(c(1:nrow(lookup2)), get_yld_f, map_ssa))
-#saveRDS(yld_ssa, file.path(dataPath, "WP10/Data/Raw_data/climate/happi/yld_ssa_happi_no_lu_mask.rds"))
-yld_ssa <- readRDS(file.path(dataPath, "WP10/Data/Raw_data/climate/happi/yld_ssa_happi_no_lu_mask.rds"))
+# Select gcm files - bundle
+gcm_files2_f <- function(gcm, sy, ey, var, folder){
+  files <- data.frame(full_file_name = list.files(file.path(isimip_path, paste0(gcm, "/", folder)), pattern = "^.*\\.nc$|^.*\\.nc4$", full.names = TRUE),
+                      file_name = list.files(file.path(isimip_path, paste0(gcm, "/", folder)), pattern = "^.*\\.nc$|^.*\\.nc4$", full.names = F)) %>%
+    separate(file_name, into = c("variable", "bced", "ref_sy", "ref_ey", "gcm", "type", "period_ext"), sep = "_", remove = T) %>%
+    separate(period_ext, into = c("start", "end_ext"), sep = "-") %>%
+    separate(end_ext, into = c("end", "ext"), sep = "\\.") %>%
+    filter(start >= sy, end <= ey+9, variable %in% var)
+  return(files)
+}
 
+
+# Stack nc files - bundle, crop, mask and average
+process_cc2_f <- function(gcm, sy, ey, var, folder, poly){
+  files_df <- gcm_files2_f(gcm, sy, ey, var, folder)
+  files <- files_df$full_file_name
+  type <- unique(files_df$type)
+  df <- stack(lapply(files, clip_nc2_f, poly, sy, ey))
+  mean_var <- mean(df, na.rm = T)
+  names(mean_var) <- paste(gcm, type, var, sep = "_")
+  return(mean_var)
+}
+
+# clip nc file - bundle
+
+# clip nc file - bundle
+clip_nc2_f <- function(files_nc, poly, sy, ey){
+  print(basename(files_nc))
+  r <- stack(files_nc)
+  
+  # Set period
+  start <- as.Date(paste0(sy, "/01/01"), "%Y/%m/%d")
+  end <- as.Date(paste0(ey, "/12/31"), "%Y/%m/%d")
+  
+  # Select period layers in nc files
+  period_df <- data.frame(layer = names(r)) %>%
+    mutate(date_raw  = gsub("X", "", layer),
+           date = as.Date(date_raw, "%Y.%m.%d"),
+           year = format(date,"%Y")) %>%
+    filter(date >= start, date <= end)
+  
+  # sum all values in the same year and multiply with 60x60x24 as values are in kg m-2 s-1 which is equal to mm/second 
+  # function to sum over year, crop, mask and multiply with 60*60*20
+  sum_y_f <- function(y, st){
+    print(y)
+    ry <- st[[period_df$layer[period_df$year == y]]]
+    ry <- sum(ry, na.rm = T)
+    ry <- crop(ry, poly)
+    ry <- mask(ry, poly)
+    ry <- ry*60*60*24 
+  }
+  
+  # select process over year and stack
+  r_sum <- stack(lapply(c(sy:ey), sum_y_f, r))
+  return(r_sum)
+}
+
+# Function to create df from raster with mean var info
+raster2df_f <- function(gcm, sy, ey, var, folder, poly){
+  r <- process_cc_f(gcm, sy, ey, var, folder, poly)
+  df <- as.data.frame(rasterToPoints(r)) %>%
+  setNames(c("x", "y", "value")) %>%
+  mutate(variable = var, 
+         gcm = gcm,
+         year = paste(sy, ey, sep = "_"))
+  return(df)
+}
+
+### DOWNLOAD DATA
+# For some GCMs-variable combinations the nc files are available per year and for others in a bundle. 
+# We use different functions to handle this
+
+## TAS
+tic()
+cc_tas <- list()
+
+# gfdl_esm2m
+cc_tas[[1]] <- process_cc_f("gfdl-esm2m", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
+cc_tas[[2]] <- process_cc_f("gfdl-esm2m", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+
+# hadhem2-es
+cc_tas[[3]] <- process_cc_f("hadgem2-es", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
+cc_tas[[4]] <- process_cc_f("hadgem2-es", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+
+# ipsl-cm5a-lr
+cc_tas[[5]] <- process_cc_f("ipsl-cm5a-lr", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
+cc_tas[[6]] <- process_cc_f("ipsl-cm5a-lr", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+
+# miroc-esm-chem
+cc_tas[[7]] <- process_cc_f("miroc-esm-chem", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
+cc_tas[[8]] <- process_cc_f("miroc-esm-chem", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+
+# noresm1-m
+cc_tas[[9]] <- process_cc_f("noresm1-m", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
+cc_tas[[10]] <- process_cc_f("noresm1-m", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+toc()
+
+## PR
+cc_pr <- list()
+
+# gfdl_esm2m
+cc_pr[[1]] <- process_cc2_f("gfdl-esm2m", 1981, 2000, "pr", "hist/pr", luid_p_zmb) 
+cc_pr[[2]] <- process_cc2_f("gfdl-esm2m", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+
+# hadhem2-es
+cc_pr[[3]] <- process_cc2_f("hadgem2-es", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
+cc_pr[[4]] <- process_cc2_f("hadgem2-es", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+
+# ipsl-cm5a-lr
+cc_pr[[5]] <- process_cc2_f("ipsl-cm5a-lr", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
+cc_pr[[6]] <- process_cc2_f("ipsl-cm5a-lr", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+
+# miroc-esm-chem
+cc_pr[[7]] <- process_cc2_f("miroc-esm-chem", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
+cc_pr[[8]] <- process_cc2_f("miroc-esm-chem", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+
+# noresm1-m
+cc_pr[[9]] <- process_cc2_f("noresm1-m", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
+cc_pr[[10]] <- process_cc2_f("noresm1-m", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+
+
+
+# Plot difference between base year and projection
+
+y <- disaggregate(tas_1980, 6, method='bilinear') # to 5 arcmin
+plot(y)
+m <- mask(y, luid_p_zmb)
+plot(m)
+plot(luid_p_zmb, add = T)
+plot(tas_1980)
+test <- raster2df_f("gfdl-esm2m", 1980, 1981, "tas", "hist", luid_p_zmb)
+
+ggplot() +
+  geom_raster(data = test, aes(x = x, y = y, fill = value)) +
+  coord_cartesian() +
+  theme_void()
 
 ### EU28 PLOT OF ABSOLUTE VALUES
 eu28 <- iso3c2region %>%
