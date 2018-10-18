@@ -50,7 +50,9 @@ gcm_files_f <- function(gcm, sy, ey, var, folder){
                              file_name = list.files(file.path(isimip_path, paste0(gcm, "/", folder)), pattern = "^.*\\.nc$|^.*\\.nc4$", full.names = F)) %>%
     separate(file_name, into = c("variable", "bced", "ref_sy", "ref_ey", "gcm", "type", "year_ext"), sep = "_", remove = T) %>%
     separate(year_ext, into = c("year", "extension"), sep = "\\.") %>%
-    filter(year >= sy, year <= ey, variable %in% var)
+    filter(year >= sy, year <= ey, variable %in% var)  %>%
+    mutate(start = as.integer(gsub("[a-zA-Z]", "", start)),
+           end = as.integer(gsub("[a-zA-Z]", "", end)))
   return(files)
 }
 
@@ -66,14 +68,15 @@ process_cc_f <- function(gcm, sy, ey, var, folder, poly){
 }
 
 # clip nc file
-clip_nc_f <- function(files_nc, poly){
-  print(basename(files_nc))
-  r <- stack(files_nc)
+clip_nc_f <- function(files, poly){
+  print(basename(files))
+  r <- stack(files)
   r <- crop(r, poly)
   r <- mask(r, poly)
   return(r)
 }
 
+## Functions for processing PR, which are available in bundles and require summing per year
 # Select gcm files - bundle
 gcm_files2_f <- function(gcm, sy, ey, var, folder){
   files <- data.frame(full_file_name = list.files(file.path(isimip_path, paste0(gcm, "/", folder)), pattern = "^.*\\.nc$|^.*\\.nc4$", full.names = TRUE),
@@ -81,8 +84,16 @@ gcm_files2_f <- function(gcm, sy, ey, var, folder){
     separate(file_name, into = c("variable", "bced", "ref_sy", "ref_ey", "gcm", "type", "period_ext"), sep = "_", remove = T) %>%
     separate(period_ext, into = c("start", "end_ext"), sep = "-") %>%
     separate(end_ext, into = c("end", "ext"), sep = "\\.") %>%
-    filter(start >= sy, end <= ey+9, variable %in% var)
-  return(files)
+    mutate(start = as.integer(gsub("[a-zA-Z]", "", start)),
+           end = as.integer(gsub("[a-zA-Z]", "", end)))
+  
+  # Set ceiling so we select right decades
+    sy <- floor(sy/10)*10
+    ey <- ceiling(ey/10)*10
+
+    files <- files %>% 
+      filter(start >= sy, end <= ey, variable %in% var) 
+    return(files)
 }
 
 
@@ -98,11 +109,9 @@ process_cc2_f <- function(gcm, sy, ey, var, folder, poly){
 }
 
 # clip nc file - bundle
-
-# clip nc file - bundle
-clip_nc2_f <- function(files_nc, poly, sy, ey){
-  print(basename(files_nc))
-  r <- stack(files_nc)
+clip_nc2_f <- function(files, poly, sy, ey){
+  print(basename(files))
+  r <- stack(files)
   
   # Set period
   start <- as.Date(paste0(sy, "/01/01"), "%Y/%m/%d")
@@ -122,12 +131,23 @@ clip_nc2_f <- function(files_nc, poly, sy, ey){
     ry <- st[[period_df$layer[period_df$year == y]]]
     ry <- sum(ry, na.rm = T)
     ry <- crop(ry, poly)
+    
+    tic()
+    check <- velox(ry)
+    toc()
+    
+    cr <- vx$crop(extent(aez))
+    tic()
+    check2 <- velox(r, )
+    toc()
     ry <- mask(ry, poly)
     ry <- ry*60*60*24 
   }
   
   # select process over year and stack
-  r_sum <- stack(lapply(c(sy:ey), sum_y_f, r))
+  sy_r <- unique(min(period_df$year))
+  ey_r <- unique(max(period_df$year))
+  r_sum <- stack(lapply(c(sy_r:ey_r), sum_y_f, r))
   return(r_sum)
 }
 
@@ -155,45 +175,52 @@ cc_tas[[1]] <- process_cc_f("gfdl-esm2m", 1981, 2000, "tas", "hist/tas", aez)
 cc_tas[[2]] <- process_cc_f("gfdl-esm2m", 2041, 2060, "tas", "rcp8p5/tas", aez)
 
 # hadhem2-es
-cc_tas[[3]] <- process_cc_f("hadgem2-es", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
-cc_tas[[4]] <- process_cc_f("hadgem2-es", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+cc_tas[[3]] <- process_cc_f("hadgem2-es", 1981, 2000, "tas", "hist/tas", aez)
+cc_tas[[4]] <- process_cc_f("hadgem2-es", 2041, 2060, "tas", "rcp8p5/tas", aez)
 
 # ipsl-cm5a-lr
-cc_tas[[5]] <- process_cc_f("ipsl-cm5a-lr", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
-cc_tas[[6]] <- process_cc_f("ipsl-cm5a-lr", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+cc_tas[[5]] <- process_cc_f("ipsl-cm5a-lr", 1981, 2000, "tas", "hist/tas", aez)
+cc_tas[[6]] <- process_cc_f("ipsl-cm5a-lr", 2041, 2060, "tas", "rcp8p5/tas", aez)
 
 # miroc-esm-chem
-cc_tas[[7]] <- process_cc_f("miroc-esm-chem", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
-cc_tas[[8]] <- process_cc_f("miroc-esm-chem", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+cc_tas[[7]] <- process_cc_f("miroc-esm-chem", 1981, 2000, "tas", "hist/tas", aez) # GIVES WARNING CHECK
+cc_tas[[8]] <- process_cc_f("miroc-esm-chem", 2041, 2060, "tas", "rcp8p5/tas", aez)
 
 # noresm1-m
-cc_tas[[9]] <- process_cc_f("noresm1-m", 1981, 2000, "tas", "hist/tas", luid_p_zmb)
-cc_tas[[10]] <- process_cc_f("noresm1-m", 2041, 2060, "tas", "rcp8p5/tas", luid_p_zmb)
+cc_tas[[9]] <- process_cc_f("noresm1-m", 1981, 2000, "tas", "hist/tas", aez)
+cc_tas[[10]] <- process_cc_f("noresm1-m", 2041, 2060, "tas", "rcp8p5/tas", aez)
 toc()
 
+# Save
+saveRDS(cc_tas, file.path(projectPath, "Data/ZMB/Processed/gcm/temperature.rds"))
+
 ## PR
+tic()
 cc_pr <- list()
 
 # gfdl_esm2m
-cc_pr[[1]] <- process_cc2_f("gfdl-esm2m", 1981, 2000, "pr", "hist/pr", luid_p_zmb) 
-cc_pr[[2]] <- process_cc2_f("gfdl-esm2m", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+cc_pr[[1]] <- process_cc2_f("gfdl-esm2m", 1981, 2000, "pr", "hist/pr", aez) 
+cc_pr[[2]] <- process_cc2_f("gfdl-esm2m", 2041, 2060, "pr", "rcp8p5/pr", aez)
 
-# hadhem2-es
-cc_pr[[3]] <- process_cc2_f("hadgem2-es", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
-cc_pr[[4]] <- process_cc2_f("hadgem2-es", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+# hadgem2-es
+cc_pr[[3]] <- process_cc2_f("hadgem2-es", 1981, 2000, "pr", "hist/pr", aez)
+cc_pr[[4]] <- process_cc2_f("hadgem2-es", 2041, 2060, "pr", "rcp8p5/pr", aez)
 
 # ipsl-cm5a-lr
-cc_pr[[5]] <- process_cc2_f("ipsl-cm5a-lr", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
-cc_pr[[6]] <- process_cc2_f("ipsl-cm5a-lr", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+cc_pr[[5]] <- process_cc2_f("ipsl-cm5a-lr", 1981, 2000, "pr", "hist/pr", aez)
+cc_pr[[6]] <- process_cc2_f("ipsl-cm5a-lr", 2041, 2060, "pr", "rcp8p5/pr", aez)
 
 # miroc-esm-chem
-cc_pr[[7]] <- process_cc2_f("miroc-esm-chem", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
-cc_pr[[8]] <- process_cc2_f("miroc-esm-chem", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+cc_pr[[7]] <- process_cc2_f("miroc-esm-chem", 1981, 2000, "pr", "hist/pr", aez)
+cc_pr[[8]] <- process_cc2_f("miroc-esm-chem", 2041, 2060, "pr", "rcp8p5/pr", aez)
 
 # noresm1-m
-cc_pr[[9]] <- process_cc2_f("noresm1-m", 1981, 2000, "pr", "hist/pr", luid_p_zmb)
-cc_pr[[10]] <- process_cc2_f("noresm1-m", 2041, 2060, "pr", "rcp8p5/pr", luid_p_zmb)
+cc_pr[[9]] <- process_cc2_f("noresm1-m", 1981, 2000, "pr", "hist/pr_v2", aez)
+cc_pr[[10]] <- process_cc2_f("noresm1-m", 2041, 2060, "pr", "rcp8p5/pr", aez)
+toc()
 
+# Save
+saveRDS(cc_tas, file.path(projectPath, "Data/ZMB/Processed/gcm/temperature.rds"))
 
 ### PLOT TAS
 # smooth and stack
