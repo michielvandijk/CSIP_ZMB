@@ -129,18 +129,9 @@ clip_nc2_f <- function(files, poly, sy, ey){
   sum_y_f <- function(y, st){
     print(y)
     ry <- st[[period_df$layer[period_df$year == y]]]
-    ry <- sum(ry, na.rm = T)
     ry <- crop(ry, poly)
-    
-    tic()
-    check <- velox(ry)
-    toc()
-    
-    cr <- vx$crop(extent(aez))
-    tic()
-    check2 <- velox(r, )
-    toc()
     ry <- mask(ry, poly)
+    ry <- sum(ry, na.rm = T)
     ry <- ry*60*60*24 
   }
   
