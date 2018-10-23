@@ -141,9 +141,9 @@ fig_reg_gdp <- ggplot() +
   geom_line(data = gdp_reg_hist, aes(x = year, y = value), colour = "black", size = 1) +
   geom_line(data = gdp_reg_proj, aes(x = year, y = value, colour = ssp), size = 1) +
   scale_x_continuous(limits = c(1980, 2050), breaks = seq(1980, 2050, 10))  +
-  scale_y_continuous(limits = c(0, 350))  +
+  scale_y_continuous(limits = c(0, 350), breaks = scales::pretty_breaks(n = 10))  +
   scale_colour_manual(values = scen_col, name = "") +
-  theme_bw() +
+  theme_bw(base_size = 13) +
   labs(title = "GDP projections: 2000-2050",x = "", y = "billion USD", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
   #theme(legend.background = element_rect(colour = "black")) +
@@ -186,9 +186,9 @@ fig_reg_pop <- ggplot() +
   geom_line(data = pop_reg_hist, aes(x = year, y = value), colour = "black", size = 1) +
   geom_line(data = pop_reg_proj, aes(x = year, y = value, colour = ssp), size = 1) +
   scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10))  +
-  scale_y_continuous(limits = c(0, 40))  +
+  scale_y_continuous(limits = c(0, 40), breaks = scales::pretty_breaks(n = 10))  +
   scale_colour_manual(values = scen_col, name = "") +
-  theme_bw() +
+  theme_bw(base_size = 13) +
   labs(title = "Population projections; 2000-2050", x = "", y = "million people", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
   #theme(legend.position = c(.15,.8)) +
@@ -211,8 +211,25 @@ yld_reg_hist <- fao_hist_raw %>%
          crop %in% crops_sel) %>%
   mutate(ssp = "Historical") %>%
   rename(item = crop) %>%
-  dplyr::select(-variable)
-  
+  dplyr::select(-variable) %>%
+  mutate(item = recode(item, 
+                                         "Barl" = "Barley",
+                                         "BeaD" = "Dry beans",
+                                         "Cass" = "Cassava",
+                                         "ChkP" = "Chick peas",
+                                         "Corn" = "Maize",
+                                         "Cott" = "Cotton",
+                                         "Gnut" = "Groundnuts",
+                                         "Mill" = "Millet",
+                                         "Pota" = "Potatoes",
+                                         "Rape" = "Rapeseed",
+                                         "Rice" = "Rice",
+                                         "Soya" = "Soybeans",
+                                         "Srgh" = "Sorghum",
+                                         "SugC" = "Sugarcane",
+                                         "sunf" = "Sunflowers",
+                                         "SwPo" = "Sweet potatoes", 
+                                         "Whea" = "Wheat"))
 
 # projections
 yld_reg_proj <- zmb %>%
@@ -220,7 +237,27 @@ yld_reg_proj <- zmb %>%
          item %in% crops_sel,
          unit == "fm t/ha") %>%
   group_by(variable, item, ssp) %>%
-  mutate(growth = value/value[year == 2000])
+  mutate(growth = value/value[year == 2000]) %>%
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat"))
+
 
 # base year
 yld_base_2000 <- yld_reg_hist %>%
@@ -240,11 +277,11 @@ fig_reg_yld <- ggplot() +
   geom_line(data = filter(yld_reg_hist, year <= 2000), aes(x = year, y = value, colour = item), size = 1) +
   geom_line(data = yld_reg_proj, aes(x = year, y = value, colour = item, linetype = ssp), size = 1) +
   scale_x_continuous(limits = c(1960, 2050), breaks = seq(1960, 2050, 10)) +
-  scale_y_continuous(limits = c(0, 6))  +
+  scale_y_continuous(limits = c(0, 6), breaks = scales::pretty_breaks(n = 10))  +
   scale_colour_discrete(breaks = crops_sel,
                         labels= crops_label) +
   scale_linetype_manual(values = c("dashed", "solid", "dotdash")) + 
-  theme_bw() +
+  theme_bw(base_size = 13) +
   labs(x = "", y = "tons/ha", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
   theme(panel.grid.minor = element_blank()) +

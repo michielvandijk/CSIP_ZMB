@@ -104,7 +104,25 @@ yld_vis <- yld_hist %>%
 
 yld_df <- bind_rows(yld_hist, yld_vis, 
                     expand.grid(year = 2040, scenario = "Historical", value = 0, crop = unique(yld_hist$crop), stringsAsFactors = F)) %>%
-  filter(!crop %in% c("Cereals_Crops", "Roots_Crops", "Pulses_Crops", "Oil_Crops")) 
+  filter(!crop %in% c("Cereals_Crops", "Roots_Crops", "Pulses_Crops", "Oil_Crops")) %>%
+  mutate(crop = recode(crop, 
+                              "Barl" = "Barley",
+                              "BeaD" = "Dry beans",
+                              "Cass" = "Cassava",
+                              "ChkP" = "Chick peas",
+                              "Corn" = "Maize",
+                              "Cott" = "Cotton",
+                              "Gnut" = "Groundnuts",
+                              "Mill" = "Millet",
+                              "Pota" = "Potatoes",
+                              "Rape" = "Rapeseed",
+                              "Rice" = "Rice",
+                              "Soya" = "Soybeans",
+                              "Srgh" = "Sorghum",
+                              "SugC" = "Sugarcane",
+                              "sunf" = "Sunflowers",
+                              "SwPo" = "Sweet potatoes", 
+                              "Whea" = "Wheat"))
 
 # Plot
 fig_yld_vis <- ggplot() + 
@@ -114,7 +132,7 @@ fig_yld_vis <- ggplot() +
   facet_wrap(~crop, scales = "free") +
   #geom_smooth(data = filter(yld_df, year <= 2010), aes(x = year, y = value)) +
   labs(x = "", y = "tons/ha", shape = "", colour = "", fill = "", alpha = "") +
-  theme_bw() +
+  theme_bw(base_size = 13) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   scale_x_discrete(breaks = c(2000, 2010, 2050))  +
   scale_alpha_discrete(range = c(0.5, 1)) +
@@ -267,7 +285,7 @@ fig_land_vis <- bind_rows(crplnd_hist, land_df) %>%
   #geom_area(data = crplnd_hist, aes(x = year, y = value), fill = "dark green", colour = "black", position = "stack") +
   geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
   theme_bw() +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_land)) +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_land), breaks = scales::pretty_breaks(n = 10)) +
   labs(x = "", y ="area (1000 ha)", fill = "",
        title = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
@@ -314,7 +332,7 @@ fig_lvst_vis <- bind_rows(lvst_hist, lvst_df) %>%
   geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
   theme_bw() +
   facet_wrap(~ lvst) +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_lvst)) +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_lvst), breaks = scales::pretty_breaks(n = 10)) +
   labs(x = "", y ="1000 heads", fill = "Scenario",
        title = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
@@ -385,7 +403,7 @@ fig_emis_vis <- filter(vision, variable %in% c("emis1", "emis2")) %>%
                                                 "domestic efforts with \nsubstantial international support"))) %>%
   ggplot() +
   geom_col(aes(x = variable, y = parameter, fill = variable), colour = "black") +
-  theme_bw() +
+  theme_bw(base_size = 14) +
   labs(x = "", y = "% decrease in GHG emissions in comparison to BAU") +
   guides(fill = "none") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +

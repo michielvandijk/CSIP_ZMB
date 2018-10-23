@@ -36,15 +36,16 @@ panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
 
 #source(file.path(root, "Scripts/key_maps.R"))
+source(file.path(root, "Scripts/report_input/results_options.R"))
 source(file.path(root, "Scripts/report_input/drivers.R"))
 source(file.path(root, "Scripts/report_input/vision.R"))
 source(file.path(root, "Scripts/report_input/yecc.R"))
 source(file.path(root, "Scripts/report_input/luc_maps.R"))
 source(file.path(root, "Scripts/report_input/csa_options.R"))
 source(file.path(root, "Scripts/report_input/results_bau.R"))
-source(file.path(root, "Scripts/report_input/results_options.R"))
 source(file.path(root, "Scripts/report_input/results_ssp.R"))
 source(file.path(root, "Scripts/report_input/results_ssp_options.R"))
+
 ```
 
 
@@ -644,7 +645,7 @@ fig_bau_cal
 
 ### Agricultural trade
 
-Figure X shows the nett agricultural trade (exports minus imports) for a number of key agricultural commodities for 2010 and 2050 as well as the vision target of doubling (nett) exports in 2050. The results are mixed. For cotton, millet and maize, nett trade is positive in 2010 and an increase is expected for 2050. Only in case of maize and millet, the target of doubling net trade will be achieved. For cassava and sugar cane, which also exhibit a positive nett trade in both 2010 and 2050, a decrease is projected. Finally, for bovine meat, groundnut, pig meat, rice, soya, sweet potatoes and wheat, net imports (negative net trade) are expected to increase even further. The error bars indicate that climate change can have substantial impact on the trade balance of several crops, in particular cassava, maize, cotton, millet and sugar cane. In the latter case, in one extreme climate scenario nett trade is projected to be higher than the 2010 value, almost reaching the vision target, while in the other extreme scenario, net trade will become negative.  
+Figure X shows the nett agricultural trade (exports minus imports) for a number of key agricultural commodities for 2010 and 2050 as well as the vision target of doubling (nett) exports in 2050. The results are mixed. For cotton, millet and maize, nett trade is positive in 2010 and an increase is expected for 2050. Only in case of maize and millet, the target of doubling net trade will be achieved. For cassava and sugar cane, which also exhibit a positive nett trade in both 2010 and 2050, a decrease is projected. For bovine meat nett trade was negative in 2010 but becomes positive in 2050. Finall, for groundnut, pig meat, rice, soya, sweet potatoes and wheat, net imports (negative net trade) are expected to increase even further. The error bars indicate that climate change can have substantial impact on the trade balance of several crops, in particular cassava, maize, cotton, millet and sugar cane. In the latter case, in one extreme climate scenario nett trade is projected to be higher than the 2010 value, almost reaching the vision target, while in the other extreme scenario, net trade will become negative.  
 
 
 _Figure X: Nett agricultural trade_
@@ -694,7 +695,7 @@ The reduction of post-harvest losses has the potential to substantially increase
 
 _Figure X: Yield change in comparison to the BAU_
 
-```{r fig_opt_yld}
+```{r fig_opt_yld,  fig.width=8, fig.height=12}
 #fig_opt_yld_abs
 fig_opt_yld_dif
 ```
@@ -706,7 +707,7 @@ Figure X depicts the change in crop production for the six selected crops as wel
 
 _Figure X: Crop production change in comparison to the BAU_
 
-```{r fig_opt_prod}
+```{r fig_opt_prod,  fig.width=8, fig.height=12}
 #fig_opt_prod_abs
 fig_opt_prod_dif
 ```
@@ -716,7 +717,7 @@ fig_opt_prod_dif
 
 ### Land use change
 
-Approximately 2.3 million ha of forest area is converted to grassland and cropland in the BAU which represents about 5% of the total forested area. The yield gains associated with the adoption of CSA options results in a reduction in cropland use of between 22.000 ha (rr) and 112.000 (phl) ha (Figure X). The change in cropland is accompanied by an expansion in grassland in the same order of magnitude. Due to the substitution effect there is hardly any land sparing of forest and other natural land. All and all the impacts are small in comparison to total crop and grassland (around 1-5% of cropland and <1% for grassland). For this reason the adoption of CSA practices has only limited relevance for reaching the vision target, which states that only 900.000 ha of cropland can be added up to 2050. The land use effects are much higher in the diversification scenario (Figure X). The promotion of legumes result in an increase in cropland of 0.7 Mha and a decrease in grassland of the same magnitude.
+Approximately 2.3 million ha of forest area is converted to grassland and cropland in the BAU which represents about 5% of the total forested area. The yield gains associated with the adoption of CSA options have varying effect on land use change. Apart from rr, where there is a very small increase in cropland, all other options result in a decrease in cropland (Figure X). The change in cropland is accompanied by an expansion in grassland in the same order of magnitude. Due to the substitution effect there is hardly any land sparing of forest and other natural land. All and all the impacts are small in comparison to total crop and grassland (around 1-5% of cropland and <1% for grassland). For this reason the adoption of CSA practices has only limited relevance for reaching the vision target, which states that only 900.000 ha of cropland can be added up to 2050. The land use effects are much higher in the diversification scenario (Figure X). The promotion of legumes result in an increase in cropland of 0.7 Mha and a decrease in grassland of the same magnitude. 
 
 _Figure X: Land use change in comparison to the BAU (1000 HA)_
 

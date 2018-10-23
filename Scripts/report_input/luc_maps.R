@@ -36,7 +36,7 @@ igdx(GAMSPath)
 
 ### LOAD DATA
 # Data per simu
-zmb_simu_lc <- rgdx.param(file.path(projectPath, paste0("Data/Downscaling/downscaled_Zambia_SSP2_RCPbase.gdx")), "ds_lu_results") %>%
+zmb_simu_lc <- rgdx.param(file.path(projectPath, paste0("Data/Downscaling/downscaled_Zambia_SSP2_RCPbase_oct22.gdx")), "ds_lu_results") %>%
   droplevels %>%
   dplyr::rename(item = LC_TYPE_DS, year = Time, value = ds_lu_results) %>%
   dplyr::select(-quantiles, -ANYREGION) %>%
@@ -133,7 +133,7 @@ plot_dif_f <- function(lc, col){
     #scale_fill_gradient2(low = muted(col_l), mid = "white", high = muted(col_h), na.value = "white") +
     scale_fill_gradientn(colours = col, na.value = "white") +
     labs(x="", y="", fill = "", title = "2010-2050 difference in pp") +
-    theme_void() +
+    theme_void(base_size = 15) +
     theme(plot.title = element_text(hjust = 0.5))
   p
 }
@@ -149,7 +149,7 @@ plot_dif2_f <- function(lc, col){
     scale_fill_manual(values = c(col),
                       na.value = "white") +
     labs(x="", y="", fill = "", title = "2010-2050 difference in pp") +
-    theme_void() +
+    theme_void(base_size = 15) +
     theme(plot.title = element_text(hjust = 0.5))
   p
 }

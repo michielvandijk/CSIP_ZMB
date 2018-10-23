@@ -134,11 +134,11 @@ plot_dif <- function(df, ssp_sel){
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
     scale_fill_manual(values = col_options) +
-    labs(x = "", y = "dif BAU-option in 2050 (%)") + 
-    theme_bw() +
+    labs(x = "", y = "Difference to BAU scenario in 2050 (%)") + 
+    theme_bw(base_size = 15) +
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~item, scales = "free") +
+    facet_wrap(~item, scales = "free", ncol = 2) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank()) 
   # +
@@ -167,8 +167,8 @@ plot_dif2 <- function(df, ssp_sel){
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
     scale_fill_manual(values = col_options) +
-    labs(x = "", y = "dif BAU-option in 2050 (%)") + 
-    theme_bw() +
+    labs(x = "", y = "Difference to BAU scenario in 2050 (%)") + 
+    theme_bw(base_size = 15) +
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -198,7 +198,7 @@ plot_abs <- function(df, ssp_sel){
     scale_fill_manual(values = col_options) +
     scale_y_continuous(expand = expand_scale(mult = c(0, .1))) +
     labs(x = "", y = unique(df$unit)) + 
-    theme_bw() +
+    theme_bw(base_size = 15) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_wrap(~ item, scales = "free") +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -224,8 +224,8 @@ plot_dif_abs <- function(df, ssp_sel){
     geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
     guides(fill=F, colour = F) +
     scale_fill_manual(values = col_options) +
-    labs(x = "", y = paste0("dif BAU-option in 2050 ", "(", unique(df$unit), ")")) + 
-    theme_bw() +
+    labs(x = "", y = paste0("Difference to BAU scenario in 2050 ", "(", unique(df$unit), ")")) + 
+    theme_bw(base_size = 15) +
     scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
     #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     facet_wrap(~item, scales = "free") +
@@ -266,7 +266,29 @@ yld_opt <- cc_options %>%
   filter(item %in% crop_sel, variable == "YILM", unit == "fm t/ha") %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
   mutate(dif = (value-value[option == "none"])/value[option == "none"]*100) %>%
-  mutate(dif_abs = (value-value[scen_type == "none"])) 
+  mutate(dif_abs = (value-value[scen_type == "none"])) %>%
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat",
+                       "BVMEAT" = "Bovine meat",
+                       "PGMEAT" = "Pig meat"))
+
 
 fig_opt_yld <- plot_growth(yld_opt, "SSP2")
 
@@ -290,7 +312,29 @@ prod_opt <- bind_rows(
   prod_opt_tot) %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
-  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
+  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100) %>%
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat",
+                       "BVMEAT" = "Bovine meat",
+                       "PGMEAT" = "Pig meat",
+                       "TOT" = "Total"))
 
 #fig_opt_prod <- plot_growth(prod_opt, "SSP2")
 
@@ -303,21 +347,76 @@ fig_opt_prod_abs <- plot_abs(prod_opt, "SSP2")
 
 ### LAND
 # Excluding diversification scenario
+# land_opt <- cc_options %>%
+#   filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
+#   filter(option != "div") %>%
+#   ungroup() %>%
+#   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
+#   mutate(dif_abs = (value-value[scen_type == "none"])) %>%
+#   mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100) %>%
+#   ungroup() %>%
+#   mutate(item = recode(item, 
+#                        "Crpland" = "Cropland",
+#                        "NatLnd" = "Natural land",
+#                        "GrsLnd" = "Grassland"))
+# 
+# 
+# fig_opt_land <- plot_growth(land_opt, "SSP2")
+# 
+# fig_opt_land_dif <- plot_dif(land_opt, "SSP2")
+# 
+# fig_opt_land_dif_abs <- plot_dif_abs(land_opt, "SSP2")
+# 
+# fig_opt_land_abs <- plot_abs(land_opt, "SSP2")
+
+# Including diversification
 land_opt <- cc_options %>%
-  filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
-  filter(option != "div") %>%
-  ungroup() %>%
-  group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
-  mutate(dif_abs = (value-value[scen_type == "none"])) %>%
-  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
+   filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
+   ungroup() %>%
+   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
+   mutate(dif_abs = (value-value[scen_type == "none"])) %>%
+   mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100) %>%
+   ungroup() %>%
+   mutate(item = recode(item,
+                        "Crpland" = "Cropland",
+                        "NatLnd" = "Natural land",
+                        "GrsLnd" = "Grassland"))
 
-fig_opt_land <- plot_growth(land_opt, "SSP2")
+  
+land_opt <- land_opt %>% 
+  filter(ssp == "SSP2", option != "none") %>%
+  ungroup %>%
+  group_by(option, item) %>%
+  mutate(max_val = max(dif_abs, na.rm = T),
+         min_val = min(dif_abs, na.rm = T)
+         #l_qtl = quantile(dif, 1/4),
+         #u_qtl = quantile(dif, 3/4)
+  ) %>%
+  filter(rcp == "noCC", year == 2050)
 
-fig_opt_land_dif <- plot_dif(land_opt, "SSP2")
+dummy <- bind_rows(
+  land_opt %>%
+    group_by(item) %>%
+    summarize(dif_abs = max(max_val, na.rm = T)),
+  land_opt %>%
+    group_by(item) %>%
+    summarize(dif_abs = min(min_val, na.rm = T)))
 
-fig_opt_land_dif_abs <- plot_dif_abs(land_opt, "SSP2")
 
-fig_opt_land_abs <- plot_abs(land_opt, "SSP2")
+fig_opt_land_dif_abs <- ggplot(data = land_opt) +
+  geom_col(aes(x = option, y = dif_abs, fill = option), colour = "black") +
+  geom_errorbar(aes(x = option, ymin = min_val, ymax = max_val), width = 0.5) +
+  guides(fill=F, colour = F) +
+  scale_fill_manual(values = col_options) +
+  labs(x = "", y = paste0("Difference to BAU scenario in 2050 ", "(", unique(land_opt$unit), ")")) + 
+  theme_bw(base_size = 15) +
+  #scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
+  #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  facet_wrap(~item, scales = "free") +
+  geom_blank(data = dummy) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+ 
 
 # Diversification scenario
 land_opt_div <- cc_options %>%
@@ -326,7 +425,12 @@ land_opt_div <- cc_options %>%
   ungroup() %>%
   group_by(variable, item, unit, gcm, crop_model, rcp, ssp) %>%
   mutate(dif_abs = (value-value[scen_type == "none"])) %>%
-  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
+  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100) %>%
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Crpland" = "Cropland",
+                       "NatLnd" = "Natural land",
+                       "GrsLnd" = "Grassland"))
 
 fig_opt_land_dif_div <- plot_dif(land_opt_div, "SSP2")
 
@@ -363,7 +467,29 @@ trade_opt <- cc_options %>%
               #l_qtl = quantile(dif, 1/4),
               #u_qtl = quantile(dif, 3/4)
        ) %>%
-   filter(rcp == "noCC", year %in% 2050)
+   filter(rcp == "noCC", year %in% 2050) %>%
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat",
+                       "BVMEAT" = "Bovine meat",
+                       "PGMEAT" = "Pig meat",
+                       "TOT" = "Total"))
 
 fig_opt_trade <- ggplot(data = trade_opt) +
        geom_col(aes(x = option, y = value, fill = option), colour = "black", position = "dodge") +
@@ -505,7 +631,7 @@ fig_opt_emis_abs2 <- ggplot(data = emis_opt2) +
 rank_df <- bind_rows(
   prod_opt %>%
     ungroup() %>%
-    filter(item == "TOT", year == 2050, ssp == "SSP2", rcp != "noCC") %>%
+    filter(item == "Total", year == 2050, ssp == "SSP2", rcp != "noCC") %>%
     group_by(option, item, variable) %>%
     summarize(dif = mean(dif, na.rm = T))  %>%
     dplyr::select(option, dif, variable) %>%
@@ -537,18 +663,31 @@ rank <- rank_df %>%
   ungroup() %>%
   mutate(total = (PROD + EMIS)/3, # Remove land for now
          total = min_rank(total)) %>%
-  gather(variable, value, -option)
+  gather(variable, value, -option) %>%
+  mutate(variable = factor(variable, levels = c("EMIS", "PROD", "total")),
+    variable = recode(variable, "EMIS" = "GHG\nemissions",
+                           "PROD" = "Total crop\nproduction",
+                           "total" = "Total"),
+    option = recode(option, "phl" = "Post harvest losses",
+                      "msd" = "Minimum soil disturbance",
+                      "ca" = "Conservation agriculture",
+                      "div" = "Diversification",
+                      "af" = "Agro-forestry",
+                      "dtm" = "Drought tolerant maize",
+                      "rr" = "Residue retention"),
+    rank = factor(value, labels = c("1 (best)", 2, 3, 4, 5, 6, "7 (worst)")))
+         
   
 # Figure
 # Set number of colors
 n_col <- length(unique(rank$option))
 
-fig_rank <- ggplot(data = rank, aes(x = variable, y = reorder(option, desc(value)), fill = factor(value))) +
+fig_rank <- ggplot(data = rank, aes(x = variable, y = reorder(option, desc(value)), fill = rank)) +
   geom_tile(colour = "black") +
-  labs(x = "Indicator", y = "CSA option", fill = "rank") +
+  labs(x = "", y = "", fill = "rank") +
   scale_fill_manual(values = brewer.pal(n = n_col, name = "YlOrRd")) +
   #scale_fill_manual(values = rev(heat.colors(7))) +
   scale_y_discrete(expand = c(0,0)) +
-  scale_x_discrete(expand = c(0,0))   # theme_bw() +
+  scale_x_discrete(expand = c(0,0), position = "top")   # theme_bw() +
   # theme(legend.position = "bottom") +
   # guides(colour = guide_legend(nrow = 1))

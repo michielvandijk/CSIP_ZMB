@@ -1,0 +1,101 @@
+---
+title: "Zambia CSIP: Climate change scenarios"
+author: "Michiel van Dijk, Amanda Palazzo, Petr Havlik, Tamas Krisztin and Stefan Frank"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  word_document:
+    reference_docx: ../Support/word_styles_01.docx
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+library(readxl)
+library(RColorBrewer)
+
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+source(file.path(root, "Scripts/support/get_dataPath.r"))
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=8, fig.height=6,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+#  fig.path = file.path(root,"Fig_tab_map/generated/out-"))
+  fig.path = file.path(projectPath, paste0("GLOBIOM/Results/", globiom_file, "/out-")))
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+source(file.path(root, "Scripts/report_input/gcm.R"))
+source(file.path(root, "Scripts/report_input/yecc.R"))
+
+```
+
+
+### Climate change uncertainty
+
+We conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change on crop yields. To analyse the impact of climate change, we use the output of the Inter-Sectoral Impact Model Intercomparison Project (ISI-MIP, www.https://www.isimip.org), which offers a framework to compare climate impact projections in different sectors and at different scales [@Warszawski2014]. Key features of the project are a the implementation of common modeling protocol for simulations and collection of simulation results in a central data archive. 
+The climate change projections in ISI-MIP are provided by five general Circulation models (Table 1) that were also used in Phase 5 of the Coupled Model Intercomparison Project (CMIP5, https://cmip.llnl.gov/cmip5). The GCMs are combined with different levels of atmospheric CO2 concentrations as prescribed by the RCPs to reveal the impact of climate change on global changes in temperature and precipitation. The ISI-MIP climate projections are presented at a  0.5° × 0.5° resolution and cover the period from 1960 through to 2099. For the CSIP analysis we only assess the impact of RCP 8.5, which is the most extreme climate scenario [@Riahi2011], for the period up to 2050.
+
+__Table 1: General Circulation models used to project climate change__
+
+```{r tab_3}
+tab_4 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_4")
+pander(tab_4, missing = "")
+```
+
+##### Source: Coupled Model Intercomparison Project Phase 5 (https://cmip.llnl.gov/cmip5)
+
+Figure 1 depicts the change in mean annual temperature and mean annual precipitation between 1980/2000 and 2040/2060 in Zambia for all five GCMs. The figure demonstrate the high uncertainty in projecting climate change. The MIROC-ESM-CHEM and HadGEM2-ES climate scenarios project the most extreme increase in temperature of around 3.5 K, while the other three scenarios expect that temperature will change with around 2-3 K. The MIROC-ESM-CHEM also projects the most dry scenario, with a decrease in precipitation of more than 6% all over Zambia apart from the far North. Also GFDL-ESM2M and Nor_ESM1-M project a decrease in rainfall but with variation across Zambia. In contrast HadGEM2-ES and IPSL-CM5A-LR expect an increase in precipitation of more than 6% by 2040-2060 although the GCMs do not agree where in Zambia this will take place.
+
+_Figure 1: Temperature and precipitation change for 5 GCMs and RCP 8.5 (1980/2000-2040/2060)_
+
+(a) Temperature change
+
+```{r fig_tas}
+fig_tas
+```
+
+(b) Precipitation change
+
+```{r fig_pr}
+fig_pr
+```
+
+##### Source: Coupled Model Intercomparison Project Phase 5 (https://cmip.llnl.gov/cmip5)
+##### Note: (a) Difference in bias-corrected, average surface air temperature (absolute change K) over land and (b) relative difference in average annual rainfall (in percent) between 2040–2060 and 1980–2000 under RCP8.5 in the five climate models used in the ISI-MIP. To increase the visualisation, the original 0.5° × 0.5° resolution has been smoothed to 5 x 5 arcmin.
+
+To assess the impact of climate change on agricultural production, the temperature and precipitation scenarios are combined with crop models that project the change in crop yield as a consequence of climate change. To address the uncertainty in crop model design and parameterization, we use crop yield projections from two crop models: EPIC and LPJmL. The scientific community has yet to reach an agreement on the whether the potential benefits from increases in CO2 can be taken up and used by crops, especially if temperature and precipitation reduce crop yields. For this reason, we also include a climate change scenario variant (HadGEM2-ES) that assumes both with and without CO2 fertilization. Taken together the yields can show the potential range of the biophysical and economic impacts on crop yields from climate change. Note that the yield shocks simulated by the crop models only account for the effect of long-run changes in precipitation and temperature. They do not capture extreme climate effects nor the potential increase in pests and diseases that affect plant growth. 
+
+Figure 2 shows the average (2 crop models x 5 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
+
+_Figure 2: Yield change under climate change: 2000-2050_
+
+```{r fig_yecc_ag}
+fig_yecc_ag
+```
+
+##### Source: Crop model simulations
+##### Note: Average of 2 crop models and 5 GCMs, using area harvested in 2000 as weights. Data are for subsistence farming systems.
+
+As both crop production and climate change are location specific, it is important to take spatial effects into account. Figure 3 depicts the geographical distribution of the yield shock for the four most important crops in Zambia. Although maize is grown throughout all regions in Zambia, most is produced in the Eastern province for which yield loss is expected to be between 5 and 25%. In the Northern province, where there are potential yield gains, there is hardly any maize production because of the highly acidic soils. These findings suggest that maize production is highly vulnerable to climate change in Zambia. For the other three crops, yield change is more evenly distributed over the country which means location of production is less relevant.
+
+We assume climate change has no affect on livestock 'yield'. Feed efficiency projections in the climate scenarios are therefore the same as in the BAU scenario.
+
+_Figure 3: Crop yield change due to climate change by 2050 (%): Selected crops_
+
+```{r, fig_yecc_crop}
+fig_yecc_crop
+```
+
+##### Source: Crop model simulations.
+##### Note: Average of 2 crop models and 4 GCMs. Data are for subsistence farming systems. No data is available for the grey areas.
+
+# References

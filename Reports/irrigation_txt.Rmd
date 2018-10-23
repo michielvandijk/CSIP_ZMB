@@ -1,0 +1,42 @@
+---
+title: "Irrigation txt"
+author: "Michiel van Dijk"
+date: "October 3, 2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+_Figure 6: Irrigation vision_
+
+```{r fig_ir_vis}
+library(gridExtra)
+grid.arrange(fig_ir_type_vis, fig_ir_crop_vis, ncol=2)
+```
+
+##### Source: AQUASTAT and table 2.
+##### Note: Full control irrigation is the sum of (i) surface irrigation, (ii) sprinkler irrigation and (iii) localized irrigation. Lowland irrigation includes (i) cultivated wetland and inland valley bottoms that have been equipped with water control structures for irrigation and drainage; (ii) areas along rivers where cultivation occurs making use of structures built to retain receding flood water; (iii) developed mangroves and equipped delta areas; (iv)	Spate irrigation, an irrigation practice that uses the floodwaters of ephemeral streams (wadi) and channels it through short steep canals to bunded basins where cropping takes place. 
+
+
+### Expansion of irrigated area
+
+#### Background
+Irrigation is regarded as an important CSA strategy to deal with the expected increase in water scarcity caused by climate change. Intensification of agriculture through irrigation is seen as a way to increase the productivity of land as well as reduce the exposure to the impacts of climate change which are estimated to be significant for rainfed agriculture [@Leclere2014; @Muller2011; @Roudier2011]. Subsidizing the cost of water for irrigation was been common practice in developed regions like Europe and the US as a means to encourage agricultural development, though many of these policies are currently being reformed due to their environmental impacts (over-extraction and water pollution [@Wichelns2010]).
+
+According to the latest information (see Figure 6), 155,912 ha of land is using surface, sprinkler or localized irrigation, which is about 30% of the economical irrigation potential [@FAO_IFC2014]. Nearly all area is owned or cultivated by large-scale commercial farmers, mainly producing sugar cane, soy beans and wheat. In addition, 100,000 ha is equipped with small drains, furrows and wells and mainly owned by small farmers. 
+
+The representation of irrigated cropland production systems within GLOBIOM considers both the biophysical suitability and irrigation water requirements of crops at a monthly level which is simulated by EPIC and harmonized with the country-level FAO AQUASTAT statistics for water withdrawn for irrigation available from AQUASTAT [@FAO2017]. Four irrigation systems are modelled at a high spatial resolution for irrigated cropland – basin, furrow irrigation, localized drip, and sprinkler which consider the biophysical and economic suitability and efficiency of each system in determining the crop/system compatibility for each land unit [@Sauer2010]. The shares of irrigated areas by systems have been harmonized with shares of irrigated area by systems from @Jagermeyr2015. The final irrigation water demand for crops for a given land unit depends on the application efficiency of each system. 
+
+#### CSA benefits and costs
+
+FAO estimates that 35 Mha of cropland could be irrigated in Sub-Saharan Africa and in 2010, about 5.9 Mha of cropland were irrigated [@FAO2017; @Frenken2005].In Zambia, 2.75 Mha of land is considered potentially irrigable based on the biophysical suitability and water availability though only a fraction of this is actually considered economically suitable (523,000 ha) [@FAO2017]. 
+
+Water withdrawals for irrigation account for more than 76% of the total withdrawals in 2000 according to the FAO's AQUASTAT database [@FAO2017]. 
+
+#### Scenarios
+
+We implement an irrigation scenario that assumes that transforming traditional rainfed systems into productive irrigation systems requires ambitious investments from the public sector to expand the irrigated area in Zambia and increase the accessibility of water. Farmers are responsible for the operations and maintenance costs of the irrigation systems, which have been included in the model as production costs. They are also responsible for paying per unit cost of water used for irrigation. The expansion of irrigation takes into account the biophysical availability of water, the growing competition for water from other sectors (domestic, energy and industry) as well as the impacts upgraded and expanded irrigation systems have on regional crop production, land use change and emissions, food security and water demand.
