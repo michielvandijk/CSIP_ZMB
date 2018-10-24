@@ -66,8 +66,9 @@ luid_zmb_p <- luid_p[luid_p$Field2 == "Zambia",]
 plot(luid_zmb_p)
 saveRDS(luid_zmb_p, file.path(projectPath, "Data/ZMB/Processed/Maps/luid_p_ZMB.rds"))
 
+
 # Area
-luid_zmb <- unique(yecc$LUId)
+luid_zmb <- unique(luid_zmb_p@data$Field1_1)
 area_zmb <- filter(area, ANYREGION == "Zambia",
                    AllColRow %in% luid_zmb) %>%
   setNames(c("Country","LUId",  "AltiClass", "SlpClass", "SoilClass", "Crop", "InputSys", "area")) %>%

@@ -49,6 +49,9 @@ source(file.path(root, "Scripts/report_input/results_ssp_options.R"))
 # Introduction
 
 - Refer to de pinto study and fact that there are only very few model studies on CSA impact
+- Use CCAFS working paper on climate risk Zambia
+- Change diffusion curves so that adoptation in say 2100 becomes 100% and the steep part of the curve cuts through the adoption rate in 2050. Saturation level is 100% not adoption rate we set for 2050
+- Apply simple +X tons CO2 carbon seq for agro-forestry and perhaps also other crops => use coefficients from FAO model? = see excel file. 
 
 
 The government of Zambia has highlighted the linkages and interdependencies between climate change and agricultural development in most recent development and policy plans. As the the majority of people are living in rural areas and land use change contribute the largest part to greenhouse gas emissions, is essential to develop an effective and coherent approach to deal with the impact of climate change on the agricultural production and vice versa. 
