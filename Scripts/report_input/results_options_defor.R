@@ -99,7 +99,7 @@ crop_globiom <- "Corn"
 
 ### PRODUCTION
 # Total production
-prod_opt <- for_options %>%
+prod_opt_bau <- for_options %>%
   filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm") %>%
   ungroup() %>%
   group_by(year, variable, unit, gcm, crop_model, scen_type, rcp, ssp, scenario, option, carbon_price) %>%
@@ -111,18 +111,45 @@ prod_opt <- for_options %>%
   mutate(dif = (value-value[scenario == "0_Ref"])/value[scenario == "0_Ref"]*100) %>%
   filter(!is.na(carbon_price))
 
+prod_opt_option <- for_options %>%
+  filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm") %>%
+  ungroup() %>%
+  group_by(year, variable, unit, gcm, crop_model, scen_type, rcp, ssp, scenario, option, carbon_price) %>%
+  summarize(value = sum(value)) %>%
+  mutate(item = "TOT") %>%
+  ungroup() %>%
+  filter(!scen_type %in% c("none", "CSA")) %>%
+  group_by(variable, item, unit, ssp, scen_type, carbon_price) %>%
+  mutate(dif = (value-value[option == "none"])/value[option == "none"]*100,
+        class = paste(scen_type, option, sep = "_")) %>%
+  filter(option != "none")
+
 # Plot
-fig_for_prod_bau <- ggplot(data = prod_opt) +
+fig_for_prod_bau <- ggplot(data = prod_opt_bau) +
     geom_col(aes(x = carbon_price, y = dif, fill = scen_type), position = "dodge2", colour = "black") +
-    guides(fill=F, colour = F) +
     #scale_fill_manual(values = col_options) +
-    labs(x = "", y = "Difference to BAU scenario in 2050 (%)") + 
+    labs(x = "", y = "Difference to BAU scenario in 2050 (%)", fill = "") + 
     theme_bw() +
     scale_y_continuous(expand = expand_scale(mult = c(0.05, 0)), breaks = pretty_breaks(n = 10)) +
-    scale_fill_manual(values =  brewer.pal(n = 3, name = "Set1")) +
+    scale_fill_manual(values =  brewer.pal(n = 8, name = "Paired")[c(5,6)]) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) 
+          panel.background = element_blank()) +
+  theme(legend.position = "bottom")
  
+# Plot
+fig_for_prod_option <- ggplot(data = prod_opt_option) +
+  geom_col(aes(x = carbon_price, y = dif, fill = class), position = "dodge2", colour = "black") +
+  #scale_fill_manual(values = col_options) +
+  labs(x = "", y = "Difference to BAU scenario in 2050 (%)", fill = "") + 
+  theme_bw() +
+  scale_y_continuous(expand = expand_scale(mult = c(0, 0.05)), breaks = pretty_breaks(n = 10)) +
+  scale_fill_manual(values =  brewer.pal(n = 4, name = "Paired")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank()) +
+  theme(legend.position = "bottom")
+
+library(gridExtra)
+grid.arrange(fig_for_prod_bau, fig_for_prod_option, nrow = 1)
 
 ### LAND
 land_opt <- for_options %>%
