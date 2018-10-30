@@ -95,6 +95,8 @@ for_options <- zmb %>%
 # col_options <- brewer.pal(n = 9, name = "Set1")
 # names(col_options) = c("none", "af", "ca", "rr", "msd", "dtm", "phl", "div")
 
+crop_globiom <- "Corn"
+
 ### PRODUCTION
 # Total production
 prod_opt <- for_options %>%
@@ -106,18 +108,18 @@ prod_opt <- for_options %>%
   ungroup() %>%
   filter(option == "none") %>%
   group_by(variable, item, unit, ssp, option) %>%
-  mutate(dif = (value-value[scenario == "0_Ref"])/value[scenario == "0_Ref"]*100)
+  mutate(dif = (value-value[scenario == "0_Ref"])/value[scenario == "0_Ref"]*100) %>%
+  filter(!is.na(carbon_price))
 
 # Plot
-fig_for_prod <- ggplot(data = prod_opt) +
-    geom_col(aes(x = carbon_price, y = dif, fill = carbon_price), colour = "black") +
+fig_for_prod_bau <- ggplot(data = prod_opt) +
+    geom_col(aes(x = carbon_price, y = dif, fill = scen_type), position = "dodge2", colour = "black") +
     guides(fill=F, colour = F) +
     #scale_fill_manual(values = col_options) +
-    labs(x = "", y = "dif BAU-scen in 2050 (%)") + 
+    labs(x = "", y = "Difference to BAU scenario in 2050 (%)") + 
     theme_bw() +
-    scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
-    #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    facet_wrap(~scen_type, scales = "free") +
+    scale_y_continuous(expand = expand_scale(mult = c(0.05, 0)), breaks = pretty_breaks(n = 10)) +
+    scale_fill_manual(values =  brewer.pal(n = 3, name = "Set1")) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank()) 
  
@@ -132,6 +134,18 @@ land_opt <- for_options %>%
   mutate(dif = (value-value[scenario == "0_Ref"])/value[scenario == "0_Ref"]*100)
 
 # Plot
+fig_for_land <- ggplot(data = land_opt) +
+  geom_col(aes(x = carbon_price, y = dif_abs, fill = carbon_price), colour = "black") +
+  guides(fill=F, colour = F) +
+  #scale_fill_manual(values = col_options) +
+  labs(x = "", y = "dif BAU-scen in 2050 (1000 ha)") + 
+  theme_bw() +
+  scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
+  #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  facet_grid(item~scen_type, scales = "free") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank()) 
+
 fig_for_land <- ggplot(data = land_opt) +
   geom_col(aes(x = carbon_price, y = dif_abs, fill = carbon_price), colour = "black") +
   guides(fill=F, colour = F) +
