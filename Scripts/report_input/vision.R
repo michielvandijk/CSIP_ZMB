@@ -398,10 +398,11 @@ rm(div_df, div_hist, div_proj)
 
 ### EMISSIONS TARGETS
 # Vision targets
-fig_emis_vis <- filter(vision, variable %in% c("emis1", "emis2")) %>%
+emis_vis <- filter(vision, variable %in% c("emis1", "emis2")) %>%
   mutate(variable = factor(variable, labels = c("domestic efforts with \nlimited international support",
-                                                "domestic efforts with \nsubstantial international support"))) %>%
-  ggplot() +
+                                                "domestic efforts with \nsubstantial international support")))
+# Plot
+fig_emis_vis <-  ggplot(data = emis_vis) +
   geom_col(aes(x = variable, y = parameter, fill = variable), colour = "black") +
   theme_bw(base_size = 14) +
   labs(x = "", y = "% decrease in GHG emissions in comparison to BAU") +
@@ -542,7 +543,8 @@ fig_emis_vis <- filter(vision, variable %in% c("emis1", "emis2")) %>%
 #   facet_wrap(~variable, scales = "free") +
 #   scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
-# clean up
+
+### CLEAN UP
 rm(base, ciat, ciat_2010, ciat_raw, indc_raw, nc2_raw, unfcc_raw, nat_emis_proj_index, nat_emis_ciat,
    nat_emis, nat_emis_ciat_2030, nat_emis_ciat_2050, nat_emis_ciat_df, nat_emis_proj, 
    nat_emis_proj_ciat, nat_emis_hist)

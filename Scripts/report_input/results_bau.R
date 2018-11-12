@@ -390,7 +390,7 @@ fig_bau_yld <- ggplot() +
   facet_wrap(~item, scales = "free")
 
 # Clean up
-rm(yld_base_2000, yld_hist, yld_proj, yld_vis)
+rm(yld_base_2000, yld_hist, yld_proj)
 
 
 ### LIVESTOCK PRODUCTION
@@ -465,7 +465,7 @@ fig_bau_lvst <- ggplot() +
   guides(fill = guide_legend(""))
 
 # Clean up
-rm(lvst_hist_raw, lvst_hist, lvst_proj, lvst_target, lvst_vis)
+rm(lvst_hist_raw, lvst_hist, lvst_proj)
 
 
 ### BVMEAT
@@ -732,7 +732,7 @@ fig_bau_cal <- ggplot() +
         panel.background = element_blank())
 
 # Clean up
-rm(calo_df, calo_hist, calo_proj, calo_target)
+rm(calo_df, calo_hist, calo_proj)
 
 # 
 # ### Prices
@@ -1073,3 +1073,10 @@ fig_bau_trade <- ggplot(trade_proj) +
   theme(legend.position = "bottom") +
   guides(fill = F) 
 
+
+### COMBINE VISION TARGETS IN ONE FILE
+library(openxlsx)
+
+l_db <- list("crop_yield_vision" = yld_vis, "GHG_vision" = ghg_ag_vis, 
+             "net_export_vision" = expo_vis, "calorie_target" = calo_target)
+write.xlsx(l_db, file.path(projectPath, paste0("Data/ZMB/Processed/For_FAO/vision_targets_for_FAO_", Sys.Date(), ".xlsx")))

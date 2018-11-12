@@ -33,6 +33,8 @@ options(digits=4)
 ### PREPARE GAMS LINK
 igdx(GAMSPath)
 
+# For now set gdx file here as all results have not yet merged
+globiom_file <- "output_CSIP_ZMB_SSP2_23oct"
 
 ### LOAD DATA
 # Zambia GLOBIOM OUTPUT Data
@@ -81,11 +83,11 @@ zmb <- zmb %>%
 zmb <- zmb %>% 
   left_join(., scen_def) %>%
   mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl", "div", "def")),
-         carbon_price = factor(carbon_price, levels = c("vl1", "vl2", "vl3", "low", "high", "100", "max")))
+         carbon_price = factor(carbon_price, levels = c("vl1", "vl2", "vl3", "low", "high", "vhigh", "max")))
 
 # # Select relevant scenarios
 for_options <- zmb %>%
-  filter(option %in% c("msd", "rr", "none"),
+  filter(option %in% c("none"),
          rcp == "noCC",
          year == 2050) 
 
@@ -109,7 +111,8 @@ prod_opt_bau <- for_options %>%
   filter(option == "none") %>%
   group_by(variable, item, unit, ssp, option) %>%
   mutate(dif = (value-value[scenario == "0_Ref"])/value[scenario == "0_Ref"]*100) %>%
-  filter(!is.na(carbon_price))
+  filter(!is.na(carbon_price)) %>%
+  mutate(scen_type = ifelse(scen_type == "FixAg", "LUC ag", "LUC crp"))
 
 prod_opt_option <- for_options %>%
   filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm") %>%
