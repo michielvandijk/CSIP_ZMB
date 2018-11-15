@@ -36,7 +36,7 @@ igdx(GAMSPath)
 
 ### LOAD DATA
 # Data per simu
-zmb_simu_lc <- rgdx.param(file.path(projectPath, paste0("Data/Downscaling/downscaled_Zambia_SSP2_RCPbase_oct22.gdx")), "ds_lu_results") %>%
+zmb_simu_lc <- rgdx.param(file.path(projectPath, paste0("Data/Downscaling/downscaled_Zambia_SSP2_RCPbase_nov15.gdx")), "ds_lu_results") %>%
   droplevels %>%
   dplyr::rename(item = LC_TYPE_DS, year = Time, value = ds_lu_results) %>%
   dplyr::select(-quantiles, -ANYREGION) %>%
@@ -77,13 +77,13 @@ simu_zmb <- filter(simu_info, country == "Zambia") %>%
 # Combine with raster data
 simu_zmb_r <- left_join(simu_zmb, simu_df_r) 
 
-# Calculate difference between 2010 and 2050
+# Calculate difference between 2000 and 2050
 simu_zmb_dif <- simu_zmb %>%
   dplyr::select(-simu_area, -value, -bin) %>%
-  filter(year %in% c(2010, 2050)) %>%
+  filter(year %in% c(2000, 2050)) %>%
   spread(year, share) %>%
-  mutate(dif = ((`2050`/`2010`)-1)*100,
-         dif2 = `2050`-`2010`)
+  mutate(dif = ((`2050`/`2000`)-1)*100,
+         dif2 = `2050`-`2000`)
 
 # Combine with raster data
 simu_zmb_dif_r <- left_join(simu_zmb_dif, simu_df_r) 
@@ -132,7 +132,7 @@ plot_dif_f <- function(lc, col){
     geom_path(data = zmb_aez, aes(x = long, y = lat, group = group), colour = "black") +
     #scale_fill_gradient2(low = muted(col_l), mid = "white", high = muted(col_h), na.value = "white") +
     scale_fill_gradientn(colours = col, na.value = "white") +
-    labs(x="", y="", fill = "", title = "2010-2050 difference in pp") +
+    labs(x="", y="", fill = "", title = "2000-2050 difference in pp") +
     theme_void(base_size = 15) +
     theme(plot.title = element_text(hjust = 0.5))
   p
@@ -148,7 +148,7 @@ plot_dif2_f <- function(lc, col){
     #scale_fill_gradient2(low = muted(col_l), mid = "white", high = muted(col_h), na.value = "white") +
     scale_fill_manual(values = c(col),
                       na.value = "white") +
-    labs(x="", y="", fill = "", title = "2010-2050 difference in pp") +
+    labs(x="", y="", fill = "", title = "2000-2050 difference in pp") +
     theme_void(base_size = 15) +
     theme(plot.title = element_text(hjust = 0.5))
   p
@@ -163,18 +163,18 @@ grey_scale <- c(brewer.pal(5,"Greys"))
 
 # Plot
 library(cowplot)
-map_crplnd <- plot_grid(plot_val2_f("CrpLnd", 2010, orange_scale),
+map_crplnd <- plot_grid(plot_val2_f("CrpLnd", 2000, orange_scale),
                         plot_val2_f("CrpLnd", 2050, orange_scale),
                         plot_dif_f("CrpLnd", orange_scale))
 
-map_grslnd <- plot_grid(plot_val2_f("GrsLnd", 2010, blue_scale),
+map_grslnd <- plot_grid(plot_val2_f("GrsLnd", 2000, blue_scale),
                         plot_val2_f("GrsLnd", 2050, blue_scale),
                         plot_dif_f("GrsLnd", blue_scale))
 
-map_for <- plot_grid(plot_val2_f("PriFor", 2010, green_scale),
+map_for <- plot_grid(plot_val2_f("PriFor", 2000, green_scale),
                         plot_val2_f("PriFor", 2050, green_scale),
                         plot_dif_f("PriFor", rev(green_scale)))
 
-map_natlnd <- plot_grid(plot_val2_f("NatLnd", 2010, grey_scale),
+map_natlnd <- plot_grid(plot_val2_f("NatLnd", 2000, grey_scale),
                      plot_val2_f("NatLnd", 2050, grey_scale),
                      plot_dif_f("NatLnd", rev(grey_scale)))

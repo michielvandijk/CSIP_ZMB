@@ -34,7 +34,7 @@ options(digits=4)
 igdx(GAMSPath)
 
 # For now set gdx file here as all results have not yet merged
-globiom_file <- "output_CSIP_ZMB_SSP2_23oct"
+#globiom_file <- "output_CSIP_ZMB_SSP2_23oct"
 
 ### LOAD DATA
 # Zambia GLOBIOM OUTPUT Data
@@ -102,7 +102,7 @@ crop_globiom <- "Corn"
 ### PRODUCTION
 # Total production
 prod_opt_bau <- for_options %>%
-  filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm") %>%
+  filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm", ssp == "SSP2") %>%
   ungroup() %>%
   group_by(year, variable, unit, gcm, crop_model, scen_type, rcp, ssp, scenario, option, carbon_price) %>%
   summarize(value = sum(value)) %>%
@@ -115,7 +115,7 @@ prod_opt_bau <- for_options %>%
   mutate(scen_type = ifelse(scen_type == "FixAg", "LUC ag", "LUC crp"))
 
 prod_opt_option <- for_options %>%
-  filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm") %>%
+  filter(variable == "PROD", item %in% crop_globiom, unit == "1000 t dm", ssp == "SSP2") %>%
   ungroup() %>%
   group_by(year, variable, unit, gcm, crop_model, scen_type, rcp, ssp, scenario, option, carbon_price) %>%
   summarize(value = sum(value)) %>%
@@ -151,8 +151,6 @@ fig_for_prod_option <- ggplot(data = prod_opt_option) +
         panel.background = element_blank()) +
   theme(legend.position = "bottom")
 
-library(gridExtra)
-grid.arrange(fig_for_prod_bau, fig_for_prod_option, nrow = 1)
 
 ### LAND
 land_opt <- for_options %>%

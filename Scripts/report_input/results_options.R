@@ -77,14 +77,18 @@ zmb <- zmb %>%
     index = value/value[year == 2010],
     growth = (index-1)*100)
 
-# Add scenario definition
+# Remove forestry scenarios
 zmb <- zmb %>% 
   left_join(., scen_def) %>%
-  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl", "div", "def")))
+  filter(!scen_type %in% c("FixAg", "FixCrp"))
 
-# # Remove additonal scenarios for now
- zmb <- zmb %>%
-   filter(!option %in% c("def", "ir"))
+# Add scenario definition
+zmb <- zmb %>% 
+  mutate(option = factor(option, levels = c("none", "af", "ca", "rr", "msd", "dtm", "ir", "phl", "div")))
+
+# Remove additonal scenarios for now
+zmb <- zmb %>%
+   filter(!option %in% c("ir"))
 
 
 ### PLOT FUNCTIONS
@@ -239,9 +243,6 @@ plot_dif_abs <- function(df, ssp_sel){
 }
 
 
-
-
-  
 # Baseline selection
 # base_options <- zmb %>% 
 #   ungroup() %>%

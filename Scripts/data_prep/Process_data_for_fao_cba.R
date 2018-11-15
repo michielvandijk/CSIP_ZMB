@@ -69,25 +69,6 @@ zmb <- zmb_raw %>%
          variable = toupper(variable)) %>%
   dplyr::filter(variable %in% c("YILM", "ASYS2", "EMIS", "LAND", "XPRP", "FRTN", "ANIM", "CONS", "PROD", "NETT", "CALO", "EXPO", "IMPO", "NTMS", "NTMS2"))
 
-# Check for missing 2010 values
-check2010 <- zmb %>%
-  arrange(variable, scenario, item, unit, ssp, scenario2, year) %>%
-  group_by(variable, scenario, item, unit, ssp, scenario2) %>%
-  filter(!any(year==2010))
-
-# Remove series with missing values in 2010
-zmb <- zmb %>%
-  arrange(variable, scenario, item, unit, ssp, scenario2, year) %>%
-  group_by(variable, scenario, item, unit, ssp, scenario2) %>%
-  filter(any(year==2010))
-xtabs(~item + variable, data = zmb)
-
-# Add growth and index
-zmb <- zmb %>%
-  group_by(variable, scenario, item, unit, ssp, scenario2) %>%
-  mutate(
-    index = value/value[year == 2010],
-    growth = (index-1)*100)
 
 # Add scenario definition
 zmb <- zmb %>% 
@@ -105,7 +86,7 @@ area_crop_csa <- crop_tech_raw %>%
   left_join(., scen_def) %>%
   mutate(tech = recode(tech, "notill" = "msd", "r100"= "rr", "af_csip"= "af", "ca_csip" = "ca")) %>%
   filter(option == tech) %>% # only select option data for option specific scenarios (i.e. not msd for af scenarios)
-  filter(year %in% c(2010, 2030, 2050)) %>%
+  filter(year %in% c(2000, 2010, 2030, 2050)) %>%
   group_by(ssp, item, option, scenario, year, unit) %>%
   summarize(value = sum(value, na.rm = T))  %>%
   ungroup() %>%
@@ -115,17 +96,17 @@ area_crop_csa <- crop_tech_raw %>%
 # Prod
 prod <- zmb %>%
   filter(variable == "PROD", unit == "1000 t dm") %>%
-  filter(year %in% c(2010, 2030, 2050))
+  filter(year %in% c(2000, 2010, 2030, 2050))
 
 # Fert
 fert <- zmb %>%
   filter(variable == "FRTN", unit == "1000 t") %>%
-  filter(year %in% c(2010, 2030, 2050))
+  filter(year %in% c(2000, 2010, 2030, 2050))
 
 # Emis
 emis <- zmb %>%
   ungroup %>%
-  filter(variable == "EMIS", year %in% c(2010, 2030, 2050)) %>%
+  filter(variable == "EMIS", year %in% c(2000, 2010, 2030, 2050)) %>%
   filter(!item %in% c("LUCF", "Net", "Soil_N2O", "TOT")) %>%
   mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
                        "ManmgtTot_N2O" = "Manure Management N20",
@@ -148,7 +129,7 @@ lvst_globiom <- c("BOVO", "BOVD", "BOVF")
 # Projections
 lvst <- zmb %>% 
   filter(item %in% lvst_globiom,  
-         year %in% c(2010, 2030, 2050)) %>%
+         year %in% c(2000, 2010, 2030, 2050)) %>%
   group_by(scenario, scenario, year) %>%
   summarize(value = sum(value)) %>%
   mutate(item = "catt",
@@ -177,7 +158,7 @@ lvst_proj <- zmb %>%
 
 # Price
 price <- zmb %>%
-  filter( variable == "XPRP", year %in% c(2010, 2030, 2050))
+  filter( variable == "XPRP", year %in% c(2000, 2010, 2030, 2050))
 
 # Trade
 # Projected exports
@@ -186,7 +167,7 @@ crop_trade <- c("Corn", "Cass", "Mill", "Gnut", "Cott", "Rice", "Soya", "BVMEAT"
 trade_proj <- zmb %>%
   filter(variable %in% c("NETT"), 
          unit %in% c("1000 t"),
-         year %in% c(2010, 2030, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
+         year %in% c(2000, 2010, 2030, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
   ungroup() %>%
   mutate(item = recode(item, 
                        "Barl" = "Barley",
@@ -237,7 +218,7 @@ yld_proj <- zmb %>%
                        "sunf" = "Sunflowers",
                        "SwPo" = "Sweet potatoes", 
                        "Whea" = "Wheat")) %>%
-filter(year %in% c(2010, 2030, 2050))
+filter(year %in% c(2000, 2010, 2030, 2050))
 
 # Irrigation
 irr_proj <- zmb %>%
@@ -277,7 +258,7 @@ corr <- hist_2000-proj_2000
 land_proj$value[land_proj$item == "GrsLnd"] <- land_proj$value[land_proj$item == "GrsLnd"] + corr
 land_proj$value[land_proj$item == "NatLnd"] <- land_proj$value[land_proj$item == "NatLnd"] - corr
 
-land_proj <- filter(land_proj, year %in% c(2010, 2030, 2050))
+land_proj <- filter(land_proj, year %in% c(2000, 2010, 2030, 2050))
 
 
 ### COMBINE IN ONE FILE

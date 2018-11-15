@@ -971,7 +971,7 @@ crop_trade <- c("Corn", "Cass", "Mill", "Gnut", "Cott", "Rice", "Soya", "BVMEAT"
 trade_proj <- zmb %>%
   filter(variable %in% c("NETT"), 
          ssp == "SSP2", scen_type == "none", gcm == "noCC", rcp == "noCC", unit %in% c("1000 t"),
-         year %in% c(2010, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
+         year %in% c(2000, 2010, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
   ungroup() %>%
   mutate(item = recode(item, 
                        "Barl" = "Barley",
@@ -1027,7 +1027,7 @@ expo_vis <- trade_proj %>%
 # Errorbar
 trade_eb <- zmb %>% 
   filter(variable %in% c("NETT"), unit == "1000 t",
-         year %in% c(2010, 2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
+         year %in% c(2050), item %in% c(crop_trade, "BVMEAT", "PGMEAT")) %>%
   ungroup() %>%
   group_by(variable, item, year, unit, ssp) %>%
   summarize(max_val = max(value, na.rm = T),
@@ -1056,7 +1056,7 @@ trade_eb <- zmb %>%
 
 
 # Plot
-fig_bau_trade <- ggplot(trade_proj) +
+fig_bau_trade <- ggplot(filter(trade_proj, year %in% c(2000, 2050))) +
   geom_col(aes(x = factor(year), y = value, fill = item), position = "dodge", colour = "black") +
   geom_errorbar(data = trade_eb, aes(x = factor(year), ymin = min_val, ymax = max_val), width = 0.3, size = 1) +
   facet_wrap(~item, scales = "free") +
