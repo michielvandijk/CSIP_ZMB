@@ -48,8 +48,8 @@ zmb_raw <- rgdx.param(file.path(projectPath, paste0("GLOBIOM/results/", globiom_
 # Scenario definitions
 scen_def <- read_excel(file.path(projectPath, "/GLOBIOM/results/scenario_def_v3.xlsx")) 
 
-# LC Map
-#lc_type_map <- read_excel(file.path(dataPath, "Data/Mappings/GLOBIOM_mappings.xlsx"), sheet = "LC_TYPE")
+# carbon price scenarios
+carbon_price_raw <- read_csv(file.path(projectPath, "Data/carbon_price/carbon_price_scenarios.csv"))
 
 
 ### PROCESS RAW DATA
@@ -139,95 +139,44 @@ fig_for_prod_bau <- ggplot(data = prod_opt_bau) +
           panel.background = element_blank()) +
   theme(legend.position = "bottom")
  
-# Plot
-fig_for_prod_option <- ggplot(data = prod_opt_option) +
-  geom_col(aes(x = carbon_price, y = dif, fill = class), position = "dodge2", colour = "black") +
-  #scale_fill_manual(values = col_options) +
-  labs(x = "", y = "Difference to BAU scenario in 2050 (%)", fill = "") + 
+
+### CARBON PRICE SCENARIOS
+carbon_price <- carbon_price_raw %>%
+  gather(price, value, - year)
+
+fig_carbon_price <- ggplot(data = carbon_price) +
+  geom_line(aes(x = year, y = value, colour = price, group = price)) +
   theme_bw() +
-  scale_y_continuous(expand = expand_scale(mult = c(0, 0.05)), breaks = pretty_breaks(n = 10)) +
-  scale_fill_manual(values =  brewer.pal(n = 4, name = "Paired")) +
+  labs(y = "USD/t CO2eq",
+       x = "",
+       colour = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank()) +
   theme(legend.position = "bottom")
 
 
-### LAND
-land_opt <- for_options %>%
-  filter(variable == "LAND", item %in% c("CrpLnd", "NatLnd", "GrsLnd", "Forest")) %>%
-  filter(option == "none") %>%
-  ungroup() %>%
-  group_by(variable, item, unit, ssp, option) %>%
-  mutate(dif_abs = (value-value[scen_type == "none"])) %>%
-  mutate(dif = (value-value[scenario == "0_Ref"])/value[scenario == "0_Ref"]*100)
 
-# Plot
-fig_for_land <- ggplot(data = land_opt) +
-  geom_col(aes(x = carbon_price, y = dif_abs, fill = carbon_price), colour = "black") +
-  guides(fill=F, colour = F) +
-  #scale_fill_manual(values = col_options) +
-  labs(x = "", y = "dif BAU-scen in 2050 (1000 ha)") + 
+### CROPLAND AREA
+cropland <- for_options %>%
+  filter(variable == "LAND", item %in% c("CrpLnd"), ssp == "SSP2") %>%
+  mutate(carbon_price = as.character(carbon_price), 
+         carbon_price = ifelse(is.na(carbon_price), "none", carbon_price),
+         carbon_price = factor(carbon_price, levels = c("vl1", "vl2", "vl3", "low", "high", "vhigh", "max", "none")),
+         scen_type = ifelse(scen_type == "none", "BAU", scen_type),
+         scen_type = recode(scen_type, "FixAg" = "LUC ag", "FixCrp" = "LUC crp"),
+         value = value/1000)
+
+fig_for_cropland <- ggplot(data = cropland) +
+  geom_col(aes(x = carbon_price, y = value, fill = scen_type), position = "dodge2", colour = "black") +
   theme_bw() +
-  scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
-  #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  facet_grid(item~scen_type, scales = "free") +
+  scale_y_continuous(expand = expand_scale(mult = c(0.00, 0.1))) +
+  labs(y = "Mha",
+       x = "",
+       fill = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) 
-
-fig_for_land <- ggplot(data = land_opt) +
-  geom_col(aes(x = carbon_price, y = dif_abs, fill = carbon_price), colour = "black") +
-  guides(fill=F, colour = F) +
-  #scale_fill_manual(values = col_options) +
-  labs(x = "", y = "dif BAU-scen in 2050 (1000 ha)") + 
-  theme_bw() +
-  scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
-  #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  facet_grid(item~scen_type, scales = "free") +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) 
+        panel.background = element_blank()) +
+  theme(legend.position = "bottom")
 
 
-### EMISSIONS
-# Aggregated
-emis_opt <- for_options %>%
-  filter(variable == "EMIS") %>%
-  filter(!item %in% c("LUCF", "LUCP", "LUCC", "LUCG", "Net", "Soil_N2O", "TOT")) %>%
-  ungroup() %>%
-  mutate(item = recode(item, "Entferm_CH4" = "Enteric fermentation",
-                       "ManmgtTot_N2O" = "Manure Management",
-                       "ManmgtTot_CH4" = "Manure Management",
-                       "Rice_CH4" = "Rice Cultivation",
-                       "CropSoil_N2O" = "Synthetic Fertilizers",
-                       "ManaplTot_N2O" = "Manure applied to Soils",
-                       "ManprpTot_N2O"= "Manure left on Pasture",
-                       "CropRes_N2O" = "Crop Residues",
-                       "LUC" = "Land use change")) %>%
-  group_by(year, variable, item, unit, gcm, crop_model, rcp, ssp, option, scenario, scen_type, crop_model, carbon_price) %>%
-  summarize(value = sum(value)) %>%
-  filter(option == "none")
-  
-emis_opt_ag <- emis_opt %>%
-  #filter(item != "Land use change") %>%
-  filter(item == "Synthetic Fertilizers") %>%
-  ungroup() %>%
-  group_by(variable, item, unit, ssp, option) %>%
-  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
 
-emis_opt_lulucf <- emis_opt %>%
-  filter(item == "Land use change") %>%
-  ungroup() %>%
-  group_by(variable, item, unit, ssp, option) %>%
-  mutate(dif = (value-value[scen_type == "none"])/value[option == "none"]*100)
-
-# Plot
-fig_for_emis <- ggplot(data = emis_opt_lulucf) +
-  geom_col(aes(x = carbon_price, y = dif, fill = carbon_price), colour = "black") +
-  guides(fill=F, colour = F) +
-  #scale_fill_manual(values = col_options) +
-  labs(x = "", y = "dif BAU-scen in 2050 (%)") + 
-  theme_bw() +
-  scale_y_continuous(expand = expand_scale(mult = c(0.5, .5))) +
-  #theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  facet_wrap(~scen_type, scales = "free") +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) 
+rm(cropland)
