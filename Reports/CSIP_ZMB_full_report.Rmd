@@ -1,7 +1,9 @@
 ---
-title: "Zambia CSIP: IIASA Background report"
-author: "Michiel van Dijk, Amanda Palazzo, Petr Havlik, Tamas Krisztin and Stefan Frank"
+title: "A quantitative impact assessment of Climate Smart Agricultural strategies on agricultural development in Zambia"
+subtitle: 'Background paper for the Zambia Climate Smart Investment Plan (CSIP)'
+author: "Michiel van Dijk (IIASA, vandijkm@iiasa.ac.at), Amanda Palazzo (IIASA), Petr Havlik (IIASA), Tamas Krisztin (IIASA) and Stefan Frank (IIASA)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
+abstract: "Climate change will have substantial and negative consequences for agricultural development in Zambia. In particular this will affect poor rural households that depend on agriculture as their main source of income and food. The adoption of climate smart agriculture (CSA) is widely regarded as an approach to harness smallholders against climate change, while at the same time contributing to securing food security. In this study we assess and compare the impact of adopting seven CSA options on future agricultural development in Zambia. The analysis is conducted using a partial-equilibrium agricultural sector model (GLOBIOM) that can assess future agricultural development and land use change under climate change impacts. To reflect local conditions, crop yield, production and land use information in GLOBIOM is updated with recent agricultural statistics from Zambia. The impact of adopting CSA options on agricultural development is contrasted with a business as usual scenario that assumes only limited expansion of CSA practices and a 'vision' of agricultural development based on policy documents and stakeholder input. The results of this study can be used to inform strategic and investment decisions on the support of CSA in Zambia." 
 output: 
   word_document:
     reference_docx: ../Support/word_styles_01.docx
@@ -54,22 +56,22 @@ source(file.path(root, "Scripts/report_input/results_options_defor.R"))
 
 # Introduction
 
-The government of Zambia has highlighted the linkages and interdependencies between climate change and agricultural development in most recent development and policy plans. As the the majority of people are living in rural areas and land use change contribute the largest part to greenhouse gas emissions, is essential to develop an effective and coherent approach to deal with the impact of climate change on the agricultural production and vice versa. 
+The government of Zambia highlighted the linkages and interdependencies between climate change and agricultural development in most recent development and policy plans. As the majority of people are living in rural areas and land use change contribute the largest part to greenhouse gas emissions, is essential to develop an effective and coherent approach to deal with the impact of climate change on the agricultural production and vice versa. 
 
-At present the agriculture sector development strategies do not provide a coherent future roadmap to deal with climate risk. With support of the World Bank, the government of Zambia will draft the first Zambia Climate Smart Investment Plan (CSIP) that will inform a structured approach. The aim of this study is to contribute to the design of the CSIP by means of quantitative scenario modelling exercise using the GLOBIOM model developed by the International Institute for Applied Systems Analysis (IIASA). GLOBIOM is a spatially-explicit partial-equilibrium agricultural sector model that can assess future agricultural and land use change under climate change impacts. For this study the model will be modified and updated with country specific input information in order to better represent the agricultural sector in Zambia. The quantitative scenario analysis will help to identify and prioritize key policy interventions and investments to inform agricultural sector and climate change policy planning in Zambia for the medium to long term. 
+At present, the agriculture sector development strategies do not provide a coherent future roadmap to deal with climate risk. To inform a structured approach, the government of Zambia, with support of the World Bank, is in the process of draftingh the first Zambia Climate Smart Investment Plan (CSIP). The aim of this study is to contribute to the design of the CSIP by means of quantitative scenario modelling exercise using the GLOBIOM model developed by the International Institute for Applied Systems Analysis (IIASA). GLOBIOM is a spatially-explicit partial-equilibrium agricultural sector model that can assess future agricultural development and land use change under climate change impacts. For this study the model has been modified and updated with country specific input information in order to better represent the agricultural sector in Zambia. The quantitative scenario analysis supports the identification and priorization of key policy interventions and investments to inform agricultural sector and climate change policy planning in Zambia for the medium to long term. 
 
-The GLOBIOM model will be modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenarios  are designed to capture both uncertainties in the drivers of future agricultural development pathways (e.g. population growth, economic development, technical change and climate change) as well as a number of policy options (e.g. adoption of climate smart technologies and practices). Scenarios that will be modeled include a business as usual (BAU) scenario and 7 additional policy scenarios. In addition, we will construct normative scenario that describes a desired agricultural pathway. To address the substantial uncertainties related to climate change impact and socio-economic drivers, a sensitivity analysis will be conducted in which yield, GDP and population projections are set to plausible upper and lower boundaries. 
+The GLOBIOM model has been modified and updated to simulate a selective number of scenarios that represent possible future agricultural pathways. The scenarios are designed to capture both uncertainties in the drivers of future agricultural development (e.g. population growth, economic development, technical change and climate change) as well as a number of policy options (e.g. adoption of climate smart technologies and practices). The scenarios are contrasted with desired agricultural targets (referred to as the vision) that are taken from policy documents and stakeholder input. To address the substantial uncertainties related to climate change impact and socioeconomic drivers, a sensitivity analysis is conducted in which yield, GDP and population projections are set to plausible upper and lower boundaries. 
 
-The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organisations that was held in Lusaka on October 16th and 17th, 2017. At the workshop, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050.The output of the stakeholder workshop as well as a selection of recent policy sector and planning documents are used to design the scenarios for the modelling, which are described below.
+The formulation of the scenarios builds upon the ideas and views that were expressed by a wide group of stakeholders from various Ministries, NGOs, policy think tanks and international organizations at two workshops. At the first workshop that took place in Lusaka on the 16th and 17th of October, the main drivers of agricultural development and land use change were discussed and different policy options and strategies were proposed to address climate smart agriculture in Zambia. Stakeholders also prepared a vision statement for climate smart agriculture in 2050. The output of the stakeholder workshop as well as a selection of recent policy sector and planning documents were used to design the scenarios. At the second workshop that took place in Lusaka on the 17th of Apri, 2018, preliminary results were presented, discussed and validated. This document presents the final scenarios and results that incorporate comments by stakeholders.
 
 
 # Literature review
 
-A few papers assess the impact of climate change on agriculture in Zambia. @Jain2007 focuses on the economic impact of climate change using the Ricardian method. In this method, a regression model is estimated with net farm revenue as independent variables and a set of climate, hydrological, soil and socio-economic variables as explanatory variables. The analysis is conducted on a sample of 1015 households, including small-, medium- and large-scale households from 30 out of the 72 districts. The results point out that farm revenue is negatively affected by an increase in the November-December mean temperature and a decrease in the January-February mean rainfall, while a positive effect is found for an increase in the January-February mean temperature. This suggests that agriculture in Zambia will be affected by expected future change in rainfall and temperature induced by climate change. A major drawback of the Ricardian approach is that is fully relies on historical cross-section data and therefore is not able to assess the impact of future changes in the agricultural development related to economic growth and technical change.
+A few papers assess the impact of climate change on agriculture in Zambia. @Jain2007 focuses on the economic impact of climate change using the Ricardian method. In this method, a regression model is estimated with net farm revenue as independent variables and a set of climate, hydrological, soil and socioeconomic variables as explanatory variables. The analysis is conducted on a sample of 1015 households, including small-, medium- and large-scale households from 30 out of the 72 districts. The results point out that farm revenue is negatively affected by an increase in the November-December mean temperature and a decrease in the January-February mean rainfall, while a positive effect is found for an increase in the January-February mean temperature. This suggests that agriculture in Zambia will be affected by expected future change in rainfall and temperature induced by climate change. A major drawback of the Ricardian approach is that it fully relies on historical cross-section data and therefore is not able to assess the impact of future changes in the agricultural development related to economic growth and technical change.
 
-@Thurlow2012 use a combination of a hydro-crop (HC) model and dynamic computable equilibrium (CGE) model to assess the impacts of future climate change on economic growth and household poverty in Zambia. The HC model is applied to simulate the impact of climate change on crop yield, whose results are fed into the CGE model to capture the economic effects. The HadCM3-B1a scenario, which represents a future climate where rainfall declines and temperatures rise, and two more extreme scenarios (2% increase in temperature combined with 15% rainfall above and below the historical trend) are used to model climate change up to 2025. The HC model indicates that in the HadCM3-B1a scenario  average maize yields will be reduced by around 1% in four out of the five agro-climatic zones in comparison to the historical trend. The exception is the Western part of Zambia, where maize yields are expected to increase slightly. Yield change is larger (in the range of -6% to +4%) in the more extreme climate scenarios. Incorporating the effects of climate change in the CGE model and assuming the continuation of historical climate variability, GDP is projected to decrease between -0.29%-point and -1.31$-point per year, while the poverty rate is expected to increase between 1.69%-point and 7.23%-point, all in comparison to a normal rainfall scenario. The simulation assumes that GDP growth will not increase between the baseline and 2025. The results are therefore net GDP growth as a consequence of structural change in the economy over time.
+@Thurlow2012 use a combination of a hydro-crop (HC) model and dynamic computable equilibrium (CGE) model to assess the impacts of future climate change on economic growth and household poverty in Zambia. The HC model is applied to simulate the impact of climate change on crop yield, whose results are fed into the CGE model to capture the economic effects. The HadCM3-B1a scenario, which represents a future climate where rainfall declines and temperatures rise, and two more extreme scenarios (2% increase in temperature combined with 15% rainfall above and below the historical trend) are used to model climate change up to 2025. The HC model indicates that in the HadCM3-B1a scenario  average maize yields will be reduced by around 1% in four out of the five agro-climatic zones in comparison to the historical trend. The exception is the Western part of Zambia, where maize yields are expected to increase slightly. Yield change is larger (in the range of -6% to +4%) in the more extreme climate scenarios. Incorporating the effects of climate change in the CGE model and assuming the continuation of historical climate variability, GDP is projected to decrease between -0.29%-point and -1.31%-point per year, while the poverty rate is expected to increase between 1.69%-point and 7.23%-point, all in comparison to a normal rainfall scenario. The simulation assumes that GDP growth will not increase between the baseline and 2025. The results are therefore net GDP growth as a consequence of structural change in the economy over time.
 
-@Kanyanga2013 combine a crop model (DDSAT) and global economic model (IMPACT) to investigate the impact of climate change on future food security in Zambia. IMPACT is a partial equilibrium model that is used to simulate agricultural development at the global level (but including national representation) under a range of future scenarios. For this study, three socio-economic (pessimistic, baseline and optimistic) and four climate change scenarios (CNRM-CM3, CSIRO- mark3, ECHAM5 and MIROC3.2) were combined to account for the large uncertainty in both types of drivers. All three socio-economics scenarios show an increase in population and GDP in 2050 in comparison to the base year. The crop growth simulations broadly indicate that maize yield gain of sometimes over 25% is expected to occur in Western province, the eastern half of North Western Province, Copperbelt Province, and most of Northern and Luapula Provinces. At the same time, yield losses, sometimes in excess of 25%, are expected in Southern Province and parts of Eastern Province as well as other places scattered throughout the country. The results from IMPACT show that in all scenarios malnutrition among children under five years of age is decreasing and the availability of kilo-calories per capita is decreasing between 2010 and 2050 although change is less positive in the pessimistic socio-economic scenario. The model also shows that production and yield of maize is increasing and  net exports of nearly all modeled crops are declining. All results vary to some extent, depending on the climate scenario.
+@Kanyanga2013 combine a crop model (DDSAT) and global economic model (IMPACT) to investigate the impact of climate change on future food security in Zambia. IMPACT is a partial equilibrium model that is used to simulate agricultural development at the global level (but including national representation) under a range of future scenarios. IMPACT models the supply and demand for 39 crop products at a food production unit (FPU) level (intersection of national boundaries and river basins). The spatial resolution for the modeling the impacts of climate change on the agriculture sector in Zambia is 1 FPU. For this study, three socioeconomic (pessimistic, baseline and optimistic) and four climate change scenarios (CNRM-CM3, CSIRO- mark3, ECHAM5 and MIROC3.2) were combined to account for the large uncertainty in both types of drivers. All three socioeconomics scenarios show an increase in population and GDP in 2050 in comparison to the base year. The crop growth simulations broadly indicate that maize yield gain of sometimes over 25% is expected to occur in Western province, the eastern half of North Western Province, Copperbelt Province, and most of Northern and Luapula Provinces. At the same time, yield losses, sometimes in excess of 25%, are expected in Southern Province and parts of Eastern Province as well as other places scattered throughout the country. The results from IMPACT show that in all scenarios malnutrition among children under five years of age is decreasing and the availability of kilocalories per capita is decreasing between 2010 and 2050 although change is less positive in the pessimistic socioeconomic scenario. The model also shows that production and yield of maize is increasing and  net exports of nearly all modeled crops are declining. All results vary to some extent, depending on the climate scenario.
 
 @CIAT2017 analyses the effects  of  climate  change  on  agriculture  in Zambia over the period 2020-2050, also using the IMPACT model. The impact of climate change on three variables is assessed, namely net trade, crop area (or livestock numbers) and yields, for scenarios with and without climate change. SSP2 is used as a reference scenario for no climate change but it is not clear from the document which crop model, radiative forcing scenario and global circulation model combination has been used for the climate change scenario. The outcomes suggest the selection of an extreme climate change scenario. The model projects that net trade will decrease for most agricultural commodities as a consequence of climate change. Crop yield are  projected  to  grow  over  the
 period  2020  to  2050  under  both  scenarios but growth rates are lower for a number of crops including: cassava (2.9pp), cotton (6.5pp), groundnut (5.2pp), maize (8.7pp) and soy bean (3.0pp) while rice yield is expected to increase under climate change (3.4pp). Climate change impacts on crop area are similarly mixed. Land areas  cultivated  with groundnut, maize, and rice are expected to be larger under climate change, while the areas under cassava, cotton and vegetables  are projected to  increase  under both scenarios but less when there is climate change.
@@ -79,20 +81,20 @@ period  2020  to  2050  under  both  scenarios but growth rates are lower for a 
 
 Drivers of agricultural development in Zambia include both local and global factors. At the local level, national policies (e.g. agricultural support and investment plans), population growth and economic growth are key drivers, while at the global level, climate change and international trade are important factors. It is the interplay and interaction between these two sets of drivers that eventually will determine the future development trajectory of agriculture in Zambia. 
 
-In this paper we adopt a global-to-local modelling framework that is able to incorporate both the global and local drivers of national agricultural growth. To capture the high level of uncertainty related to the future development of these drivers, we apply an exploratory scenario framework that both takes into account the uncertainties associated with climate change (e.g. precipitation and temperature change that affect crop yield) and the possible trajectories of socio-economic drivers of agricultural growth (e.g. population growth, economic development and technical change). The methodology is similar to the one used in recent global impact assessments of climate change [@ONeill2017a].
+In this paper we adopt a global-to-local modelling framework that is able to incorporate both the global and local drivers of national agricultural growth. To capture the high level of uncertainty related to the future development of these drivers, we apply an exploratory scenario framework that both takes into account the uncertainties associated with climate change (e.g. precipitation and temperature change that affect crop yield) and the possible trajectories of socioeconomic drivers of agricultural growth (e.g. population growth, economic development and technical change). The methodology is similar to the one used in recent global impact assessments of climate change [@ONeill2017a].
 
-The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM) model, which quantifies the impact of the global and national developments on the agricultural sector in Zambia (Figure 1). The remainder of this chapter describes GLOBIOM and the modifications we made to tailor if for the Zambia analysis. The next section presents the socio-economic and climate change scenarios that are used to calibrate the model and quantify future agricultural development pathways.
+The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM) model, which quantifies the impact of the global and national developments on the agricultural sector in Zambia (Figure 1). The remainder of this chapter describes GLOBIOM and the modifications we made to tailor if for the Zambia analysis. The next section presents the socioeconomic and climate change scenarios that are used to calibrate the model and quantify future agricultural development pathways.
 
 
 ## The GLOBIOM model
 
 GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It has been used extensively to analyse the medium and long run effects of climate change [@Leclere2014; @Havlik2015a], deforestation [@Schmitz2014], food security [@Valin2014a; @Palazzo2017] and bio-fuel policies [@Valin2013b; @Havlik2011; @Mosnier2013; @Frank2013] at the global and regional level. The model has also been used for a number of in-depth country case-studies, including a deforestation assessment for Congo [@Mosnier2014a] and Brazil [@Soterroni2018], and and analysis of crop production potential for Russia and Ukraine [@Deppermann2018]. The supply side of the model is based on a bottom-up approach (from land cover, land use, and management systems to production and markets). The agricultural and forest productivity is modeled at the level of grid cells of 5x5 to 30x30 arc-minutes, input from crop and forest models. Demand is modeled at the regional level using 30 economic regions which consist of single countries or bundles of countries based on the the food balance sheets developed by the FAO [@FAO2017]. For this version the model, Zambia has been taken out of the region "Southern Africa" to further develop.  
 
-The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints [@McCarl1980]. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions based on the spatial equilibrium approach [@Schneider2007; @Takayama1971]. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM use a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
+The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints [@McCarl1980]. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions based on the spatial equilibrium approach [@Schneider2007; @Takayama1971]. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM uses a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
 
 By including not only the bio-energy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a near full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland. GLOBIOM is not able to model below ground carbon sequestration, which might result of for example no tillage and agro-forestry practices. It is also not able to model GHG emissions resulting from burning of biomass and savanna. Often these type of emissions are driven by factors outside the agricultural sector, such as the demand for energy, which is not modeled in GLOBIOM at the moment. For these reasons the GLOBIOM GHG projections might not be directly comparable with those of other models, such as the FAO EX-ACT model that is able to estimate negative emissions from carbon sequestration.
 
-With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for 17 of the 18 crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer, water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the country level [@FAO2017]. 
+With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for 17 of the 18 crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. 91% of the cropland area in Zambia produce crops that are modeled by GLOBIOM [@FAO2017]. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer and water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the country level [@FAO2017]. 
 
 
 __Figure 1: Overview of GLOBIOM__
@@ -101,12 +103,12 @@ __Figure 1: Overview of GLOBIOM__
 include_graphics(file.path(root, "Fig_tab_map/external/globiom_framework.png"))
 ```
 
-##### Source: IIASA
+##### Source: Authors
 
 
 ## Zambia adjustments
 
-To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, data on irrigation, costs and livestock.  The indicators which have be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
+To make the model suitable for a Zambia analysis, country level information will be added to GLOBIOM, including country specific agricultural production statistics, land cover maps and, data on irrigation, costs and livestock.  In Zambia, agricultural area accounts for only 24% of the total land area (with cropland area accounting for 1% of the total area and pasture accounting for 23% of the total land area). Although 60% of the area in Zambia is under forest, GLOBIOM is able to model the pressure from agriculture on forest and other natural land as the agricultural sector develops. The Zambia region in GLOBIOM is modeled and optimized at 32 land units (LUs) that consider differences in agro-ecological zones (AEZ) for a total of 57 LU/AEZ. The indicators which have be built based on this tool are: (a) projections for crop production, (b) livestock, (c) land use change, (d) prices, (e) trade, (f) greenhouse gas emissions, and (g) calorie availability. Where possible, indicators will be presented at different scales (i.e. grid, district and national). A GUI will be used to present and share the GLOBIOM results. 
 
 In GLOBIOM we model the impact of the adoption of different CSA practices on the productivity of the agriculture sector as well as the potential for CSA mitigation of GHG emissions. We have used the structural model developments from @Frank2018 to further develop the mitigation options for Zambia. We further refined the assumptions of yield and mitigation potential of some of the mitigation technology options from @Beach2015 based on the stakeholder workshop held in April 2018. 
 
@@ -128,9 +130,9 @@ include_graphics(file.path(root, "Fig_tab_map/external/scenario_framework.png"))
 
 ##	Business As Usual scenario
 
-The Business As Usual (BAU) scenario assumes that trends that are typical of recent decades will continue in the future. As such it presents the baseline to which other scenarios can be compared, for example to assess the impact of certain policies on agricultural growth. The BAU scenario describes the key drivers that shape future agricultural development. To model a business as usual (BAU) scenario for Zambia, we use the Shared Socio-economic Pathways (SSPs), which were developed as a backbone for climate change related assessments by a large consortium of researchers  [@Kriegler2012; @VanVuuren2017a; @ONeill2017a]. These scenarios provide a global context and/or template for processes at lower geographical levels that seek to use scenarios to guide regional, national or sub-national planning [@ONeill2014]. Conversely, there is scope for sub-global processes to complement the shared socio-economic pathways (SSPs) with more regional contextualization of assumptions and results, even when using scenarios in the global setting. 
+The Business As Usual (BAU) scenario assumes that trends that are typical of recent decades will continue in the future. As such it presents the baseline to which other scenarios can be compared, for example to assess the impact of certain policies on agricultural growth. The BAU scenario describes the key drivers that shape future agricultural development. To model a business as usual (BAU) scenario for Zambia, we use the Shared socioeconomic Pathways (SSPs), which were developed as a backbone for climate change related assessments by a large consortium of researchers  [@Kriegler2012; @VanVuuren2017a; @ONeill2017a]. These scenarios provide a global context and/or template for scenarios at lower geographical levels and can be used to guide regional, national or sub-national planning [@ONeill2014]. Sub-global scenarios can complement the shared socioeconomic pathways (SSPs) with more regional contextualization of assumptions and results, even when using scenarios in the global setting. 
 
-The SSPs are a set of plausible and alternative assumptions that describe potential future socio-economic development in the absence of climate policies or climate change. They consist of two elements: a narrative storyline and a quantification of key drivers. The scenarios are built on two-axis, mitigation and adaptation, where the outcome, or level of, challenge are the end points of each axis (high and low challenges) and the combination of these define “challenge space” of the scenario [@ONeill2014] (Figure 3). The combination of challenges from which scenarios emerged were then constructed by identifying the drivers of the challenge outcomes such as population and urbanization [@KC2017] and economic growth [@Dellink2017] and building a rich narrative of each pathway using the quantitative and semi-quantitative drivers [@ONeill2017a]. Projections have global coverage and are provided at country level, including Zambia. The SSPs can be combined with assumptions on climate outcomes, the so-called representative concentration pathways (RCPs), to derive a matrix that reflects an elaborate scenario framework to assess the impact of climate change and its mitigation under a variety of socio-economic conditions [@VanVuuren2014]. 
+The SSPs are a set of plausible and alternative assumptions that describe potential future socioeconomic development in the absence of climate policies or climate change. They consist of two elements: a narrative storyline and a quantification of key drivers. The scenarios are built on two-axis, mitigation and adaptation, where the outcome, or level of, challenge are the end points of each axis (high and low challenges) and the combination of these define “challenge space” of the scenario [@ONeill2014] (Figure 3). The combination of challenges from which scenarios emerged were then constructed by identifying the drivers of the challenge outcomes such as population and urbanization [@KC2017] and economic growth [@Dellink2017] and building a rich narrative of each pathway using the quantitative and semi-quantitative drivers [@ONeill2017a]. Projections have global coverage and are provided at country level, including Zambia. The SSPs can be combined with assumptions on climate outcomes, the so-called representative concentration pathways (RCPs), to derive a matrix that reflects an elaborate scenario framework to assess the impact of climate change and its mitigation under a variety of socioeconomic conditions [@VanVuuren2014]. 
 
 _Figure 3: SSP scenario framework_
 
@@ -144,7 +146,7 @@ For the Business as Usual scenario we adopt the projections for SSP2: Middle of 
 
 _"The world follows a path in which social, economic, and technological trends do not shift markedly from historical patterns. Development and income growth proceeds unevenly, with some countries making relatively good progress while others fall short of expectations. Most economies are politically stable. Globally connected markets function imperfectly. Global and national institutions work toward but make slow progress in achieving sustainable development goals, including improved living conditions and access to education, safe water, and health care. Technological development proceeds apace, but without fundamental breakthroughs. Environmental systems experience degradation, although there are some improvements and overall the intensity of resource and energy use declines. Even though fossil fuel dependency decreases slowly, there is no reluctance to use unconventional fossil resources. Global population growth is moderate and levels off in the second half of the century as a consequence of completion of the demographic transition. However, education investments are not high enough to accelerate the transition to low fertility rates in low-income countries and to rapidly slow population growth. This growth, along with income inequality that persists or improves only slowly, continuing societal stratification, and limited social cohesion, maintain challenges to reducing vulnerability to societal and environmental changes and constrain significant advances in sustainable development. These moderate development trends leave the world, on average, facing moderate challenges to mitigation and adaptation, but with significant heterogeneities across and within countries."_ [@ONeill2017a].
 
-Figure 4 depicts historical trends and projections for GDP and population in the BAU scenario as well as two alternative SSP scenarios to assess uncertainties in future trends (see below). The scenarios describe the period from present to 2050, which is the time horizon agreed upon with the stakeholders at the inception workshop. [^1]. @Assumptions on GDP growth and population growth for the rest of the world are presented in @Figure A1 in the Annex. 
+Figure 4 depicts historical trends and projections for GDP and population in the BAU scenario as well as two alternative SSP scenarios to assess uncertainties in future trends (see below). The scenarios describe the period from present to 2050^[The SSP scenarios include projections up to 2100 but after consultation with stakeholders it was decided to limit the assessment to the period up to 2050]. Assumptions on GDP growth and population growth for the rest of the world are presented in Figure A1 in the Annex. 
 
 _Figure 4: GDP and Population projections for Zambia_
 
@@ -164,17 +166,16 @@ fig_reg_yld
 
 ##### Source: FAOSTAT (historical) and IIASA (projections)
 
-
-Finally, to model the BAU scenario, we also make assumptions on area of protected land, change in diets, food loss and waste, and trade at the global level. @Table A2 in the Annex, presents details on these global scenario assumptions and how they are modeled in GLOBIOM. 
+Finally, to model the BAU scenario, we also make assumptions on area of protected land, change in diets, food loss and waste, and trade at the global level [see @Popp2017 for details]. 
 
 
 ## Vision for Zambian agriculture in the year 2050
 
-The vision reflects a normative scenario of Zambian agricultural development. It will be used as a benchmark to assess to extent to which the implementation of various policy options, will bring the agricultural sector closer to the desired state. The vision is based on the input that was provided at a stakeholder workshop as well as several national and agricultural planning reports that have been published over the last decade by the Zambian government. In most cases, the national planning documents only provide normative target values for the short or medium term period (e.g. coming 5 years). In such cases, we extrapolated the values up to the year 2050. 
+The vision reflects a normative scenario of Zambian agricultural development. It is used as a benchmark to assess to extent to which the implementation of various policy options, will bring the agricultural sector closer to the desired state. The vision is based on the input that was provided at a stakeholder workshop as well as several national and agricultural planning reports that have been published over the last decade by the Zambian government. In most cases, the national planning documents only provide normative target values for the short or medium term period (e.g. coming 5 years). In such cases, we extrapolated the values up to the year 2050. 
 
 Table 1 summarizes the vision for Zambian agriculture. One inconsistency in the vision can be observed. The National Policy on Environment includes the statement: "Sustainably intensify land use without converting additional land area into agricultural land". The stakeholders pointed out that this vision would be incompatible with the past trend of agricultural land expansion and current policies that aim to support and stimulate agricultural sector growth. Hence the added a vision that cropland should be allowed to expand but by no more than 900.000 ha. 
 
-Figure 6-9 put the vision into context by contrasting it with historical developments. Due to inconsistencies in the reporting of GHG emission scenarios in the Intended Nationally Determined Contribution (INDC) for Zambia [@Zambia2015] and historical series in FAOSTAT it is not possible to infer an absolute target for GHG Emissions in 2050. Instead Figure 9 presents two targets that are relative to a BAU, which are presented in the INDC. The vision for (nett) export, which can only be presented at the crop level, is illustrated in the scenario analysis section.
+Figure 6-9 put the vision into context by contrasting it with historical developments. Due to inconsistencies in the reporting of GHG emission scenarios in the Intended Nationally Determined Contribution (INDC) for Zambia [@Zambia2015] and historical series in FAOSTAT it is not possible to infer an absolute target for GHG Emissions in 2050. Instead Figure 9 presents two targets that are relative to a BAU, which are presented in the INDC. The vision for (net) export, which can only be presented at the crop level, is illustrated in the scenario analysis section.
 
 _Table 1: Summary of the vision_
 
@@ -225,7 +226,7 @@ fig_emis_vis
 
 ## Policy scenarios
 
-The policy scenarios are so-called 'what if' scenarios and address the question: What would the impact on crop yield, production and food security in 2050 if a certain CSA strategy would be adopted in Zambia? After consultation with stakeholders, FAO and the World Bank, five CSA agricultural practices were selected for further impact analysis with the GLOBIOM model. The sections below provide background information as well as scenario assumptions for each of the practices. The assumptions are based on a wide number of sources, including FAO statistics, Zambia specific reports and data, scientific journal articles and input provided at two stakeholder workshops. 
+The policy scenarios are so-called 'what if' scenarios and address the question: What would the impact on crop yield, production and food security in 2050 if a certain CSA strategy would be adopted in Zambia? After consultation with stakeholders, FAO and the World Bank, seven CSA agricultural practices were selected for further impact analysis with the GLOBIOM model. The sections below provide background information as well as scenario assumptions for each of the practices. The assumptions are based on a wide number of sources, including FAO statistics, Zambia specific reports and data, scientific journal articles and input provided at two stakeholder workshops. In addition to adoption of CSA strategies, we explored the impact of mitigation policies on land use change in Zambia. The last section describes the design of the mitigation scenarios. 
 
 ### Conservation agriculture
 
@@ -356,9 +357,9 @@ fig_dtm_yld
 
 #### Scenarios
 
-We assume the following s-shaped diffusion curve for the adoption of DTMs between 1997 and 2050.
+We assume that DTMs will result in 50% higher yield in case yield is negatively affected by climate change and that adoption of DTMs follows the following s-shaped diffusion curve between 1997 and 2050.
 
-_Figure 18: Drough-tolerant maize variety diffusion scenario: 1997-2050:_
+_Figure 18: Drought-tolerant maize variety diffusion scenario: 1997-2050:_
 
 ```{r fig_dtm_proj}
 fig_dtm_proj
@@ -413,42 +414,39 @@ The Government of Zambia Farmer Input Support Programme (FSIP) and the Food Rese
 
 #### Scenarios
 
-In our div scenario, we assume that changes to the current government policies favor diversification, targeting maize, soybean, and groundnut production. Currently the maize holdings of the Food Reserve Agency (FRA) in Zambia is about 500,000 Mt [@Harman2017]. In all of our scenarios we continue this trend of government purchasing from 2010-2050. In the div scenario, the storage assumptions for FRA are based on the suggested reforms from IAPRI, which suggest that maize holdings are reduced and would not exceed 300,000 Mt after 2020 [@Harman2017]. 
+In our diversification scenario, we assume that changes to the current government policies favor diversification, targeting maize, soybean, and groundnut production. Currently the maize holdings of the Food Reserve Agency (FRA) in Zambia is about 500,000 Mt [@Harman2017]. In all of our scenarios we continue this trend of government purchasing from 2010-2050. In the div scenario, the storage assumptions for FRA are based on the suggested reforms from IAPRI, which suggest that maize holdings are reduced and would not exceed 300,000 Mt after 2020 [@Harman2017]. 
 
-The Farmer Input Support Program (FSIP) reduces the input costs for production but these are heavily focused on maize. In our div scenario we represent a policy shift of FSIP that that would target soybeans and groundnuts by substantially decreasing the production costs. In Table 2 we show the changes to the production costs under a diversification policy that would shift the FSIP from targeting maize crops to targeting soybean and groundnut crops. 
+The Farmer Input Support Program (FSIP) reduces the input costs for production but these are heavily focused on maize. In our diversification scenario we represent a policy shift of FSIP from maize to soybeans and groundnuts. More specifically, we assume that the production costs of maize would return to pre-FSIP levels and costs for soybeans and groundnuts are descreased by 50%. 
 
-Although historically the FSIP has increased production of maize since its adoption in 2005, increase in production has come from extensification rather than productivity growth [@Chisanga2017]. In the div scenario, however, we assume that soybeans benefit from the additional agricultural support through better, more productive seeds and extension practices that increase productivity compared to the BAU Fig X.
-
-
-_Table 2: Assumptions diversification scenario_
-
-```{r, tab_div}
-tab_1 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_1")
-pander(tab_1, missing = "")
-```
+Although historically the FSIP has increased production of maize since its adoption in 2005, increase in production has come from extensification rather than productivity growth [@Chisanga2017]. In the diversification scenario, however, we assume that soybeans benefit from the additional agricultural support through better, more productive seeds and extension practices that increase productivity compared to the BAU.
 
 
-### Summary
+### Summary of CSA scenarios
 
-Table 3 summarizes the six CSA strategies and provides information on their parameters used  in GLOBIOM. The sum of three factors will determine their final impact on agricultural and environmental indicators: (1) The crop yield and GHG parameters, which reflects the direct impact of the CSA strategy per unit of land; (2) The adoption rate, which reflects the size of the area on which the CSA strategy is used and (3) The number of crops on which the CSA strategy is applied.   
-_Table 3: Summary of CSA strategies_
+Table 2 summarizes the six CSA strategies and provides information on their parameters used  in GLOBIOM. The sum of three factors will determine their final impact on agricultural and environmental indicators: (1) The crop yield and GHG parameters, which reflects the direct impact of the CSA strategy per unit of land; (2) The adoption rate, which reflects the size of the area on which the CSA strategy is used and (3) The number of crops on which the CSA strategy is applied.   
 
-```{r tab_3}
-tab_3 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_3")
-pander(tab_3, missing = "")
+_Table 2: Summary of CSA strategies_
+
+```{r table_sum_csa}
+table_sum_csa <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_sum_csa")
+pander(table_sum_csa, missing = "")
 ```
 
 ##### Source: FAO CSIP background report, @Thierfelder2013, @Frank2018, @Shitumbanuma2012, @Haggblade2003.
 
-### Forestry scenarios
+### Mitigation policy scenarios
 
-Mitigation policies aimed reduce carbon emissions by taxing the carbon emissions released from deforestation and conversion of other natural land will have impacts on the development of agriculture in Zambia, food security, trade and land use change (LUC). We explored the transmission of land from forest and other natural land to grassland and cropland under mitigation policies targeting emissions from land use change and a range of carbon prices that begin to take effect in 2020 (Table 4 and Figure 21). The design of these policies will impact their effectiveness to reduce emissions while limiting the other trade-offs for the development of the agriculture sector. Policies that target only emission from LUC for cropland area, such as the Brazilian soy moratorium or the Indonesian ban on oil palm plantations, may temporarily stave land use change but are often either too lenient to be effective in limiting land use change. While rapid growth in biofuel demand or expansion of a single crop production impacts potential land use change these developments are often tied to other crops and agriculture sectors, such as livestock grazing, as is the case in Brazil. We examined two policies to look at the trade-offs between policies that would tax emission from land use change for deforestation or expansion of cropland area (LUC_Crp) and emissions from deforestation and expansion of all agricultural area, which includes cropland and grassland area (LUC_AG). 
+Mitigation policies aim to reduce carbon emissions by taxing the carbon emissions released from deforestation and conversion of other natural land will have impacts on the development of agriculture in Zambia, food security, trade and land use change (LUC). We explored the transmission of land from forest and other natural land to grassland and cropland under mitigation policies targeting emissions from land use change and a range of carbon prices that begin to take effect in 2020 (Table 3 and Figure 21). The design of these policies will impact their effectiveness to reduce emissions while limiting the other trade-offs for the development of the agriculture sector. Policies that target only emission from LUC for cropland area, such as the Brazilian soy moratorium or the Indonesian ban on oil palm plantations, may temporarily stave land use change but are often either too lenient to be effective in limiting land use change. While rapid growth in biofuel demand or expansion of a single crop production impacts potential land use change these developments are often tied to other crops and agriculture sectors, such as livestock grazing, as is the case in Brazil. We examined two policies to look at the trade-offs between policies that would tax emission from land use change for deforestation or expansion of cropland area (LUC_Crp) and emissions from deforestation and expansion of all agricultural area, which includes cropland and grassland area (LUC_AG). 
+
+We calculate the emissions from land use change based on the difference between initial and final land cover carbon stock and implement the mitigation policies as a tax on land use change emissions in the objective function of the model [@Kindermann2008; @Ruesch2008; @Havlik2011]. 
+
+In Zambia, the conversion of grassland to cropland releases carbon stocks (above and below ground) of about 6.8 t CO2/ha on average (max: 18.35; min: 5.28) based on the Global Biomass Carbon Map [@Ruesch2008; @Gibbs2008]. Additionally, conversion of natural land to cropland releases 172.51 t CO2 /ha on average (max: 220.61; min: 142.7) and conversion of natural land to grassland releases 165.7 t CO2/ha on average (max: 212.45; min: 137.40). 
 
 
-_Table 4: Mitigation scenarios_ 
+_Table 3: Mitigation scenarios_ 
 
 ```{r table_mitt}
-tab_mitt <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_mitt")
+table_mitt <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_mitt")
 pander(table_mitt, missing = "")
 ```
 
@@ -461,33 +459,7 @@ _Figure 21: Future carbon prices over time_
 fig_carbon_price
 ```
 
-##### Source: @Frank2017
-
-
-_Fig 22: Cropland area in 2050 under BAU and mitigation scenarios_.  
-
-```{r fig_for_cropland}
-fig_for_cropland
-```
-
-We calculate the emissions from land use change based on the difference between initial and final land cover carbon stock and implement the mitigation policies as a tax on land use change emissions in the objective function of the model [@Kindermann2008; @Ruesch2008; @Havlik2011]. 
-
-In Zambia, the conversion of grassland to cropland releases carbon stocks (above and below ground) of about 6.8 t CO2/ha on average (max: 18.35; min: 5.28) based on the Global Biomass Carbon Map [@Ruesch2008; @Gibbs2008]. Additionally, conversion of natural land to cropland releases 172.51 t CO2 /ha on average (max: 220.61; min: 142.7) and conversion of natural land to grassland releases 165.7 t CO2/ha on average (max: 212.45; min: 137.40). 
-
-Results show that protecting forests though a mitigation policy targeting emissions stemming from deforestation effectively stops deforestation for use by agriculture even at very low carbon prices. Policies that target emissions from deforestation and cropland expansion (LUC_Crp), reduce other LUC emissions by 65% in 2050 compared to the BAU, but allowing grassland to convert other natural land results still results in conversion of almost 2 Mha of other natural land. A policy designed to target the emissions from any expansion of agricultural area (LUC_Ag), reduces emissions from deforestation and other LUC by 99% in 2050 compared to the BAU and halts all deforestation and conversion of other natural land even at very low prices (up to 10 USD/t CO2 eq by 2050). The difference in the effectiveness is due mainly to the taxing the emissions of carbon released from converting other natural land, which in Zambia are significant. 
-High or low carbon prices have little impact on the difference of the other LUC GHG emissions since the bulk of the emissions in LUC_Crp come from the conversion of other natural land to grassland and are not impacted by the LUC emissions tax and in LUC_AG no other natural land is converted even at very low carbon prices. 
-
-In both mitigation scenarios, cropland area in almost all cases increases from 2010 to 2050 though the LUC emissions targeted and choice of carbon price have a significant impact on the extent cropland expansion. In LUC_Ag, taxes on LUC emissions from agricultural area expansion encourage grassland area to be substituted into more profitable cropland area and therefore cropland area is only 3% smaller at any carbon price than the BAU. In LUC_Crp, although the conversion of grassland to cropland results in the release of relatively little carbon emissions, applying relatively low carbon prices impacts the profitability of converting to cropland and 8% less cropland is converted in 2050 (Figure 22). However, expansion of cropland relatively more profitable under very low (V1,V2, V3) carbon prices and nearly twice the number of hectares is converted by 2050 compared to a carbon price of 200 USD/t CO2. At very low prices, it is possible to limit the trade offs on crop production due to the strict mitigation policy (Figure 22 and Figure 23).
-
-Bovine meat imports increase and milk exports shrink when grassland is easily substituted for cropland in LUC_Ag, though maize is still exported. In LUC_Crp, at low carbon prices maize is able to stay competitive and exported, though also at the expense of livestock trade. Depending on the mitigation scenario the carbon price has an impact on food security, under LUC_Ag calorie availability is about 2% less in 2050 compared to BAU, and 1-3% less under LUC_Crp at very low carbon prices or up to 4% less at very high carbon prices.  
-
-Overall, depending on the main goal of the mitigation policy (reduction emissions or protection of forests and other natural land from agricultural expansion) any very low carbon price effectively stops all agricultural deforestation and a low carbon price (low) that targets only LUC emissions stemming from cropland area expansion reduces LUC emissions significantly (65%  of BAU) while limiting trade-offs to food security (3% less kcals/capita per day than BAU), crop production (5% less than BAU), and other LUC (27% less other natural land compared to 2010). Strict protection of all forests and other natural land requires only a very low carbon price to halt expansion of agricultural area and reduces LUC emissions due to the high carbon content of Zambian forest and other natural land. Substitutability of grassland and cropland under a strict land protection scenario would stop all deforestation and other LUC with limited trade offs to food security (2% less kcals/capita/day) and crop production (2% less than BAU).
-
-_Figure 23 Difference in crop production in 2050 under mitigation scenarios and carbon prices (% difference)_ 
-
-```{r fig_for_prod_bau}
-fig_for_prod_bau
-```
+##### Source: low and high price trajectory are based on @WorldBank2017. vhig price of 200 USD/tCO2 eq based on @Frank2017. Additional low prices (vl1, vl2, vl3) are added to reflect potential market prices for carbon.
 
 
 ##	Sensitivity analysis
@@ -505,20 +477,20 @@ This section presents the sensitivity analysis that is proposed to take into acc
 
 We conduct a sensitivity analysis to account for the high level of uncertainty associated with in the impact of climate change on crop yields. To analyse the impact of climate change, we use the output of the Inter-Sectoral Impact Model Intercomparison Project (ISI-MIP, www.https://www.isimip.org), which offers a framework to compare climate impact projections in different sectors and at different scales [@Warszawski2014]. Key features of the project are a the implementation of common modeling protocol for simulations and collection of simulation results in a central data archive. 
 
-The climate change projections in ISI-MIP are provided by five general Circulation models (Table 5) that were also used in Phase 5 of the Coupled Model Intercomparison Project (CMIP5, https://cmip.llnl.gov/cmip5). The GCMs are combined with different levels of atmospheric CO2 concentrations as prescribed by the RCPs to reveal the impact of climate change on global changes in temperature and precipitation. The ISI-MIP climate projections are presented at a  0.5° × 0.5° resolution and cover the period from 1960 through to 2099. For the CSIP analysis we only assess the impact of RCP 8.5, which is the most extreme climate scenario [@Riahi2011], for the period up to 2050.
+The climate change projections in ISI-MIP are provided by five general Circulation models (Table 4) that were also used in Phase 5 of the Coupled Model Intercomparison Project (CMIP5, https://cmip.llnl.gov/cmip5). The GCMs are combined with different levels of atmospheric CO2 concentrations as prescribed by the RCPs to reveal the impact of climate change on global changes in temperature and precipitation. The ISI-MIP climate projections are presented at a  0.5° × 0.5° resolution and cover the period from 1960 through to 2099. For the CSIP analysis we only assess the impact of RCP 8.5, which is the most extreme climate scenario [@Riahi2011], for the period up to 2050.
 
-__Table 5: General Circulation models used to project climate change__
+__Table 4: General Circulation models used to project climate change__
 
-```{r tab_4}
-tab_4 <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_4")
-pander(tab_4, missing = "")
+```{r table_sum_gcm}
+table_sum_gcm <- read_excel(file.path(root, "Fig_tab_map/external/tables.xlsx"), sheet = "table_sum_gcm")
+pander(table_sum_gcm, missing = "")
 ```
 
 ##### Source: Coupled Model Intercomparison Project Phase 5 (https://cmip.llnl.gov/cmip5)
 
-Figure 24 depicts the change in mean annual temperature and mean annual precipitation between 1980/2000 and 2040/2060 in Zambia for all five GCMs. The figure demonstrate the high uncertainty in projecting climate change. The MIROC-ESM-CHEM and HadGEM2-ES climate scenarios project the most extreme increase in temperature of around 3.5 K, while the other three scenarios expect that temperature will change with around 2-3 K. The MIROC-ESM-CHEM also projects the most dry scenario, with a decrease in precipitation of more than 6% all over Zambia apart from the far North. Also GFDL-ESM2M and Nor_ESM1-M project a decrease in rainfall but with variation across Zambia. In contrast HadGEM2-ES and IPSL-CM5A-LR expect an increase in precipitation of more than 6% by 2040-2060 although the GCMs do not agree where in Zambia this will take place.
+Figure 22 depicts the change in mean annual temperature and mean annual precipitation between 1980/2000 and 2040/2060 in Zambia for all five GCMs. The figure demonstrate the high uncertainty in projecting climate change. The MIROC-ESM-CHEM and HadGEM2-ES climate scenarios project the most extreme increase in temperature of around 3.5 K, while the other three scenarios expect that temperature will change with around 2-3 K. The MIROC-ESM-CHEM also projects the most dry scenario, with a decrease in precipitation of more than 6% all over Zambia apart from the far North. Also GFDL-ESM2M and Nor_ESM1-M project a decrease in rainfall but with variation across Zambia. In contrast HadGEM2-ES and IPSL-CM5A-LR expect an increase in precipitation of more than 6% by 2040-2060 although the GCMs do not agree where in Zambia this will take place.
 
-_Figure 24: Temperature and precipitation change for 5 GCMs and RCP 8.5 (1980/2000-2040/2060)_
+_Figure 22: Temperature and precipitation change for 5 GCMs and RCP 8.5 (1980/2000-2040/2060)_
 
 (a) Temperature change
 
@@ -537,9 +509,9 @@ fig_pr
 
 To assess the impact of climate change on agricultural production, the temperature and precipitation scenarios are combined with crop models that project the change in crop yield as a consequence of climate change. To address the uncertainty in crop model design and parameterization, we use crop yield projections from two crop models: EPIC and LPJmL. The scientific community has yet to reach an agreement on the whether the potential benefits from increases in CO2 can be taken up and used by crops, especially if temperature and precipitation reduce crop yields. For this reason, we also include a climate change scenario variant (HadGEM2-ES) that assumes both with and without CO2 fertilization. Taken together the yields can show the potential range of the biophysical and economic impacts on crop yields from climate change. Note that the yield shocks simulated by the crop models only account for the effect of long-run changes in precipitation and temperature. They do not capture extreme climate effects nor the potential increase in pests and diseases that affect plant growth. 
 
-Figure 25 shows the average (2 crop models x 5 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change inputs are less water and nutrients are not limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
+Figure 23 shows the average (2 crop models x 5 GCMs) simulated crop yield change for a selection of crops in Zambia for the period 2010-2050. The impact of climate change on yield also depends on the farming system (i.e. irrigated, high input, low input or subsistence rainfed farming). Irrigated and high input systems are less vulnerable to climate change because water and nutrients (i.e. fertilizer) are not a limiting factors. As the majority of farmers in Zambia are subsistence farmers we only present the related crop yield results. The figure shows the large uncertainty associated with the crop yield simulations, which are both caused by the large differences in climate change scenarios as well as differences in crop model projections [also see @Rosenzweig2014]. The uncertainty is particularly large for beans, cassava and potatoes. Out of the 11 crops, climate change is expected to result in a negative yield shock for six crops as illustrated by a median value below zero. For five crops (barley, beans, cassava, rice and soy), a positive yield effect is found. 
 
-_Figure 25: Yield change under climate change: 2000-2050_
+_Figure 23: Yield change under climate change: 2000-2050_
 
 ```{r fig_yecc_ag}
 fig_yecc_ag
@@ -548,11 +520,11 @@ fig_yecc_ag
 ##### Source: Crop model simulations
 ##### Note: Average of 2 crop models and 5 GCMs, using area harvested in 2000 as weights. Data are for subsistence farming systems.
 
-As both crop production and climate change are location specific, it is important to take spatial effects into account. Figure 26 depicts the geographical distribution of the yield shock for the four most important crops in Zambia. Although maize is grown throughout all regions in Zambia, most is produced in the Eastern province for which yield loss is expected to be between 5 and 25%. In the Northern province, where there are potential yield gains, there is hardly any maize production because of the highly acidic soils. These findings suggest that maize production is highly vulnerable to climate change in Zambia. For the other three crops, yield change is more evenly distributed over the country which means location of production is less relevant.
+As both crop production and climate change are location specific, it is important to take spatial effects into account. Figure 24 depicts the geographical distribution of the yield shock for the four most important crops in Zambia. Although maize is grown throughout all regions in Zambia, most is produced in the Eastern province for which yield loss is expected to be between 5 and 25%. In the Northern province, where there are potential yield gains, there is hardly any maize production because of the highly acidic soils. These findings suggest that maize production is highly vulnerable to climate change in Zambia. For the other three crops, yield change is more evenly distributed over the country which means location of production is less relevant.
 
 We assume climate change has no affect on livestock 'yield'. Feed efficiency projections in the climate scenarios are therefore the same as in the BAU scenario.
 
-_Figure 26: Crop yield change due to climate change by 2050 (%): Selected crops_
+_Figure 24: Crop yield change due to climate change by 2050 (%): Selected crops_
 
 ```{r, fig_yecc_crop}
 fig_yecc_crop
@@ -562,19 +534,17 @@ fig_yecc_crop
 ##### Note: Average of 2 crop models and 4 GCMs. Data are for subsistence farming systems. No data is available for the grey areas.
 
 
-### Socio-economic uncertainty
-To investigate the uncertainties in the socio-economic projections, we will model and compare the results of two additional but SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios. _"SSP1 with its central features of commitment to achieving development goals, increasing environmental awareness in societies around the world, and a gradual move toward less resource-intensive lifestyles, constitutes a break with recent history in which emerging economies have followed the resource-intensive development model of industrialized countries. To some extent, elements of this scenario can already be found in the proliferation of “green growth” and “green economy” strategies in industrialized and developing countries"_ [@ONeill2017a]. 
+### socioeconomic uncertainty
+
+To investigate the uncertainties in the socioeconomic projections, we will model and compare the results of two additional SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios. _"SSP1 with its central features of commitment to achieving development goals, increasing environmental awareness in societies around the world, and a gradual move toward less resource-intensive lifestyles, constitutes a break with recent history in which emerging economies have followed the resource-intensive development model of industrialized countries. To some extent, elements of this scenario can already be found in the proliferation of “green growth” and “green economy” strategies in industrialized and developing countries"_ [@ONeill2017a]. 
 
 In contrast with SSP1, SSP3 describes a world that is characterized by fragmentation, while sustainability is of no interest. SSP3 _"with its theme of international fragmentation and a world characterized by regional rivalry can already be seen in some of the current regional rivalries and conflicts, but contrasts with globalization trends in other areas. It is based on the assumption that these globalization trends can be reversed by a number of events"_ [@ONeill2017a].  
 
-SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socio-economic spectrum, including uncertainties related to both external (global markets and the political situation) and internal conditions. This is illustrated by Figure 4 and 5, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario. Projections for the rest of the world are provided in the Annex.
-
-[^1]: The SSP scenarios include projections up to 2100.
-
+SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socioeconomic spectrum, including uncertainties related to both external (global markets and the political situation) and internal conditions. This is illustrated by Figure 4 and 5, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario. Projections for the rest of the world are provided in the Annex.
 
 # Results
 
-This section presents the results of our modelling effort. Quantifying the adoption of CSA practices with a global model, such as GLOBIOM, provides additional insights to the regional assumptions and offers context for the impact of global developments on the region. Additionally, a model represents a structured set of assumptions that can be used to challenge the ideas proposed by the visions and to check the visions for internal consistency. The first part briefly describes the set of indicators we are going to use to assess future agricultural development of Zambia. The second part shows the model projections for the BAU scenario up to 2050 and compares those with the stakeholder vision. Finally, we illustrate the impact of adopting the selected CSA technologies on key agro-economic indicators.
+This section presents the results of our modelling effort. Quantifying the adoption of CSA practices with a global model, such as GLOBIOM, provides additional insights to the regional assumptions and offers a context for the impact of global developments under a structured set of assumptions. The modelling framework can be used to check the visions for internal consistency and can challlenge the ideas proposed by the visions. The first part of this section briefly describes the set of indicators we use to assess future agricultural development of Zambia. The second part shows the model projections for the BAU scenario up to 2050 and compares those with the stakeholder vision. Finally, we illustrate the impact of adopting the selected CSA technologies on key agro-economic indicators.
 
 
 ## Indicators of impact
@@ -596,32 +566,32 @@ _Agriculture, Forestry, and Other Land Use GHG emissions._ Examining emissions f
 
 ## Business as usual
 
-The following section presents projections for a number of key agricultural variables up to the year 2050. The figures show the changes over time in terms of socio-economic and agricultural development for the coming three decades assuming a Business as Usual (BAU) scenario for Zambia. As the impact of climate change is highly uncertain, which can have negative but also sometimes positive effects, the BAU represents a scenario of zero climate change. To show the impact of climate change, we added error bars to the figures, which show the range of projections under different climate change scenarios. As climate impact only starts to materialize in the long term, we only added error bars for the period 2020-2050. In the following section, we take a closer look at the impact of using various CSA technology options in comparison to the BAU scenario. This is followed by a section in which the results of a sensitivity analysis assessing the outcomes under different projections for population and economic growth. 
+The following section presents projections for a number of key agricultural variables up to the year 2050. The figures show the changes over time in terms of socioeconomic and agricultural development for the coming three decades assuming a Business as Usual (BAU) scenario for Zambia. As the impact of climate change is highly uncertain, which can have negative but also sometimes positive effects, the BAU represents a scenario of zero climate change. To show the impact of climate change, we added error bars to the figures, which show the range of projections under different climate change scenarios. As climate impact only starts to materialize in the long term, we only added error bars for the period 2020-2050. In the following section, we take a closer look at the impact of using various CSA technology options in comparison to the BAU scenario. This is followed by a section in which the results of a sensitivity analysis assessing the outcomes under different projections for population and economic growth. 
 
 ### Crop yields
 
 GLOBIOM considers the technological improvement in crop productivity (Figure 5) as a starting point for potential yield growth. Additionally, yields will reflect the change in cropland area between production systems and also the reallocation of crop production to more or less productive areas. Increases in production over time will come from a combination of the assumed yield improvements, expansion of the crop to current cropland including transitions between production systems, and expansion of the crop to new cropland taking into account the costs associate with land conversion and transitions between systems. Historically, for some crops an increase in production within Zambia has come from expansions in cropland area rather than through significant yield improvements [@Byerlee2014; @Hillocks2002]. In the second stakeholder workshop the modelling team received feedback that the initial projections of yield growth were unrealistic. We re-examined our assumptions and then adjusted them to be more in line with what the stakeholders envisioned.
 
-Figure 27 depicts both the trend in historical crop yield from FAOSTAT and GLOBIOM projections for the four key food crops in Zambia: maize, cassava, groundnut and millet. Yield projections produced by GLOBIOM for the period 2000-2011 are very similar to the historical trend from FAOSTAT. Only in case of cassava, the yield projections might be too optimistic. In the BAU, maize yields more than double from 2000 to 2050 reaching about 3.9 fm t/ha. This is comparable to results of @Kanyanga2013, who presents maize yield projections in the range of 3 fm t/ha for 2050. Cassava yields increase 55%, groundnut yields increase almost 90% and millet yields increase 51% from 2000 to 2050. The error bars illustrate the potential range in crop yield when running a range of different climate change scenarios and using a variety of crop models. The error bars in Figure 27 show that cassava yield is more likely to increase than decrease under climate change, while the reverse is true for the other three crops. In the most extreme scenario, maize yield is projected to be 3.3 fm t/y, which is 15% lower than the projected yield in the baseline of 3.9 fm t/ha. 
+Figure 25 depicts both the trend in historical crop yield from FAOSTAT and GLOBIOM projections for the four key food crops in Zambia: maize, cassava, groundnut and millet. Yield projections produced by GLOBIOM for the period 2000-2011 are very similar to the historical trend from FAOSTAT. Only in case of cassava, the yield projections might be too optimistic. In the BAU, maize yields more than double from 2000 to 2050 reaching about 3.9 fm t/ha. This is comparable to results of @Kanyanga2013, who presents maize yield projections in the range of 3 fm t/ha for 2050. Cassava yields increase 55%, groundnut yields increase almost 90% and millet yields increase 51% from 2000 to 2050. The error bars illustrate the potential range in crop yield when running a range of different climate change scenarios and using a variety of crop models. The error bars in Figure 25 show that cassava yield is more likely to increase than decrease under climate change, while the reverse is true for the other three crops. In the most extreme scenario, maize yield is projected to be 3.3 fm t/y, which is 15% lower than the projected yield in the baseline of 3.9 fm t/ha. 
 
 @CIAT2017 also present projections for the change in maize yield under an extreme climate scenario but it is not clear how they are calculated. The study reports a lower maize yield growth of -8.7pp in comparison to a no climate change scenario for the period 2020-2050. If we compare the growth rates between the BAU in the year 2020 (2.7 fm t/h) with the growth rate under the extreme climate scenario, a value of around -20pp is obtained, which is more than double the value reported in @CIAT2017. In other words, the climate change scenarios considered in our analysis seem to cover a wider range (i.e. more extreme) shocks than the one considered in @CIAT2017. 
 
 For none of the crops, the target of doubling productivity (in compared to average in the period 2009-2011) as stated in the vision is achieved. The gap is smallest for maize, followed by cassava, while it is still very large for groundnut and millet. 
 
-_Figure 27: BAU yield_
+_Figure 25: BAU yield_
 
 ```{r fig_bau_yld}
 fig_bau_yld
 ```
 
-##### Source: FAOSTAT (historical) and IIASA (projections)
+##### Source: FAOSTAT (historical), IIASA (projections) and Table 1 (vision)
 
 
 ### Crop production 
 
-The production of crops in Zambia is driven by changes in crop demand (also including foreign demand through trade) and supply side factors, in particular expected changes in crop yield. In 2000, maize accounted for nearly half of the total production of crop products in Zambia followed by sugar cane, cassava, wheat and groundnuts. Under the BAU scenario, total crop production doubles by 2050 reaching around 6.5 Mt dm (Figure 28). By 2050, maize is still the most produced crop in the region (near sevenfold production increase). The GLOBIOM projections for 2000-2010 are in line with the historical trend, which shows gradual expansion in production of maize, sugar and several other crops. Only after 2010, production, in particular that of maize, started to increase rapidly, probably as a consequence of agricultural subsidy programs. As this implies a diversion of the BAU, which is unlikely to be maintained for the coming four decades, this fluctuation is not taken into account by the model.
+The production of crops in Zambia is driven by changes in crop demand (also including foreign demand through trade) and supply side factors, in particular expected changes in crop yield. In 2000, maize accounted for nearly half of the total production of crop products in Zambia followed by sugar cane, cassava, wheat and groundnuts. Under the BAU scenario, total crop production doubles by 2050 reaching around 6.5 Mt dm (Figure 26). By 2050, maize is still the most produced crop in the region (near sevenfold production increase). The GLOBIOM projections for 2000-2010 are in line with the historical trend, which shows gradual expansion in production of maize, sugar and several other crops. Only after 2010, production, in particular that of maize, started to increase rapidly, probably as a consequence of agricultural subsidy programs. As this implies a diversion of the BAU, which is unlikely to be maintained for the coming four decades, this fluctuation is not taken into account by the model.
 
-_Figure 28: BAU crop production_
+_Figure 26: BAU crop production_
 
 ```{r fig_bau_crop_prod}
 fig_bau_crop_prod
@@ -633,31 +603,31 @@ fig_bau_crop_prod
 
 ### Livestock production and Livestock heads
 
-Under the BAU, the number of ruminant cattle increased with 90% from 2,6 million to 5 million heads for the period 2000-2050, which is still well below the vision of 6 million heads in 2050 (Figure 29). Measuring the development of the livestock sector in heads, however, presents only a partial picture. In reality, the increase in feed conversion efficiency over time will result in livestock units that produce more output over time (e.g. milk, eggs and meat). @Herrero2014 estimated that the feed conversion efficiencies in Sub-Saharan Africa would increase by 50% over the next 40 years under the middle of the road SSP2. The results in presented in Figure 29, which shows an increase in ruminant meat production of around 300% from 2000-2050. This comes from an increase in the feeding efficiencies of ruminant livestock.  
+Under the BAU, the number of ruminant cattle increased with 90% from 2,6 million to 5 million heads for the period 2000-2050, which is still well below the vision of 6 million heads in 2050 (Figure 27). Measuring the development of the livestock sector in heads, however, presents only a partial picture. In reality, the increase in feed conversion efficiency over time will result in livestock units that produce more output over time (e.g. milk, eggs and meat). @Herrero2014 estimated that the feed conversion efficiencies in Sub-Saharan Africa would increase by 50% over the next 40 years under the middle of the road SSP2. The results in presented in Figure 29, which shows an increase in ruminant meat production of around 300% from 2000-2050. This comes from an increase in the feeding efficiencies of ruminant livestock.  
 
-_Figure 29: BAU Ruminant Meat Production_
+_Figure 27: BAU Ruminant Meat Production_
 
-```{r fig_bau_meat}
+```{r fig_bau_meat, fig.width=8, fig.height=8}
 library(gridExtra)
-grid.arrange(fig_bau_lvst, fig_bau_meat, ncol=2)
+grid.arrange(fig_bau_lvst, fig_bau_meat, nrow=2)
 ```
 
-##### Source: IIASA
+##### Source: FAOSTAT (historical), IIASA (projections) and Table 1 (vision)
 
 
 ### Land use change
 
 GLOBIOM endogenously models the global demand for land by considering the main users of land, cropland, grassland, short rotation plantation, managed forests and unmanaged forests and other natural land. Conversion from other natural and unmanaged forests will take place based on the economic profitability of the alternative land uses which include the costs to convert the land. An increase in the demand for food in Zambia is met by the region’s agricultural supply through productivity increases or though expansion of crop and grassland or by increasing the region's imports. 
 
-In 2000, agricultural land (crop and grassland) accounts for around 23% of the total land cover and cropland only 1.4%. 65% of the total land cover of Zambia in 2000 was forest area. Under the BAU, cropland area expands by 1.4 Mha between 2000 and 2050, with total agricultural land (cropland and grassland) expanding by almost 2.4 Mha (Figure 30). Most of the new agricultural land comes from forest, reducing the total forest area by 6%. 
+In 2000, agricultural land (crop and grassland) accounts for around 23% of the total land cover and cropland only 1.4%. 65% of the total land cover of Zambia in 2000 was forest area. Under the BAU, cropland area expands by 1.4 Mha between 2000 and 2050, with total agricultural land (cropland and grassland) expanding by almost 2.4 Mha (Figure 28). Most of the new agricultural land comes from forest, reducing the total forest area by 6%. 
 
-Figure 31a-d presents a spatial representation of the land use change for the period 2010-2050 by land use types. The maps show the land distribution in 2010 and 2050 as well as their difference. The annual maps are produced at a resolution of 5 arcmin (~10 x 10 km) and depict for each class, the share of a land class (e.g. cropland) in the grid cell. The land use change map depicts the percentage point change over time. All maps also show the four AEZs in Zambia. Most of the land use change is projected to take place in the Southern and Western provinces located in AEZ I and AEZ IIa.  These are the areas where most maize is produced because of the suitable soil and climate conditions. For the same reason, these are also the regions where the model projects the expansion of cropland that is required to increase maize production in the future. Grassland expansion is projected to take place in the same regions. The increase in cropland and grassland will be at the expense of forest and other natural land. 
+Figure 29a-d presents a spatial representation of the land use change for the period 2010-2050 by land use types. The maps show the land distribution in 2010 and 2050 as well as their difference. The annual maps are produced at a resolution of 5 arcmin (~10 x 10 km) and depict for each class, the share of a land class (e.g. cropland) in the grid cell. The land use change map depicts the percentage point change over time. All maps also show the four AEZs in Zambia. Most of the land use change is projected to take place in the Southern and Western provinces located in AEZ I and AEZ IIa.  These are the areas where most maize is produced because of the suitable soil and climate conditions. For the same reason, these are also the regions where the model projects the expansion of cropland that is required to increase maize production in the future. Grassland expansion is projected to take place in the same regions. The increase in cropland and grassland will be at the expense of forest and other natural land. 
 
-Figure 31b zooms in on the historical trend and BAU projection for cropland, showing area by crop as well as the vision target. According to vision, cropland should expand no more than 0.9 Mha thousand ha. FAOSTAT data indicates that the cropland area strongly increased from around 1.1 Mha in 2008 to almost 2 Mha in 2013, predominantly due to the expansion of maize area (and to a lesser extent cotton area). This pattern is a clear divergence from the BAU trend of the previous two decades. To account for this we use the average cropland for the period 2000-2013 (1.14 Mha) as a baseline to calculate the vision target in 2050. Figure 32 shows that under the BAU the total cropland will nearly identical to the maximum expansion as stated in the vision. Climate change impact on land use change is relatively small.
+Figure 29b zooms in on the historical trend and BAU projection for cropland, showing area by crop as well as the vision target. According to vision, cropland should expand no more than 0.9 Mha thousand ha. FAOSTAT data indicates that the cropland area strongly increased from around 1.1 Mha in 2008 to almost 2 Mha in 2013, predominantly due to the expansion of maize area (and to a lesser extent cotton area). This pattern is a clear divergence from the BAU trend of the previous two decades. To account for this we use the average cropland for the period 2000-2013 (1.14 Mha) as a baseline to calculate the vision target in 2050. Figure 30 shows that under the BAU the total cropland will nearly identical to the maximum expansion as stated in the vision. Climate change impact on land use change is relatively small.
 
-Our maize area projections are more optimistic than @Kanyanga2013, who presents near static maize area projections up to 2050 of around 5 Mha. The main reason for the different finding is that we project an increase in maize exports and continues the present trend of positive nett exports (see below), while @Kanyanga2013 assume Zambia will become increasingly dependent on the imports of maize. We believe that our projected future is more in line with the trade pattern of Zambia in the last decade, which shows a positive nett export of maize.
+Our maize area projections are more optimistic than @Kanyanga2013, who presents near static maize area projections up to 2050 of around 5 Mha. The main reason for the different finding is that we project an increase in maize exports and continues the present trend of positive net exports (see below), while @Kanyanga2013 assume Zambia will become increasingly dependent on the imports of maize. We believe that our projected future is more in line with the trade pattern of Zambia in the last decade, which shows a positive net export of maize.
 
-_Figure 30: Land use change_
+_Figure 28: Land use change_
 
 ```{r fig_bau_lc}
 fig_bau_lc
@@ -667,7 +637,7 @@ fig_bau_lc
 ##### Note: Historical data for forest and natural land are not available. Differences in land use change for all land use classes are relatively low and therefore not depicted in the figure. 
 
 
-_Figure 31: Land use change maps by class_
+_Figure 29: Land use change maps by class_
 
 _(a) Cropland_
 ```{r map_crplnd}
@@ -693,66 +663,68 @@ map_natlnd
 ##### Source: GLOBIOM
 
 
-_Figure 32: Cropland change_
+_Figure 30: Cropland change_
 
 ```{r fig_bau_luc}
 fig_bau_luc
 ```
 
-##### Source: FAOSTAT (historical) and IIASA (projections)
+##### Source: FAOSTAT (historical), IIASA (projections) and Table 1 (vision)
 ##### Note: Total cropland excludes a number of crops (e.g. vegetables and fruits), which total land use is very small and cannot be modelled with GLOBIOM. Error bars indicate the range in total cropland as a consequence of climate change. 
 
 
 ### Food availability
 
-According to the FAO, calorie availability in Zambia has hovered at or below 2,000 kilo calories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 (FAO 2017). In the BAU scenario (Figure 33) we assume an evolution of diets in line with FAO projections [@Alexandratos2012]. The FAO projects a continuation of the diet transitions for developing countries such as Zambia, where calorie availability increases over the time due to the increase in the GDP per capita and results in an increase in animal products. By 2050, calories are about 40% higher than in 2000 (an increase of more than 800 kilo calories per day). Calorie availability is a measure of the total final demand of households or food available for consumption which does not include retail waste but does include household waste. In terms of food availability, FAO considers 2500-3000 kcals/capita/day to be a target for developing countries. @Kanyanga2013, projected a range of 1600-2400 kcal/cap/day for a only a subset of crops and assumes slower economic growth. Using the same modelling approach, @IFPRI2017 has more recent projections for food availability showing an increase in Zambia of kcals to 2250 in 2030 and 2640 by 2050. Our projections are nearly in line with these new IFPRI projections.
+According to the FAO, calorie availability in Zambia has hovered at or below 2,000 kilo calories per capita per day since around 1985 and in 2010, the per capita calorie consumption was about 1900 (FAO 2017). In the BAU scenario (Figure 31) we assume an evolution of diets in line with FAO projections [@Alexandratos2012]. The FAO projects a continuation of the diet transitions for developing countries such as Zambia, where calorie availability increases over the time due to the increase in the GDP per capita and results in an increase in animal products. By 2050, calories are about 40% higher than in 2000 (an increase of more than 800 kilo calories per day). Calorie availability is a measure of the total final demand of households or food available for consumption which does not include retail waste but does include household waste. In terms of food availability, FAO considers 2500-3000 kcals/capita/day to be a target for developing countries. @Kanyanga2013, projected a range of 1600-2400 kcal/cap/day for a only a subset of crops and assumes slower economic growth. Using the same modelling approach, @IFPRI2017 has more recent projections for food availability showing an increase in Zambia of kcals to 2250 in 2030 and 2640 by 2050. Our projections are nearly in line with these new IFPRI projections.
 
-_Figure 33: BAU Calorie availability_
+_Figure 31: BAU Calorie availability_
 
 ```{r fig_bau_cal}
 fig_bau_cal
 ```
 
-##### Source: FAOSTAT (historical) and IIASA (projections)
-
+##### Source: FAOSTAT (historical), IIASA (projections) and Table 1 (vision)
 
 ### Agricultural trade
 
-Figure 34 shows the nett agricultural trade (exports minus imports) for a number of key agricultural commodities for 2000 and 2050 as well as the vision target of doubling (nett) exports in 2050. The results are mixed. For cassava,  cotton and millet, nett trade is positive in 2010 and an increase is expected for 2050. For maize and bovine meat, net trade was negative in 2000 but becomes positive in 2050. Only in case of maize and millet, the target of doubling net trade in comparison to 2010 will be achieved. For sugar cane, which also exhibit a positive nett trade in both 2000 and 2050, a decrease in nett trade is projected. Final, for groundnut, pig meat, rice, soy, sweet potatoes and wheat, net imports (negative net trade) are expected to increase even further. The error bars indicate that climate change can have substantial impact on the trade balance of several crops, in particular cassava, maize, cotton, millet and sugar cane. In the latter case, in one extreme climate scenario nett trade is projected to be higher than the 2010 value, almost reaching the vision target, while in the other extreme scenario, net trade will become negative.  
+Figure 32 shows the net agricultural trade (exports minus imports) for a number of key agricultural commodities for 2000 and 2050 as well as the vision target of doubling (net) exports in 2050. The results are mixed. For cassava,  cotton and millet, net trade is positive in 2010 and an increase is expected for 2050. For maize and bovine meat, net trade was negative in 2000 but becomes positive in 2050. Only in case of maize and millet, the target of doubling net trade in comparison to 2010 will be achieved. For sugar cane, which also exhibit a positive net trade in both 2000 and 2050, a decrease in net trade is projected. Final, for groundnut, pig meat, rice, soy, sweet potatoes and wheat, net imports (negative net trade) are expected to increase even further. The error bars indicate that climate change can have substantial impact on the trade balance of several crops, in particular cassava, maize, cotton, millet and sugar cane. In the latter case, in one extreme climate scenario net trade is projected to be higher than the 2010 value, almost reaching the vision target, while in the other extreme scenario, net trade will become negative.  
 
 
-_Figure 34: Nett agricultural trade_
+_Figure 32: Nett agricultural trade_
 
 ```{r fig_bau_trade}
 fig_bau_trade
 ```
 
+##### Source: GLOBIOM (projections) and Table 1 (vision)
+
+
 ### Agricultural and Land use, land-use change, and forestry (LULUCF) GHG emissions 
 
 The greatest contributor to total GHG emissions in Zambia is the land use, land-use change, and forestry (LULUCF) sector, accounting for 86.6% of total emissions [@CIAT2017]. Agriculture and energy are responsible for 6% and and 6.5% of total emissions, respectively. Within LULUCF, 93% of the emissions are caused by the burning of biomass, while only 7% is due to the conversion of forest into cropland or any other type of land use conversion. GHG emissions in the agricultural sector or equally concentrated as the burning of savanna is responsible for 59% of total emissions, followed by emissions from enteric fermentation (12%), manure left on pasture (10%), cultivation of organic soils (10%), the use of synthetic fertilizers (5%) and other sectors (i.e. other use of manure, rice cultivation and crop residues).
 
-Figure 35 and Figure 36 show the GHG emissions from the agriculture and LULUCF sector, respectively under a BAU scenario. In 2000, livestock accounted for more than 97% of the total GHG emissions from agriculture (not taking into account emissions from cultivation of organic soils and crop residue), while the remainder was caused by the crop sector, in particular the use of synthetic fertilizers (2.5%) and the production of rice (0.5%). In 2050 the share of emissions from synthetic fertilizer has increased to over 13% of total emissions because of a shift toward more intensive production systems that make use of chemical fertilizers. The historical trend shows a much larger increase in total GHG emissions than our projections. A closer look at the data shows that according to FAOSTAT, the growth in emissions from synthetic fertilizers is in fact much higher than the BAU projection. As mentioned above, the most likely reason for this observation is the recent and rapid growth in the application rate of fertilizers on maize, triggered by the national maize subsidy program.
+Figure 33 and Figure 34 show the GHG emissions from the agriculture and LULUCF sector, respectively under a BAU scenario. In 2000, livestock accounted for more than 97% of the total GHG emissions from agriculture (not taking into account emissions from cultivation of organic soils and crop residue), while the remainder was caused by the crop sector, in particular the use of synthetic fertilizers (2.5%) and the production of rice (0.5%). In 2050 the share of emissions from synthetic fertilizer has increased to over 13% of total emissions because of a shift toward more intensive production systems that make use of chemical fertilizers. The historical trend shows a much larger increase in total GHG emissions than our projections. A closer look at the data shows that according to FAOSTAT, the growth in emissions from synthetic fertilizers is in fact much higher than the BAU projection. As mentioned above, the most likely reason for this observation is the recent and rapid growth in the application rate of fertilizers on maize, triggered by the national maize subsidy program.
 
 LULUCF GHG emissions are projected to almost triple from around 6.4 MtCO2eq in 2010 to 37 MtCO2eq in 2050, mainly caused by the conversion of forest to cropland and grassland.  
 
 The figures also display the INDC target of reducing emissions with 25% (limited international support) to 47% (substantial international support) in comparison to the BAU, applied to total agricultural and total LULUCF emissions, respectively. 
 
 
-_Figure 35: BAU agricultural GHG Emissions_
+_Figure 33: BAU agricultural GHG Emissions_
 
 ```{r fig_bau_ag_emis}
 fig_bau_ag_emis
 ```
 
-##### Source: IIASA
+##### Source: FAOSTAT (historical), IIASA (projections) and Table 1 (vision)
 
-_Figure 36: BAU LULUCF GHG Emissions_
+_Figure 34: BAU LULUCF GHG Emissions_
 
 ```{r fig_bau_lulucf_emis}
 fig_bau_lulucf_emis
 ```
 
-##### Source: IIASA
+##### Source: GLOBIOM (projections) and Table 1 (vision)
 
 
 ## CSA impact scenarios
@@ -762,11 +734,11 @@ This section reviews the impact of adopting the various CSA strategies discussed
 
 ### Crop yields
 
-In figure 37 we compare average crop yield in 2050 under the different CSA options with the BAU. Strategies to reduce post-harvest losses have a large and positive impact for all crops. If we only look at maize, phl has the largest yield impact (increase of 23% in comparison to the BAU), followed by ca (14%), af (12%), msd (9%) and rr (4%). In case of cotton, msd (21%), phl (12%) and ca (11%) have the largest impact, followed by ca (3%) and rr (1%). Adopting drought tolerant maize varieties has no impact in comparison to the BAU under _no climate change_ because these varieties are assumed to have the same yield as the conventional varieties that are used by farmers. However, the error bar on the dtm bar for maize shows that a yield gain of 8% is achieved under the climate change scenarios. All other options are also sensitive to changes in climate as shown by the error bars. In the diversification scenario, the yield of soy beans increases with 9%, while the effect on other crops is very small. 
+In figure 35 we compare average crop yield in 2050 under the different CSA options with the BAU. Strategies to reduce post-harvest losses have a large and positive impact for all crops. If we only look at maize, phl has the largest yield impact (increase of 23% in comparison to the BAU), followed by ca (14%), af (12%), msd (9%) and rr (4%). In case of cotton, msd (21%), phl (12%) and ca (11%) have the largest impact, followed by ca (3%) and rr (1%). Adopting drought tolerant maize varieties has no impact in comparison to the BAU under _no climate change_ because these varieties are assumed to have the same yield as the conventional varieties that are used by farmers. However, the error bar on the dtm bar for maize shows that a yield gain of 8% is achieved under the climate change scenarios. All other options are also sensitive to changes in climate as shown by the error bars. In the diversification scenario, the yield of soy beans increases with 9%, while the effect on other crops is very small. 
 
 The reduction of post-harvest losses has the potential to substantially increase crop yields, thereby making a large contribution to achieving the vision of doubling crop yield in 2050.  For example, in case of maize, the adoption of phl will increase yields from 3.9 t/ha under the BAU to 4.8 t/h, which is very close to the vision target of 4.9 to/ha.
 
-_Figure 37: Yield change in comparison to the BAU_
+_Figure 35: Yield change in comparison to the BAU_
 
 ```{r fig_opt_yld,  fig.width=8, fig.height=12}
 #fig_opt_yld_abs
@@ -776,67 +748,67 @@ fig_opt_yld_dif
 
 ### Crop production
 
-Figure 38 depicts the change in crop production for the six selected crops as well as total agriculture. Not surprisingly, the figures show a similar pattern as the change in crop yield. Looking at total agricultural production (i.e. the sum of all crops that are modeled in GLOBIOM), phl (13%) will contribute the most of all CSA options to increasing crop output, followed by div (11%), ca (7%), msd and af (both 4%) and rr (1%). The impact of phl is very large because it affects all crops simultaneously, whereas the other CSA options only apply to a handful of crops. Shifting to drought-tolerant maize varieties under a climate change scenario increases agricultural production marginally (<1%) because this strategy only affects maize. The effect of climate change on the other crops will still be negative, resulting in a very small total effect. In the div scenario, production of groundnut (20%) and soy (25%) increase dramatically in comparison to the BAU.
+Figure 36 depicts the change in crop production for the six selected crops as well as total agriculture. Not surprisingly, the figures show a similar pattern as the change in crop yield. Looking at total agricultural production (i.e. the sum of all crops that are modeled in GLOBIOM), phl (13%) will contribute the most of all CSA options to increasing crop output, followed by div (11%), ca (7%), msd and af (both 4%) and rr (1%). The impact of phl is very large because it affects all crops simultaneously, whereas the other CSA options only apply to a handful of crops. Shifting to drought-tolerant maize varieties under a climate change scenario increases agricultural production marginally (<1%) because this strategy only affects maize. The effect of climate change on the other crops will still be negative, resulting in a very small total effect. In the div scenario, production of groundnut (20%) and soy (25%) increase dramatically in comparison to the BAU.
 
-_Figure 38: Crop production change in comparison to the BAU_
+_Figure 36: Crop production change in comparison to the BAU_
 
 ```{r fig_opt_prod,  fig.width=8, fig.height=12}
 #fig_opt_prod_abs
 fig_opt_prod_dif
 ```
 
-##### Source: IIASA
+##### Source: GLOBIOM
 
 
 ### Land use change
 
-Approximately 2.3 million ha of forest area is converted to grassland and cropland in the BAU which represents about 5% of the total forested area. The yield gains associated with the adoption of CSA options have varying effect on land use change. Apart from rr, where there is a very small increase in cropland, all other options result in a decrease in cropland (Figure 39). The change in cropland is accompanied by an expansion in grassland in the same order of magnitude. Due to the substitution effect there is hardly any land sparing of forest and other natural land. All and all the impacts are small in comparison to total crop and grassland (around 1-5% of cropland and <1% for grassland). For this reason the adoption of CSA practices has only limited relevance for reaching the vision target, which states that only 900.000 ha of cropland can be added up to 2050. The land use effects are much higher in the diversification scenario. The promotion of legumes result in an increase in cropland of 0.7 Mha and a decrease in grassland of the same magnitude. 
+Approximately 2.3 million ha of forest area is converted to grassland and cropland in the BAU which represents about 5% of the total forested area. The yield gains associated with the adoption of CSA options have varying effect on land use change. Apart from rr, where there is a very small increase in cropland, all other options result in a decrease in cropland (Figure 37). The change in cropland is accompanied by an expansion in grassland in the same order of magnitude. Due to the substitution effect there is hardly any land sparing of forest and other natural land. All and all the impacts are small in comparison to total crop and grassland (around 1-5% of cropland and <1% for grassland). For this reason the adoption of CSA practices has only limited relevance for reaching the vision target, which states that only 900.000 ha of cropland can be added up to 2050. The land use effects are much higher in the diversification scenario. The promotion of legumes result in an increase in cropland of 0.7 Mha and a decrease in grassland of the same magnitude. 
 
-_Figure 39: Land use change in comparison to the BAU (1000 HA)_
+_Figure 37: Land use change in comparison to the BAU (1000 HA)_
 
 ```{r fig_opt_land_dif_abs}
 fig_opt_land_dif_abs
 ```
 
-##### Source: IIASA
+##### Source: GLOBIOM
 
 
 ### Food availability
 
-Figure 40 shows the change in kcal/cap/day, a proxy of food availability, in comparison with the BAU in the year 2050. phl (7%), and ca (5%) have the highest impact on food availability. The total effect is smaller than the increase in agricultural production (Figure 38) because not all production is for food consumption. 
+Figure 38 shows the change in kcal/cap/day, a proxy of food availability, in comparison with the BAU in the year 2050. phl (7%), and ca (5%) have the highest impact on food availability. The total effect is smaller than the increase in agricultural production (Figure 38) because not all production is for food consumption. 
 
 
-_Figure 40: Food availability change in comparison to the BAU_
+_Figure 38: Food availability change in comparison to the BAU_
 
 ```{r fig_opt_calo}
 fig_opt_calo_dif
 ```
 
-##### Source: IIASA
+##### Source: GLOBIOM
 
 
 ### Trade
 
-Figure 41 compares nett trade between the BAU (none) and the CSA options in 2050. The increase in crop yield caused by the adoption of CSA strategies result in higher exports because of an increase in international competitiveness. Comparing Figure 37 that shows the yield impact and the figure for exports shows a similar pattern. For example, ca and msd have the highest impact on yield and trade for maize and cotton, respectively. An interesting result is that Zambia becomes turns into a nett exporter of groundnuts in the div scenario as a consequence of lower relative price triggered by lower input costs. 
+Figure 39 compares net trade between the BAU (none) and the CSA options in 2050. The increase in crop yield caused by the adoption of CSA strategies result in higher exports because of an increase in international competitiveness. Comparing Figure 35 that shows the yield impact and the figure for exports shows a similar pattern. For example, ca and msd have the highest impact on yield and trade for maize and cotton, respectively. An interesting result is that Zambia becomes turns into a net exporter of groundnuts in the div scenario as a consequence of lower relative price triggered by lower input costs. 
 
-_Figure 41: Trade_
+_Figure 39: Trade_
 
 ```{r fig_opt_trade}
 fig_opt_trade
 ```
 
-##### Source: IIASA
+##### Source: GLOBIOM
 
 
 ### GHG emissions
 
-The impact of adopting CSA practices on GHG emissions runs through two channels: (1) a direct effect because some of the CSA practices will lead a change in GHG emissions per ha. As shown in Table 3, we assume that ca and msd practices lead to lower CO2eq emissions per ha, while adoption of rr practices is expected to increase the emissions per ha. The direct effect will be attributed to the category that measures the GHG emissions. (2) an indirect effect. For example, GHG emissions might be lower (or higher) because the adoption of CSA practices might result in lower (higher) expansion of cropland and, hence, less (more) land use change. Figure 42 shows that the land use change effects are very small. Not surprisingly the results show that GHG emissions in categories other than from synthetic fertilizers (i.e. livestock related categories and land use change) are negligible. For this reason we only focus on the synthetic fertilizers category here. 
+The impact of adopting CSA practices on GHG emissions runs through two channels: (1) a direct effect because some of the CSA practices will lead a change in GHG emissions per ha. As shown in Table 2, we assume that ca and msd practices lead to lower CO2eq emissions per ha, while adoption of rr practices is expected to increase the emissions per ha. The direct effect will be attributed to the category that measures the GHG emissions. (2) an indirect effect. For example, GHG emissions might be lower (or higher) because the adoption of CSA practices might result in lower (higher) expansion of cropland and, hence, less (more) land use change. Figure 40 shows that the land use change effects are very small. Not surprisingly the results show that GHG emissions in categories other than from synthetic fertilizers (i.e. livestock related categories and land use change) are negligible. For this reason we only focus on the synthetic fertilizers category here. 
 
-Figure 42 shows that expansion of msd and phl practices results in decrease  of emissions from fertilizer use with 11% and 5%, respectively in comparison to the BAU. The impact of phl is indirect, where a  free productivity benefit decreases the increases the production while at the same time reduces the cropland area for maize, which results in a decrease in nitrogen fertilizer demand by 8%. In contrast with the other options, the expansion of rr and the implementation of diversification policies will lead to an increase in GHG emissions with 39% and 7% respectively. This clearly illustrates that some CSA solutions entail trade offs between increasing productivity and decreasing emissions. 
+Figure 40 shows that expansion of msd and phl practices results in decrease  of emissions from fertilizer use with 11% and 5%, respectively in comparison to the BAU. The impact of phl is indirect, where a  free productivity benefit decreases the increases the production while at the same time reduces the cropland area for maize, which results in a decrease in nitrogen fertilizer demand by 8%. In contrast with the other options, the expansion of rr and the implementation of diversification policies will lead to an increase in GHG emissions with 39% and 7% respectively. This clearly illustrates that some CSA solutions entail trade offs between increasing productivity and decreasing emissions. 
 
 If we only consider emissions from synthetic fertilizer use, the stand-alone adoption of msd and phl practices by farmers in Zambia will result in reduction of GHG emissions but this will not be sufficient to reach the INDC targets for reducing GHG emissions by 25-47% (for the synthetic fertilizer category). It is, however, important to note that GLOBIOM might underestimate the GHG mitigation impact for some of the CSA options, in particular ca and possibly msd and af. There is evidence that implementing these strategies might have a positive effect on soil carbon sequestration [@Smith2008; @Corsi2012], which is not captured in GLOBIOM.
 
-_Figure 42: Emissions from synthetic fertilizers change in comparison to the BAU_
+_Figure 40: Emissions from synthetic fertilizers change in comparison to the BAU_
 
 ```{r fig_opt_emis}
 fig_opt_ag_emis_dif
@@ -851,9 +823,9 @@ In this section we aim to compare the potential impact of the various CSA practi
 
 We decided to use these two variables because they can be compared over the total agricultural sector, taking into account the impact over all crops; something which is not possible with an indicator like crop yield. Moreover, the two indicators capture two of the three components of CSA. Production is a related to the 'productivity' component of CSA, while GHG emissions capture the 'mitigation' component. We do not have a good indicator for the 'adoption' component. To compare the practices we simply ranked them from 1 to 7, where 1 indicates the highest 'climate smart' impact (in comparison to the BAU), i.e. the highest production or the most emissions reduced. The total ranking is the unweighted average of the two rankings
 
-Figure 43 depicts the GHG, production and total ranking. There are clearly some trade-offs between the two indicators for some practices. The most obvious case is div, which scores high on production but very low on GHG emissions.  Overall phl and msd have the highest ranking when both indicators are considered. The main reason why these two options are top ranking is their wide applicability (to all crops for phl and eight crops for msd) and the expected high future adoption rates (50% for msd). Conservation agriculture and, to a lesser extent, agro-forestry have high yield coefficients but because of the limited crop coverage and the expected low future adoption rates, projected final impact is low. 
+Figure 41 depicts the GHG, production and total ranking. There are clearly some trade-offs between the two indicators for some practices. The most obvious case is div, which scores high on production but very low on GHG emissions.  Overall phl and msd have the highest ranking when both indicators are considered. The main reason why these two options are top ranking is their wide applicability (to all crops for phl and eight crops for msd) and the expected high future adoption rates (50% for msd). Conservation agriculture and, to a lesser extent, agro-forestry have high yield coefficients but because of the limited crop coverage and the expected low future adoption rates, projected final impact is low. 
 
-_Figure 43: Ranking of CSA policies_
+_Figure 41: Ranking of CSA policies_
 
 ```{r fig_rank}
 fig_rank
@@ -861,64 +833,89 @@ fig_rank
 
 ##### Source: Authors
 
+
+## Mitigation scenario results
+
+Results show that protecting forests though a mitigation policy targeting emissions stemming from deforestation effectively stops deforestation for use by agriculture even at very low carbon prices. Policies that target emissions from deforestation and cropland expansion (LUC_Crp), reduce other LUC emissions by 65% in 2050 compared to the BAU, but allowing grassland to convert other natural land results still results in conversion of almost 2 Mha of other natural land. A policy designed to target the emissions from any expansion of agricultural area (LUC_Ag), reduces emissions from deforestation and other LUC by 99% in 2050 compared to the BAU and halts all deforestation and conversion of other natural land even at very low prices (up to 10 USD/t CO2 eq by 2050). The difference in the effectiveness is due mainly to the taxing the emissions of carbon released from converting other natural land, which in Zambia are significant. 
+High or low carbon prices have little impact on the difference of the other LUC GHG emissions since the bulk of the emissions in LUC_Crp come from the conversion of other natural land to grassland and are not impacted by the LUC emissions tax and in LUC_AG no other natural land is converted even at very low carbon prices. 
+
+_Figure 42: Cropland area in 2050 under BAU and mitigation scenarios_.  
+
+```{r fig_for_cropland}
+fig_for_cropland
+```
+
+
+In both mitigation scenarios, cropland area in almost all cases increases from 2010 to 2050 though the LUC emissions targeted and choice of carbon price have a significant impact on the extent cropland expansion. In LUC_Ag, taxes on LUC emissions from agricultural area expansion encourage grassland area to be substituted into more profitable cropland area and therefore cropland area is only 3% smaller at any carbon price than the BAU. In LUC_Crp, although the conversion of grassland to cropland results in the release of relatively little carbon emissions, applying relatively low carbon prices impacts the profitability of converting to cropland and 8% less cropland is converted in 2050 (Figure 42). However, expansion of cropland relatively more profitable under very low (V1,V2, V3) carbon prices and nearly twice the number of hectares is converted by 2050 compared to a carbon price of 200 USD/t CO2. At very low prices, it is possible to limit the trade offs on crop production due to the strict mitigation policy (Figure 42 and Figure 43).
+
+Bovine meat imports increase and milk exports shrink when grassland is easily substituted for cropland in LUC_Ag, though maize is still exported. In LUC_Crp, at low carbon prices maize is able to stay competitive and exported, though also at the expense of livestock trade. Depending on the mitigation scenario the carbon price has an impact on food security, under LUC_Ag calorie availability is about 2% less in 2050 compared to BAU, and 1-3% less under LUC_Crp at very low carbon prices or up to 4% less at very high carbon prices.  
+
+Overall, depending on the main goal of the mitigation policy (reduction emissions or protection of forests and other natural land from agricultural expansion) any very low carbon price effectively stops all agricultural deforestation and a low carbon price (low) that targets only LUC emissions stemming from cropland area expansion reduces LUC emissions significantly (65%  of BAU) while limiting trade-offs to food security (3% less kcals/capita per day than BAU), crop production (5% less than BAU), and other LUC (27% less other natural land compared to 2010). Strict protection of all forests and other natural land requires only a very low carbon price to halt expansion of agricultural area and reduces LUC emissions due to the high carbon content of Zambian forest and other natural land. Substitutability of grassland and cropland under a strict land protection scenario would stop all deforestation and other LUC with limited trade offs to food security (2% less kcals/capita/day) and crop production (2% less than BAU).
+
+_Figure 43 Difference in crop production in 2050 under mitigation scenarios and carbon prices (% difference)_ 
+
+```{r fig_for_prod_bau}
+fig_for_prod_bau
+```
+
 # Sensitivity analysis 
 
-This section presents a sensitivity analysis to assess the uncertainty in socio-economic development and climate change on future development of the agricultural sector in Zambia. Instead of using the BAU scenario, which is based on SSP2, we now assume GDP, population and technical change are described by two opposing scenarios: SSP1, which assumes a sustainable and globalized world and SSP3, which assumes an unsustainable and fragmented world. The results for these two more extreme scenarios will provide insight into the 'bandwith' of plausible projections. For simplicity, we only present results a selection of indicators that are most relevant from a CSA perspective, in particular crop production, crop yield, land use and GHG emissions.
+This section presents a sensitivity analysis to assess the uncertainty in socioeconomic development and climate change on future development of the agricultural sector in Zambia. Instead of using the BAU scenario, which is based on SSP2, we now assume GDP, population and technical change are described by two opposing scenarios: SSP1, which assumes a sustainable and globalized world and SSP3, which assumes an unsustainable and fragmented world. The results for these two more extreme scenarios will provide insight into the 'bandwith' of plausible projections. For simplicity, we only present results a selection of indicators that are most relevant from a CSA perspective, in particular crop production, crop yield, land use and GHG emissions.
 
 Figure 44-47 compare the BAU trend up to 2050 with SSP1 and SSP3. The figures show that for all indicators, the SSP1 scenario is more 'positive' than the BAU, while SSP3 shows more 'negative' results. As a consequence of high GDP growth in the SSP1 scenario, technological change is faster, resulting in higher yields for all crops (Figure X). The reverse is the case for SSP3. Due to relatively low population growth, which, int turn, results in low demand, total production is projected to be the lowest in SSP1. The pattern for SSP3 resembles that of SSP2. Cropland expansion is also expected to be the lowest in SSP1 because of the higher yields and lower demand. Again a reverse pattern can be observed for SSP3. Interestingly, the expansion of cropland under the SSP3 scenario is so large that it will overshoot the maximum as set by the vision target. Finally, Figure X compares the impact on emissions from synthetic fertilizers for the three scenarios. SSP1 results in the lowest amount of emissions but this is by far not enough to reach targets as set by the INDC (which are in comparison with the BAU scenario).
 
-Figure 48-51 depict the impact of adopting CSA strategies by socio-economic scenario and, where relevant, by crop. Under all scenarios, an increase in production and yield can be observed although the actual magnitude and order differs across crops and scenarios. Even when climate change effects are taken into account the impact of CSA practices on yield and production is expected to be positive as illustrated by the error bars, which show that the extreme values are larger than zero in nearly all cases. The impact on land use change is much smaller and the results are highly uncertain. except perhaps for the phl scenarios. The impact on GHG emissions from synthetic fertilizers is robust for ca, rr  and msd across socio-economic and climate scenarios, while there is more uncertainty for the other options.     
+Figure 48-51 depict the impact of adopting CSA strategies by socioeconomic scenario and, where relevant, by crop. Under all scenarios, an increase in production and yield can be observed although the actual magnitude and order differs across crops and scenarios. Even when climate change effects are taken into account the impact of CSA practices on yield and production is expected to be positive as illustrated by the error bars, which show that the extreme values are larger than zero in nearly all cases. The impact on land use change is much smaller and the results are highly uncertain. except perhaps for the phl scenarios. The impact on GHG emissions from synthetic fertilizers is robust for ca, rr  and msd across socioeconomic and climate scenarios, while there is more uncertainty for the other options.     
 
-_Figure 44: Crop yield under different socio-economic scenarios_
+_Figure 44: Crop yield under different socioeconomic scenarios_
 
 ```{r fig_ssp_yld}
 fig_ssp_yld
 ```
 
 
-_Figure 45: Crop production under different socio-economic scenarios_
+_Figure 45: Crop production under different socioeconomic scenarios_
 
 ```{r fig_ssp_crop_prod}
 fig_ssp_crop_prod
 ```
 
 
-_Figure 46: Land use change under different socio-economic scenarios_
+_Figure 46: Land use change under different socioeconomic scenarios_
 
 ```{r fig_ssp_lc}
 fig_ssp_lc
 ```
 
 
-_Figure 47: Emissions from synthetic fertilizers under socio-economic scenarios_
+_Figure 47: Emissions from synthetic fertilizers under socioeconomic scenarios_
 
 ```{r fig_ssp_ag_emis}
 fig_ssp_ag_emis 
 ```
 
 
-_Figure 48: Yield in under different socio-economic scenarios and CSA practices_
+_Figure 48: Yield in under different socioeconomic scenarios and CSA practices_
 
 ```{r fig_opt_yld_ssp_dif}
 fig_opt_yld_ssp_dif
 ```
 
 
-_Figure 49: production under different socio-economic scenarios and CSA practices_
+_Figure 49: production under different socioeconomic scenarios and CSA practices_
 
 ```{r fig_opt_prod_ssp_dif}
 fig_opt_prod_ssp_dif
 ```
 
 
-_Figure 50: Cropland change under different socio-economic scenarios and CSA practices_
+_Figure 50: Cropland change under different socioeconomic scenarios and CSA practices_
 
 ```{r fig_opt_land_ssp_dif}
 fig_opt_land_ssp_dif
 ```
 
 
-_Figure 51: Emissions from synthetic fertilizers under different socio-economic scenarios and CSA practices_
+_Figure 51: Emissions from synthetic fertilizers under different socioeconomic scenarios and CSA practices_
 
 ```{r fig_opt_ag_emis_ssp_dif}
 fig_opt_ag_emis_ssp_dif
@@ -926,20 +923,19 @@ fig_opt_ag_emis_ssp_dif
 
 
 
-# Discussion and limitations
+# conclusions
 
-In this paper we present a scenario analysis and model study to assess the impact of the adoption of CSA practices on agricultural development under climate change. When considering the results it is important to take the following limitations of the analysis into account. 
+In this paper we present a scenario analysis and model study to assess the impact of the adoption of CSA options on agricultural development under climate change in Zambia. The results revealed differentiated impact of the seven selected CSA practices on agricultural production, crop yield, land use change, trade, food consumption and GHG emissions in comparison to a busines as usual scenario. Differences are caused by three factors: (1) impact on yield and GHG emissions after adoption, (2) applicability, i.e. number of crops to which it can be applied, and (3) the adoption rate in 2050. Overall, the results show that the adoption of post-harvest los practices, minimum soil disturbance (no tillage) and conservation agriculture will result in the highest reductions of GHG emissions, while at the same time having a positive impact on crop production. Adoption of drought tolerant maize varieties and residue retention practices had low or even negative impact. Agro-forestry and diversification strategies showed mixed impact, for example resulting in a combinaton of higher yields and higher GHG emissions. Policies to promote CSA in Zambia should be aware about the differences and trade-offs in terms of climate mitigation and productivity impact between CSA practices. 
 
-First, to model and compare the future impact of CSA practices, we need coefficients on how crop yield, production and GHG emissions are affected when these practices are adopted in comparison with conventional farming practices. Together with the assumptions on adoption rates, change in key drivers and market effects, these coefficients will determine the model results and projections. Such information can only be derived from detailed farm and plot level studies that use a (semi-) experimental setting to systematically compare the impact of different CSA options, while controlling for external conditions. Surprisingly, we found only a few studies that present this information and in most cases they covered only one CSA strategy and/or crop, were difficult to compare due to differences in methodologies and described study settings outside Zambia. Hence, the indicators we use are a proxy at best and therefore results should be interpreted with care. More farm and plot level studies are needed to assess  the impact of CSA practices on yield and GHG emissions are needed to improve the analysis.
+When considering the results it is important to take the following limitations of the analysis into account. First, to model and compare the future impact of CSA practices, we need coefficients on how crop yield, production and GHG emissions are affected when these practices are adopted in comparison with conventional farming practices. Together with the assumptions on adoption rates, change in key drivers and market effects, these coefficients will determine the model results and projections. Such information can only be derived from detailed farm and plot level studies that use a (semi-) experimental setting to systematically compare the impact of different CSA options, while controlling for external conditions. Surprisingly, we found only a few studies that present this information and in most cases they covered only one CSA strategy and/or crop, were difficult to compare due to differences in methodologies and described study settings outside Zambia. Hence, the indicators we use are a proxy at best and therefore results should be interpreted with care. More farm and plot level studies are needed to assess  the impact of CSA practices on yield and GHG emissions are needed to improve the analysis.
 
 Second, we are not able to fully take into account all spatially explicit factors that determine the impact of CSA strategies on agricultural production. As mentioned in the previous point, we have only very crude proxy indicators to differentiate the impact of CSA options in terms of crop yield and GHG emissions. In practice, the impact of adopting conservation agriculture, agro-forestry or drought tolerant maize varieties will be different across Zambia, depending among others on soil quality, climate and learning effects. Similarly, due to lack of high-resolution data on the location of small-farmers, spatial distribution of crops and costs of inputs, the model is run at a relatively coarse resolution (200 x 200 km), which limited spatial representation.
 
 Third, the key source of GHG emissions in Zambia is the burning of biomass, which makes up around 80% of total GHG emissions in the country. An important cause for these emissions is the burning of forests for the production of charcoal, which is an important source of household energy supply in Zambia [@Dlamini2016]. Another important source of GHG emissions (3.5%) is the burning of savanna. At the moment GLOBIOM is not able to project the change in these two types of emission due to lack of information. The modelling of the burning of biomass would require projections on the demand for charcoal, which, in turn, depends on the future supply of household energy in Zambia (e.g. hydropower, solar and wind energy). An interesting avenue for future research would be the design and modelling of such scenarios.
 
-Finally, the crop model output we use to prepare our climate change crop yield shocks only capture the impact of anthro-pogenic climate change, i.e. the long-run changes in climate caused by human activity. This is different from climate variability (e.g. extreme weather events such as floods, droughts and hurricanes), which is also expected have considerable and negative impact on future economic and agricultural development in Sub-Saharan Africa [@Ahmed2011; @Thurlow2012]. Modelling the effects of year-by-year variations in climate requires the use of a stochastic modelling approach, which is currently under development.
+Fourth, the crop model output we use to prepare our climate change crop yield shocks only capture the impact of anthropogenic climate change, i.e. the long-run changes in climate caused by human activity. This is different from climate variability (e.g. extreme weather events such as floods, droughts and hurricanes), which is also expected have considerable and negative impact on future economic and agricultural development in Sub-Saharan Africa [@Ahmed2011; @Thurlow2012]. Modelling the effects of year-by-year variations in climate requires the use of a stochastic modelling approach, which is currently under development.
 
-# Conclusions
-
+Finally, we were unable to find detailed comparable information on the costs of adopting the CSA options and therefore imposed an exogenous rate of adoption to model their diffusion. Despite a long tradition, the present adoption rate of conservation agriculture remain low in Zambia [@Zulu-mbata2016]. Main reasons for the limited uptake include credit constraints, social and cultural beliefs, labor costs and competition for crop residues [@Arslan2013;@Zulu-mbata2016]. This illustrates that the adoption of CSA is not easy nor automatic. Policies that aim to promote the spread of CSA practices in Zambia should take this into account and include measures to facilitate adoption, such as the provision of extension services, training and credit provision.     
 
 
 # References

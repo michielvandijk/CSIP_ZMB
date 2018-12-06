@@ -35,8 +35,6 @@ igdx(GAMSPath)
 
 
 ### SET FILE, SCENARIOS AND COLOURS
-# Select scenarios
-scen <- c("output_CSIP_ZMB-0", "output_CSIP_ZMB-1", "output_CSIP_ZMB-2")
 
 # set colours
 #scen_col <- c("#E69F00", "#009E73", "#F0E442", "#0072B2", "red")

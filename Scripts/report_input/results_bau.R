@@ -454,7 +454,7 @@ fig_bau_lvst <- ggplot() +
   geom_text(data = lvst_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
   scale_fill_manual(values = col_bau) +
   scale_x_continuous(limits = c(1955, 2055), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 6500), breaks = scales::pretty_breaks(n = 10))  +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ",", scientific = FALSE), expand = c(0,0), limits = c(0, 6500), breaks = scales::pretty_breaks(n = 10))  +
   theme_bw(base_size = 13) +
   labs(x = "", y = "1000 Heads", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
@@ -483,7 +483,7 @@ fig_bau_meat <- ggplot() +
   geom_col(data = meat_proj, aes(x = year, y = value, fill = legend), colour = "black") +
   scale_fill_manual(values = col_bau) +
   scale_x_continuous(limits = c(1995, 2055), breaks = c(2000, seq(2000, 2050, 10)), expand = c(0.0,0.0))  +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 180), breaks = scales::pretty_breaks(n = 10))  +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ",", scientific = FALSE), expand = c(0,0), limits = c(0, 180), breaks = scales::pretty_breaks(n = 10))  +
   theme_bw(base_size = 13) +
   labs(x = "", y = "1000 t", colour = "", linetype = "") +
   #geom_vline(xintercept = 2000, linetype = "dashed") +

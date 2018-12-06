@@ -326,13 +326,14 @@ lvst_df <- bind_rows(lvst_proj, data.frame(year = c(2015,2015), value = c(0,0), 
 # Combine data and plot
 y_ul_lvst <- max(lvst_proj$value/1000) * 1.05
 
+
 fig_lvst_vis <- bind_rows(lvst_hist, lvst_df) %>%
   mutate(value = value/1000) %>%
+  filter(lvst == "catt") %>%
   ggplot() +
   geom_col(aes(x = factor(year), y = value, fill = scenario), colour = "black") +
   theme_bw() +
-  facet_wrap(~ lvst) +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, y_ul_lvst), breaks = scales::pretty_breaks(n = 10)) +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ",", scientific = FALSE), expand = c(0,0), limits = c(0, y_ul_lvst), breaks = scales::pretty_breaks(n = 10)) +
   labs(x = "", y ="1000 heads", fill = "Scenario",
        title = "") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +

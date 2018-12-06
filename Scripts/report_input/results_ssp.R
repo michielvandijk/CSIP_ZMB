@@ -200,7 +200,25 @@ yld_hist <- fao_hist_globiom_raw %>%
   filter(variable == "YILD",
          crop %in% yld_crops_sel) %>%
   mutate(ssp = "Historical") %>%
-  rename(item = crop)
+  rename(item = crop) %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat"))
 
 # projections
 yld_proj <- zmb %>%
@@ -209,7 +227,26 @@ yld_proj <- zmb %>%
   ungroup() %>%
   dplyr::select(year, item, value, variable, scenario, ssp) %>%
   group_by(item, variable, ssp) %>%
-  mutate(index = value/value[year == 2000])
+  mutate(index = value/value[year == 2000]) %>%
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat"))
 
 # Errorbar
 yld_eb <- zmb %>% 
@@ -219,7 +256,25 @@ yld_eb <- zmb %>%
   group_by(variable, item, year, unit, ssp) %>%
   summarize(max_val = max(value, na.rm = T),
             min_val = min(value, na.rm = T)) %>%
-  ungroup()
+  ungroup() %>%
+  mutate(item = recode(item, 
+                       "Barl" = "Barley",
+                       "BeaD" = "Dry beans",
+                       "Cass" = "Cassava",
+                       "ChkP" = "Chick peas",
+                       "Corn" = "Maize",
+                       "Cott" = "Cotton",
+                       "Gnut" = "Groundnuts",
+                       "Mill" = "Millet",
+                       "Pota" = "Potatoes",
+                       "Rape" = "Rapeseed",
+                       "Rice" = "Rice",
+                       "Soya" = "Soybeans",
+                       "Srgh" = "Sorghum",
+                       "SugC" = "Sugarcane",
+                       "sunf" = "Sunflowers",
+                       "SwPo" = "Sweet potatoes", 
+                       "Whea" = "Wheat"))
 
 # Vision
 yld_fact <- vision$parameter[vision$variable == "yld"]
@@ -419,11 +474,11 @@ fig_ssp_ag_emis <- ggplot() +
   geom_text(data = ghg_ag_vis, aes(x = year, y = value, label = label), hjust = 1, nudge_x = -5) +
   scale_x_continuous(limits = c(1958, 2053), breaks = c(1961, seq(1970, 2050, 10)), expand = c(0.0,0.0))  +
   geom_point(data = ghg_ag_vis, aes(x = year-1, y = value), colour = "gold", shape = 8, size = 5) +
-  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 6))  +
+  scale_y_continuous(labels = comma, expand = c(0,0), limits = c(0, 8))  +
   scale_colour_manual(values = col_ssp) +
   scale_linetype_manual(values = type_ssp) +
-  annotate("text", x = 1980, y = 5.5, label = "Historical") +
-  annotate("text", x = 2030, y = 5.5, label = "BAU") +
+  annotate("text", x = 1980, y = 6.5, label = "Historical") +
+  annotate("text", x = 2030, y = 6.5, label = "BAU") +
   theme_bw() +
   labs(x = "", y = "Mt CO2eq/yr", colour = "", linetype = "") +
   geom_vline(xintercept = 2000, linetype = "dashed") +
@@ -491,7 +546,7 @@ land_vis <- crplnd_hist %>%
          value = value + land_fact,
          variable = "AREA") %>%
   filter(year == 2050)
-land_target <- data.frame(year = 2050, value = land_vis$value, label = "Vision", item = "CrpLnd")
+land_target <- data.frame(year = 2050, value = land_vis$value, label = "Vision", item = "Cropland")
 
 # Errorbar
 crp_area_eb <- zmb %>% 
@@ -525,11 +580,11 @@ land_hist <- bind_rows(
     filter(variable == "AREA", crop %in% crop_globiom) %>%
     group_by(year) %>%
     summarize(value = sum(value, na.rm = T)) %>%
-    mutate(item = "CrpLnd", ssp = "Historical"),
+    mutate(item = "Cropland", ssp = "Historical"),
   fao_hist_globiom_raw %>%
     filter(crop %in% c("LVS")) %>%
     mutate(ssp = "Historical", 
-           item = "GrsLnd"))
+           item = "Grassland"))
 
 # Projected data
 land_proj <- bind_rows(
@@ -543,7 +598,19 @@ land_proj <- bind_rows(
     summarize(value = sum(value)) %>%
     mutate(item = "CrpLnd")) %>%
   ungroup() %>%
-  mutate(scenario = "GLOBIOM")
+  mutate(scenario = "GLOBIOM") %>%
+  mutate(item = recode(item, 
+                     "CrpLnd" = "Cropland",
+                     "GrsLnd" = "Grassland",
+                     "NatLnd" = "Natural land"))
+
+# Correct Grassland so that it links with historical information. Take from natural land
+hist_2000 <- land_hist$value[land_hist$item == "Grassland" & land_hist$year == 2000]
+proj_2000 <- unique(land_proj$value[land_proj$item == "Grassland" & land_proj$year == 2000])
+corr <- hist_2000-proj_2000
+
+land_proj$value[land_proj$item == "Grassland"] <- land_proj$value[land_proj$item == "Grassland"] + corr
+land_proj$value[land_proj$item == "Natural land"] <- land_proj$value[land_proj$item == "Natural land"] - corr
 
 
 # Errorbar

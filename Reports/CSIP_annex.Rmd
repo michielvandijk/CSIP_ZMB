@@ -1,0 +1,42 @@
+---
+title: "A quantitative impact assessment of Climate Smart Agricultural strategies on agricultural development in Zambia: Annex"
+author: "Michiel van Dijk (IIASA, vandijkm@iiasa.ac.at), Amanda Palazzo (IIASA), Petr Havlik (IIASA), Tamas Krisztin (IIASA) and Stefan Frank (IIASA)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  word_document:
+    reference_docx: ../Support/word_styles_01.docx
+bibliography: ../Bib/CSIP_ZMB.bib
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+p_load(rprojroot)
+root <- find_root(is_rstudio_project)
+
+p_load(knitr)
+knitr::opts_chunk$set(
+  fig.width=12, fig.height=11,
+  dpi = 300,
+  echo=FALSE, warning=FALSE, message=FALSE,
+  fig.path = file.path(root,"Fig_tab_map/out-"),
+  dev.args = list(CairoPNG = list(bg = "transparent")))
+
+p_load(pander)
+panderOptions('table.alignment.default', function(df)
+    ifelse(sapply(df, is.numeric), 'right', 'left'))
+panderOptions('table.split.table', Inf)
+panderOptions('big.mark', ",")
+panderOptions('keep.trailing.zeros', TRUE)
+
+source(file.path(root, "Scripts/report_input/annex.R"))
+```
+
+
+_Figure A1: Global GDP and Population projections_
+
+```{r fig_pop_gdp_glob}
+library(gridExtra)
+grid.arrange(fig_gdp, fig_pop, ncol=1)
+```
+
+
