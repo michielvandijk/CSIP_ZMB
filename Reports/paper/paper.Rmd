@@ -46,6 +46,8 @@ source(file.path(root, "Scripts/report_input/results_ssp_options.R"))
 ```
 
 
+[Refer to ISLAM: Global FoodSecurity10(2016)63–70 and Rosegrant diffusion of technology report, who uses similar approach of diffusion curves]
+
 # Introduction
 
 - Refer to de pinto study and fact that there are only very few model studies on CSA impact
