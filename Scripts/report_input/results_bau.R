@@ -1056,7 +1056,7 @@ trade_eb <- zmb %>%
 
 
 # Plot
-fig_bau_trade <- ggplot(filter(trade_proj, year %in% c(2000, 2050))) +
+fig_bau_trade <- ggplot(filter(trade_proj, year %in% c(2010, 2050))) +
   geom_col(aes(x = factor(year), y = value, fill = item), position = "dodge", colour = "black") +
   geom_errorbar(data = trade_eb, aes(x = factor(year), ymin = min_val, ymax = max_val), width = 0.3, size = 1) +
   facet_wrap(~item, scales = "free") +

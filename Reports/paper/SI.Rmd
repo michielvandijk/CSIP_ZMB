@@ -1,15 +1,14 @@
 ---
 title: "A quantitative impact assessment of Climate Smart Agricultural strategies on agricultural development in Zambia - SI"
-subtitle: 'Background paper for the Zambia Climate Smart Investment Plan (CSIP)'
 author: "Michiel van Dijk (IIASA, vandijkm@iiasa.ac.at), Amanda Palazzo (IIASA), Stefan Frank (IIASA), Tamas Krisztin (IIASA) and Petr Havlik (IIASA)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   word_document:
-    reference_docx: ../Support/word_styles_01.docx
-bibliography: ../Bib/CSIP_ZMB.bib
+    reference_docx: ../../Support/word_styles_01.docx
+bibliography: ../../Bib/CSIP_ZMB.bib
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache = TRUE}
 library(pacman)
 library(readxl)
 library(RColorBrewer)
@@ -34,43 +33,43 @@ panderOptions('table.split.table', Inf)
 panderOptions('big.mark', ",")
 panderOptions('keep.trailing.zeros', TRUE)
 
-#source(file.path(root, "Scripts/key_maps.R"))
-#source(file.path(root, "Scripts/report_input/drivers.R"))
-#source(file.path(root, "Scripts/report_input/vision.R"))
-#source(file.path(root, "Scripts/report_input/yecc.R"))
-#source(file.path(root, "Scripts/report_input/luc_maps.R"))
-#source(file.path(root, "Scripts/report_input/csa_options.R"))
+source(file.path(root, "Scripts/paper_input/luc_maps.R"))
+source(file.path(root, "Scripts/paper_input/csa_options.R"))
+source(file.path(root, "Scripts/paper_input/annex.R"))
+source(file.path(root, "Scripts/paper_input/drivers.R"))
+source(file.path(root, "Scripts/paper_input/gcm.R"))
+source(file.path(root, "Scripts/paper_input/results_ssp.R"))
+source(file.path(root, "Scripts/paper_input/results_ssp_options.R"))
 ```
+
 
 # The GLOBIOM model
 
-To capture the high level of uncertainty associated with climate change (e.g. precipitation and temperature change that affect crop yield) and the possible trajectories of socioeconomic drivers of agricultural growth (e.g. population growth, economic development and technical change). The methodology is similar to the one used in recent global impact assessments of climate change [@ONeill2017a].
+The CSA impact assessment for Zambia was undertaken using the Global Biosphere Management Model (GLOBIOM) model (Figure 1). GLOBIOM [@Havlik2014] is a spatially explicit partial equilibrium model of the global forest and agricultural sectors. It computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints [@McCarl1980]. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions based on the spatial equilibrium approach [@Schneider2007; @Takayama1971]. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM uses a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
 
 
-The scenarios provide inputs for the Global Biosphere Management Model (GLOBIOM) model, which quantifies the impact of the global and national developments on the agricultural sector in Zambia (Figure 1). The remainder of this chapter describes GLOBIOM and the modifications we made to tailor if for the Zambia analysis. The next section presents the socioeconomic and climate change scenarios that are used to calibrate the model and quantify future agricultural development pathways.
-
-
-The model computes market equilibrium for agricultural and forest products by allocating land use among production activities to maximize the sum of producer and consumer surplus, subject to resource, technological and policy constraints [@McCarl1980]. The level of production in a given area is determined by the agricultural or forestry productivity in that area (dependent on suitability and management), by market prices (reflecting the level of demand), and by the conditions and cost associated to conversion of the land, to expansion of the production and, when relevant, to international market access. Trade flows are balanced out between different specific geographical regions based on the spatial equilibrium approach [@Schneider2007; @Takayama1971]. Trade is furthermore based purely on cost competitiveness as goods are assumed to be homogeneous. This allows tracing of bilateral trade flows between individual regions. GLOBIOM uses a recursive dynamic approach combined with exogenous trends on population and economic growth to create future projections for key indicators, such as crop and livestock production and prices, land use change, greenhouse gas emissions and calorie availability. 
-
-By including not only the bio-energy sector but also forestry, cropland and grassland management, and livestock management, the model allows for a near full account of all agriculture and forestry GHG sources. GLOBIOM accounts for ten sources of GHG emissions, including crop cultivation N2O emissions from fertilizer use, CH4 from rice cultivation, livestock CH4 emissions, CH4 and N2O emissions from manure management, N2O from manure applied on pasture, and above and below ground biomass CO2 emissions from biomass removal after converting forest and natural land to cropland. GLOBIOM is not able to model below ground carbon sequestration, which might result of for example no tillage and agro-forestry practices. It is also not able to model GHG emissions resulting from burning of biomass and savanna. Often these type of emissions are driven by factors outside the agricultural sector, such as the demand for energy, which is not modeled in GLOBIOM at the moment. For these reasons the GLOBIOM GHG projections might not be directly comparable with those of other models, such as the FAO EX-ACT model that is able to estimate negative emissions from carbon sequestration.
-
-With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for 17 of the 18 crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. 91% of the cropland area in Zambia produce crops that are modeled by GLOBIOM [@FAO2017]. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer and water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the country level [@FAO2017]. 
-
-The SSPs do not include projections for crop yields, which are essential to model future agricultural productivity growth. Yield projections from @Herrero2014 that are estimated using the historical relationship between GDP growth and crop yield increase. We assume that these projections represent intrinsic productivity rates and reflect the increase in yield as a consequence of advances in knowledge and new technologies. They do not incorporate the yield shocks that occur as a consequence of climate change nor the additional yield that is associated with the adoption of (some) CSA practices. In contrast to crop yield, there is much less information available on the past and future trajectories of livestock feed conversion efficiencies (the amount of feed required by per livestock category such as dairy, ruminant meat, pork and poultry) and how they will be influenced by climate change [e.g. @Bouwman2005; @Wirsenius2010a], Here, we use livestock feed conversion efficiencies from @Herrero2014 and @Fricko2017. 
-
-__Figure 1: Overview of GLOBIOM__
+__Figure 1: The GLOBIOM model__
 
 ```{r, fig_globiom}
 include_graphics(file.path(root, "Fig_tab_map/external/globiom_framework.png"))
 ```
 
-##### Source: Authors
 
-# ADD MAP ON REGIONS IN GLOBIOM AND RECTANGE AROUND ZAMBIA.
+GLOBIOM is not able to model below ground carbon sequestration, which might result of for example no tillage and agro-forestry practices. [@CHECK/ADD] 
 
-# BAU projections for main drivers
+With regards to representing cropland, GLOBIOM captures production systems and land use in its base year (2000), using available historical data from SPAM [@You2006] which provides the physical area for the crops included in GLOBIOM under four crop management systems: subsistence farming, low input rainfed, high input rainfed, and high input irrigated. 91% of the cropland area in Zambia produce crops that are modeled by GLOBIOM [@FAO2017]. GLOBIOM uses the globally gridded simulated crop yields and resource requirements (fertilizer and water, costs) from EPIC [@Balkovic2013]. Production is calibrated to match FAO statistics at the regional level. GLOBIOM distinguishes between @X regions (Figure @X). For the purpose of this study Zambia was separated from Southern African region.
 
-Figure 4 depicts historical trends and projections for GDP and population in the BAU scenario as well as two alternative SSP scenarios to assess uncertainties in future trends (see below). The scenarios describe the period from present to 2050^[The SSP scenarios include projections up to 2100 but after consultation with stakeholders it was decided to limit the assessment to the period up to 2050]. Assumptions on GDP growth and population growth for the rest of the world are presented in Figure A1 in the Annex. 
+
+__Figure 2: GLOBIOM regions__
+
+```{r, fig_globiom_regions}
+# map
+```
+
+
+# BAU drivers
+
+Figure 3 depicts historical trends and projections for GDP and population in the BAU scenario as well as two alternative SSP scenarios to assess uncertainties in future trends (see below). The scenarios describe the period from present to 2050^[The SSP scenarios include projections up to 2100 but after consultation with stakeholders it was decided to limit the assessment to the period up to 2050]. Assumptions on GDP growth and population growth for the rest of the world are presented in Figure 4. 
 
 _Figure 4: GDP and Population projections for Zambia_
 
@@ -80,9 +79,14 @@ grid.arrange(fig_reg_gdp, fig_reg_pop, ncol=2)
 
 ##### Source: SSP database (https://tntcat.iiasa.ac.at/SspDb, accessed 16/07/2018)
 
+_Figure 4: Global GDP and Population projections_
 
-Figure 5 presents past and future trends of key crops in Zambia. We also show the change in crop yield as a consequence of climate change impact (see below for details).
+```{r fig_pop_gdp_glob}
+library(gridExtra)
+grid.arrange(fig_gdp, fig_pop, ncol=1)
+```
 
+The SSPs do not present projections for future crop yields. Therefore, we use yield projections from @Herrero2014, which represent intrinsic productivity rates and reflect the increase in yield as a consequence of advances in knowledge and new technologies (Figure 5). We use livestock feed conversion efficiencies from @Herrero2014 and @Fricko2017 to project future improvements in the the amount of feed required by per livestock category such as dairy, ruminant meat, pork and poultry. There are only available at the broad regional level. We assume Southern African projections are also representative for Zambia.  
 
 _Figure 5: Yield projections_
 
@@ -92,12 +96,11 @@ fig_reg_yld
 
 ##### Source: FAOSTAT (historical) and IIASA (projections)
 
+# Climate change projections
 
-# Climate change projections RCP8.5
+Figure 6 depicts the change in mean annual temperature and mean annual precipitation between 1980/2000 and 2040/2060 in Zambia for five GCMs for RCP 8.5. The figure demonstrate the high uncertainty in projecting climate change. The MIROC-ESM-CHEM and HadGEM2-ES climate scenarios project the most extreme increase in temperature of around 3.5 K, while the other three scenarios expect that temperature will change with around 2-3 K. The MIROC-ESM-CHEM also projects the most dry scenario, with a decrease in precipitation of more than 6% all over Zambia apart from the far North. Also GFDL-ESM2M and Nor_ESM1-M project a decrease in rainfall but with variation across Zambia. In contrast HadGEM2-ES and IPSL-CM5A-LR expect an increase in precipitation of more than 6% by 2040-2060 although the GCMs do not agree where in Zambia this will take place.
 
-Figure 22 depicts the change in mean annual temperature and mean annual precipitation between 1980/2000 and 2040/2060 in Zambia for all five GCMs. The figure demonstrate the high uncertainty in projecting climate change. The MIROC-ESM-CHEM and HadGEM2-ES climate scenarios project the most extreme increase in temperature of around 3.5 K, while the other three scenarios expect that temperature will change with around 2-3 K. The MIROC-ESM-CHEM also projects the most dry scenario, with a decrease in precipitation of more than 6% all over Zambia apart from the far North. Also GFDL-ESM2M and Nor_ESM1-M project a decrease in rainfall but with variation across Zambia. In contrast HadGEM2-ES and IPSL-CM5A-LR expect an increase in precipitation of more than 6% by 2040-2060 although the GCMs do not agree where in Zambia this will take place.
-
-_Figure 22: Temperature and precipitation change for 5 GCMs and RCP 8.5 (1980/2000-2040/2060)_
+_Figure 6: Temperature and precipitation change for 5 GCMs and RCP 8.5 (1980/2000-2040/2060)_
 
 (a) Temperature change
 
@@ -115,10 +118,7 @@ fig_pr
 ##### Note: (a) Difference in bias-corrected, average surface air temperature (absolute change K) over land and (b) relative difference in average annual rainfall (in percent) between 2040–2060 and 1980–2000 under RCP8.5 in the five climate models used in the ISI-MIP. To increase the visualisation, the original 0.5° × 0.5° resolution has been smoothed to 5 x 5 arcmin.
 
 
-
-We assume climate change has no affect on livestock 'yield'. Feed efficiency projections in the climate scenarios are therefore the same as in the BAU scenario.
-
-_Figure 24: Crop yield change due to climate change by 2050 (%): Selected crops_
+_Figure 724: Crop yield change due to climate change by 2050 (%): Selected crops_
 
 ```{r, fig_yecc_crop}
 fig_yecc_crop
@@ -284,15 +284,6 @@ The Farmer Input Support Program (FSIP) reduces the input costs for production b
 Although historically the FSIP has increased production of maize since its adoption in 2005, increase in production has come from extensification rather than productivity growth [@Chisanga2017]. In the diversification scenario, however, we assume that soybeans benefit from the additional agricultural support through better, more productive seeds and extension practices that increase productivity compared to the BAU.
 
 
-### socioeconomic uncertainty
-
-To investigate the uncertainties in the socioeconomic projections, we will model and compare the results of two additional SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios. _"SSP1 with its central features of commitment to achieving development goals, increasing environmental awareness in societies around the world, and a gradual move toward less resource-intensive lifestyles, constitutes a break with recent history in which emerging economies have followed the resource-intensive development model of industrialized countries. To some extent, elements of this scenario can already be found in the proliferation of “green growth” and “green economy” strategies in industrialized and developing countries"_ [@ONeill2017a]. 
-
-In contrast with SSP1, SSP3 describes a world that is characterized by fragmentation, while sustainability is of no interest. SSP3 _"with its theme of international fragmentation and a world characterized by regional rivalry can already be seen in some of the current regional rivalries and conflicts, but contrasts with globalization trends in other areas. It is based on the assumption that these globalization trends can be reversed by a number of events"_ [@ONeill2017a].  
-
-SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socioeconomic spectrum, including uncertainties related to both external (global markets and the political situation) and internal conditions. This is illustrated by Figure 4 and 5, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario. Projections for the rest of the world are provided in the Annex.
-
-
 ### Land use change
 
 GLOBIOM endogenously models the global demand for land by considering the main users of land, cropland, grassland, short rotation plantation, managed forests and unmanaged forests and other natural land. Conversion from other natural and unmanaged forests will take place based on the economic profitability of the alternative land uses which include the costs to convert the land. An increase in the demand for food in Zambia is met by the region’s agricultural supply through productivity increases or though expansion of crop and grassland or by increasing the region's imports. 
@@ -351,9 +342,10 @@ fig_bau_luc
 ##### Note: Total cropland excludes a number of crops (e.g. vegetables and fruits), which total land use is very small and cannot be modelled with GLOBIOM. Error bars indicate the range in total cropland as a consequence of climate change. 
 
 
-# Sensitivity analysis 
 
-This section presents a sensitivity analysis to assess the uncertainty in socioeconomic development and climate change on future development of the agricultural sector in Zambia. Instead of using the BAU scenario, which is based on SSP2, we now assume GDP, population and technical change are described by two opposing scenarios: SSP1, which assumes a sustainable and globalized world and SSP3, which assumes an unsustainable and fragmented world. The results for these two more extreme scenarios will provide insight into the 'bandwith' of plausible projections. For simplicity, we only present results a selection of indicators that are most relevant from a CSA perspective, in particular crop production, crop yield, land use and GHG emissions.
+### socioeconomic uncertainty
+
+To investigate the uncertainties in the socioeconomic projections, we will model and compare the results of two additional SSP scenarios. SSP1: Sustainability—Taking the green road and SSP3: Regional rivalry—A rocky road, which represent two opposing types of scenarios [@ONeill2017a].  SSP1 and SSP3 can be regarded as the scenarios that represent the bandwidth of the socioeconomic spectrum, including uncertainties related to both external (global markets and the political situation) and internal conditions. This is illustrated by Figure 4 and 5, which shows that GDP, Population and yield projections of both scenarios on comparison to SSP1, the business as usual scenario. For simplicity, we only present results a selection of indicators that are most relevant from a CSA perspective, in particular crop production, crop yield, land use and GHG emissions.
 
 Figure 44-47 compare the BAU trend up to 2050 with SSP1 and SSP3. The figures show that for all indicators, the SSP1 scenario is more 'positive' than the BAU, while SSP3 shows more 'negative' results. As a consequence of high GDP growth in the SSP1 scenario, technological change is faster, resulting in higher yields for all crops (Figure X). The reverse is the case for SSP3. Due to relatively low population growth, which, int turn, results in low demand, total production is projected to be the lowest in SSP1. The pattern for SSP3 resembles that of SSP2. Cropland expansion is also expected to be the lowest in SSP1 because of the higher yields and lower demand. Again a reverse pattern can be observed for SSP3. Interestingly, the expansion of cropland under the SSP3 scenario is so large that it will overshoot the maximum as set by the vision target. Finally, Figure X compares the impact on emissions from synthetic fertilizers for the three scenarios. SSP1 results in the lowest amount of emissions but this is by far not enough to reach targets as set by the INDC (which are in comparison with the BAU scenario).
 
